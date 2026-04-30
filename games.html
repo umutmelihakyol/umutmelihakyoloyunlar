@@ -1349,68 +1349,9 @@ body
 }
 
 
-/* Açık mod stabil düzeltmeleri */
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-
 /* FINAL ACIK MOD OVERRIDE - tum sayfayi stabil tutar */
 body
 
-
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
 
 
 /* Profesyonel tema sistemi */
@@ -1687,8 +1628,8 @@ body
 <section class="hero">
   <div class="hero-main">
     <div class="kicker">◒ Umut Arşiv · Oyun Listesi</div>
-    <h1>Oyun <span>Önerileri</span></h1>
-    <p class="hero-text">Oyun önerileri sayfası.</p>
+    <h1>Öneri <span>Oyunlar</span></h1>
+    <p class="hero-text">Bu sayfa sadece öneri oyunları bulunduruyor. Oyun detaylarından Steam sayfasını ziyaret edebilirsiniz. Kişisel bitirdiğim tüm oyunları görüntülemek için ana sayfaya dönebilirsiniz.</p>
     <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
       <a href="index.html" class="link-btn">Ana Sayfaya Dön</a>
     </div>
@@ -1739,6 +1680,18 @@ body
 <script>
 /* GAMES listesi games-data.js dosyasından gelir. */
 
+/*
+  SADECE GÖSTERİLECEK OYUN ID'LERİ
+  Örnek: [1, 4, 7, 12]
+  Boş bırakırsan [] hiçbir oyun göstermez.
+*/
+const SELECTED_GAME_IDS = [1, 2, 3, 6, 5, 8, 10, 11, 12, 14, 16, 18, 19, 20,22,24,25,26,27,28,29,31,33,34,35,36,37,38,39,40,42,43,45,46,48,50,51,52,54,56,57,58,59,60];
+
+function getSelectedGames() {
+  const selectedIds = new Set(SELECTED_GAME_IDS.map(id => Number(id)));
+  return GAMES.filter(game => selectedIds.has(Number(game.id)));
+}
+
 function normalizeText(value) {
   return String(value || '').toLocaleLowerCase('tr-TR');
 }
@@ -1784,7 +1737,7 @@ function getSmartRecommendations(currentGame, limit = 3) {
   const currentTags = getGameTags(currentGame).map(t => normalizeText(t));
   const currentScore = parseFloat(currentGame.score || 0);
 
-  return GAMES
+  return getSelectedGames()
     .filter(game => Number(game.id) !== Number(currentGame.id))
     .map(game => {
       const tags = getGameTags(game).map(t => normalizeText(t));
@@ -1845,7 +1798,7 @@ function renderRecommendations(game) {
 }
 
 function openGameModal(id) {
-  const game = GAMES.find(g => Number(g.id) === Number(id));
+  const game = getSelectedGames().find(g => Number(g.id) === Number(id));
   if (!game) return;
 
   const backdrop = document.getElementById("gameModalBackdrop");
@@ -1928,10 +1881,10 @@ function render() {
 
   grid.innerHTML = '';
 
-  const games = [...GAMES].sort((a,b) => Number(a.id || 0) - Number(b.id || 0));
+  const games = getSelectedGames().sort((a,b) => Number(a.id || 0) - Number(b.id || 0));
 
   if (!games.length) {
-    grid.innerHTML = '<div class="empty-state"><h2>Henüz oyun yok</h2><p>GAMES listesine oyun ekleyince burada görünür.</p></div>';
+    grid.innerHTML = '<div class="empty-state"><h2>Seçili oyun yok</h2><p>SELECTED_GAME_IDS listesine göstermek istediğin oyun ID\'lerini ekle.</p></div>';
     return;
   }
 
@@ -1985,7 +1938,7 @@ function render() {
   });
 
   const totalCount = document.getElementById('totalCount');
-  if (totalCount) totalCount.textContent = GAMES.length;
+  if (totalCount) totalCount.textContent = games.length;
 }
 
 render();
