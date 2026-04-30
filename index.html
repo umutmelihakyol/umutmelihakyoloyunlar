@@ -1,0 +1,3639 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<!-- Guncel index.html: oyun listesi games-data.js dosyasindan gelir. -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>umutmelihakyol · Oyun Günlüğüm</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
+* { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --hue-bg:#06110c;
+  --bg:#06110c;
+  --card:#0f2419cc;
+  --text:#eafff2;
+  --muted:#9fcfb2;
+  --lime:#b8ff5c;
+  --mint:#35f59b;
+  --green:#0dd66d;
+  --deep:#06170e;
+  --line:rgba(184,255,92,.25);
+  --shadow:0 24px 70px rgba(0,0,0,.35);
+  --panel-alpha:.82;
+  --body-start:#030805;
+  --body-end:#0c2116;
+  --grid-line:rgba(184,255,92,.05);
+  --hero-stroke:rgba(184,255,92,.12);
+  --glow-a:rgba(184,255,92,.22);
+  --glow-b:rgba(53,245,155,.18);
+  --card-hover-line:rgba(184,255,92,.68);
+  --card-hover-shadow:0 30px 90px rgba(184,255,92,.22), 0 18px 55px rgba(0,0,0,.38);
+  --card-hover-gradient:linear-gradient(135deg,rgba(184,255,92,.30),transparent 36%,rgba(53,245,155,.22));
+  --poster-hover-filter:saturate(1.28) contrast(1.1) brightness(1.06);
+}
+
+/* Smooth tema gecisi */
+html, body, body::before, body::after, .hero-main, .hero-side, .toolbar, .card, .stat,
+.kicker, .badge, .link-btn, .random-game-btn, .count, .num, .score-pill, h1 span, footer span,
+.field input, select, .theme-toggle, .theme-btn, .mode-btn, .genre-tag {
+  transition:
+    background-color .45s ease,
+    background .45s ease,
+    color .45s ease,
+    border-color .45s ease,
+    box-shadow .45s ease,
+    text-shadow .45s ease,
+    filter .45s ease;
+}
+
+/* Renk temalari */
+body.theme-green {
+  --lime:#b8ff5c;
+  --mint:#35f59b;
+  --green:#0dd66d;
+  --line:rgba(184,255,92,.25);
+  --glow-a:rgba(184,255,92,.22);
+  --glow-b:rgba(53,245,155,.18);
+  --grid-line:rgba(184,255,92,.05);
+  --hero-stroke:rgba(184,255,92,.12);
+}
+body.theme-red {
+  --lime:#ff4d5e;
+  --mint:#ff8a7a;
+  --green:#ff2d55;
+  --line:rgba(255,77,94,.28);
+  --glow-a:rgba(255,77,94,.22);
+  --glow-b:rgba(255,138,122,.16);
+  --grid-line:rgba(255,77,94,.055);
+  --hero-stroke:rgba(255,77,94,.13);
+}
+body.theme-purple {
+  --lime:#c77dff;
+  --mint:#9d4edd;
+  --green:#7b2cbf;
+  --line:rgba(199,125,255,.28);
+  --glow-a:rgba(199,125,255,.22);
+  --glow-b:rgba(157,78,221,.17);
+  --grid-line:rgba(199,125,255,.055);
+  --hero-stroke:rgba(199,125,255,.13);
+}
+body.theme-yellow {
+  --lime:#ffd60a;
+  --mint:#ffea70;
+  --green:#ffb703;
+  --line:rgba(255,214,10,.30);
+  --glow-a:rgba(255,214,10,.22);
+  --glow-b:rgba(255,234,112,.15);
+  --grid-line:rgba(255,214,10,.055);
+  --hero-stroke:rgba(255,214,10,.13);
+}
+
+/* Koyu / acik mod */
+body
+body
+html { scroll-behavior:smooth; }
+body { min-height:100vh; font-family:'Space Grotesk', system-ui, sans-serif; color:var(--text); background:radial-gradient(circle at 20% -10%, var(--glow-a), transparent 32rem),radial-gradient(circle at 92% 10%, var(--glow-b), transparent 28rem),linear-gradient(135deg,var(--body-start) 0%,var(--bg) 45%,var(--body-end) 100%); overflow-x:hidden; }
+body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:-2; background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 85%); }
+body::after { content:""; position:fixed; inset:-30%; pointer-events:none; z-index:-1; background:conic-gradient(from 90deg,transparent,var(--glow-b),transparent,var(--glow-a),transparent); animation:spin 22s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.shell {
+  width:100%;
+  padding:0 24px;
+}
+.hero {
+  width:100%;
+  padding:40px 0 20px;
+}
+.hero-main,.hero-side,.toolbar,.card { border:1px solid var(--line); background:linear-gradient(145deg,var(--card),rgba(5,15,9,.42)); box-shadow:var(--shadow); backdrop-filter:blur(18px); }
+.hero-main {
+  width:100%;
+  max-width:none;
+  border-radius:0;
+  padding:40px 60px 32px;
+  position:relative;
+  overflow:hidden;
+  min-height:240px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.hero-main > * { position:relative; z-index:2; }
+.hero-main::before {
+  content:"UMUT";
+  position:absolute;
+
+  top:52%;
+  left:54%;
+  z-index:0;
+
+  transform:translate(-50%, -50%) translate(0, 0) scale(1);
+
+  font-family:'JetBrains Mono',monospace;
+  font-size:clamp(3.4rem,9vw,8rem);
+  font-weight:700;
+
+  color:transparent;
+  -webkit-text-stroke:1px var(--hero-stroke);
+  letter-spacing:-8px;
+
+  opacity:0.16;
+  pointer-events:none;
+
+  text-shadow:0 0 30px var(--glow-a);
+  animation:floatUMUT 12s ease-in-out infinite;
+
+  transition:
+    opacity .45s ease,
+    -webkit-text-stroke-color .45s ease,
+    text-shadow .45s ease,
+    filter .45s ease;
+}
+.kicker { display:inline-flex; gap:10px; align-items:center; padding:8px 12px; border-radius:999px; background:rgba(184,255,92,.09); border:1px solid rgba(184,255,92,.2); color:var(--lime); font-family:'JetBrains Mono',monospace; font-size:.74rem; letter-spacing:.08em; }
+h1 {
+  margin-top:22px;
+  font-size:clamp(2.6rem,6.4vw,5.4rem);
+  line-height:.9;
+  letter-spacing:-.08em;
+  max-width:880px;
+}
+h1 span { color:var(--lime); text-shadow:0 0 30px rgba(184,255,92,.26); }
+.hero-text {
+  margin-top:18px;
+  color:var(--muted);
+  max-width:760px;
+  font-size:1.02rem;
+  line-height:1.6;
+}
+.hero-side { border-radius:34px; padding:24px; display:flex; flex-direction:column; justify-content:space-between; gap:22px; }
+.stat { padding:18px; border-radius:24px; background:rgba(184,255,92,.07); border:1px solid rgba(184,255,92,.16); }
+.stat b { display:block; font-family:'JetBrains Mono',monospace; font-size:2.2rem; color:var(--lime); }
+.stat span { color:var(--muted); font-size:.86rem; }
+.mini-lines { font-family:'JetBrains Mono',monospace; color:rgba(234,255,242,.5); font-size:.72rem; line-height:1.9; }
+.mini-chart {
+  font-family:'JetBrains Mono',monospace;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:14px;
+  border-radius:22px;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  overflow:hidden;
+}
+.mini-chart-title {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  color:var(--lime);
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.mini-chart-total {
+  color:var(--surface-muted);
+  font-size:.68rem;
+}
+.mini-stat-row {
+  display:grid;
+  grid-template-columns:92px 1fr 28px;
+  gap:9px;
+  align-items:center;
+}
+.mini-stat-label {
+  color:var(--surface-muted);
+  font-size:.68rem;
+  white-space:nowrap;
+}
+.mini-stat-track {
+  position:relative;
+  height:8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+.mini-stat-fill {
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  box-shadow:0 0 18px currentColor;
+  transition:width .75s cubic-bezier(.2,.8,.2,1);
+}
+.mini-stat-value {
+  text-align:right;
+  color:var(--surface-text);
+  font-size:.72rem;
+  font-weight:700;
+}
+.fill-bitti { color:#35f59b; background:linear-gradient(90deg,#1fd983,#35f59b); }
+.fill-oynaniyor { color:#7dd3fc; background:linear-gradient(90deg,#38bdf8,#7dd3fc); }
+.fill-birakildi { color:#fbbf24; background:linear-gradient(90deg,#f59e0b,#fbbf24); }
+.fill-planlandi { color:#c77dff; background:linear-gradient(90deg,#9d4edd,#c77dff); }
+.mini-donut-wrap {
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:14px;
+  align-items:center;
+}
+.mini-donut {
+  width:74px;
+  height:74px;
+  border-radius:50%;
+  background:conic-gradient(
+    #35f59b 0deg,
+    #35f59b var(--done-deg, 0deg),
+    #7dd3fc var(--done-deg, 0deg),
+    #7dd3fc var(--playing-deg, 0deg),
+    #fbbf24 var(--playing-deg, 0deg),
+    #fbbf24 var(--paused-deg, 0deg),
+    #c77dff var(--paused-deg, 0deg),
+    #c77dff var(--planned-deg, 0deg),
+    rgba(255,255,255,.08) var(--planned-deg, 0deg)
+  );
+  position:relative;
+  box-shadow:0 0 30px var(--glow-a);
+}
+.mini-donut::after {
+  content:"";
+  position:absolute;
+  inset:13px;
+  border-radius:50%;
+  background:var(--bg);
+  box-shadow:inset 0 0 18px rgba(0,0,0,.25);
+}
+body
+.mini-donut-center {
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  z-index:2;
+  color:var(--lime);
+  font-size:.95rem;
+  font-weight:700;
+}
+.mini-chart-legend {
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+@media (max-width:900px) {
+  .mini-stat-row { grid-template-columns:86px 1fr 26px; }
+}
+
+.toolbar {
+  width:100%;
+  border-radius:24px;
+  padding:14px;
+  margin:14px 0 24px;
+  display:grid;
+  grid-template-columns:1fr 200px 200px auto auto;
+  gap:12px;
+  align-items:center;
+}
+.field input, select { width:100%; border:1px solid rgba(184,255,92,.22); outline:0; border-radius:18px; background:rgba(3,12,7,.66); color:var(--text); padding:13px 15px; font:500 .92rem 'Space Grotesk',sans-serif; }
+.field input:focus, select:focus { border-color:var(--lime); box-shadow:0 0 0 4px rgba(184,255,92,.08); }
+.count { white-space:nowrap; font-family:'JetBrains Mono',monospace; color:var(--on-accent); background:var(--lime); padding:13px 16px; border-radius:18px; font-size:.8rem; font-weight:700; }
+.random-game-btn {
+  cursor:pointer;
+  white-space:nowrap;
+  border:1px solid var(--line);
+  color:var(--surface-text);
+  background:rgba(255,255,255,.06);
+  padding:13px 16px;
+  border-radius:18px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.8rem;
+  font-weight:800;
+  transition:transform .2s ease, background .25s ease, color .25s ease, box-shadow .25s ease;
+}
+.random-game-btn:hover {
+  transform:translateY(-2px);
+  color:var(--on-accent);
+  background:var(--lime);
+  box-shadow:0 0 22px var(--glow-a);
+}
+@media (max-width:900px) {
+  .toolbar { grid-template-columns:1fr 1fr; }
+  .toolbar .field { grid-column:1/-1; }
+}
+@media (max-width:560px) {
+  .toolbar { grid-template-columns:1fr; }
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;
+  padding:20px 0;
+}
+.card { border-radius:28px; overflow:hidden; position:relative; transform:translateY(12px); opacity:0; animation:rise .55s ease forwards; transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; }
+.card::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:2; opacity:0; background:var(--card-hover-gradient); transition:opacity .22s ease; }
+.card:hover { transform:translateY(-8px) scale(1.012); border-color:var(--card-hover-line); box-shadow:var(--card-hover-shadow); }
+.card:hover::before { opacity:1; }
+@keyframes rise { to { transform:translateY(0); opacity:1; } }
+.poster { position:relative; height:138px; overflow:hidden; background:#08140c; }
+.poster img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.9) contrast(1.05); transform:scale(1.02); transition:transform .35s ease,filter .35s ease; }
+.card:hover .poster img { transform:scale(1.1); filter:var(--poster-hover-filter); }
+.poster::after { content:""; position:absolute; inset:0; background:linear-gradient(to top,rgba(6,17,12,.96),transparent 55%); }
+.num { position:absolute; left:14px; bottom:12px; z-index:3; font-family:'JetBrains Mono',monospace; color:var(--on-accent); background:var(--lime); border-radius:999px; padding:5px 10px; font-size:.72rem; font-weight:700; }
+.card-body { padding:18px; display:flex; flex-direction:column; gap:12px; min-height:300px; }
+.name { font-size:1.08rem; line-height:1.22; letter-spacing:-.03em; font-weight:700; }
+.badges { display:flex; flex-wrap:wrap; gap:8px; }
+.badge { font-family:'JetBrains Mono',monospace; font-size:.68rem; padding:6px 9px; border-radius:999px; background:rgba(184,255,92,.08); border:1px solid rgba(184,255,92,.16); color:var(--muted); }
+.badge.hot { color:var(--lime); border-color:rgba(184,255,92,.36); }
+.score-row { display:grid; grid-template-columns:1fr auto; gap:12px; align-items:end; }
+.score-row small { color:var(--muted); }
+.score-pill { font-family:'JetBrains Mono',monospace; font-size:1.7rem; font-weight:700; color:var(--lime); line-height:1; }
+.note { color:rgba(234,255,242,.68); line-height:1.55; font-size:.88rem; display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden; }
+.links { margin-top:auto; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.link-btn { text-decoration:none; color:var(--on-accent); background:var(--lime); padding:9px 12px; border-radius:14px; font-weight:700; font-size:.82rem; transition:transform .2s ease,opacity .2s ease; }
+.link-btn:hover { transform:translateY(-2px); opacity:.9; }
+.genre-tag {
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  isolation:isolate;
+  overflow:visible;
+  color:var(--muted);
+  border:1px solid rgba(255,255,255,.18);
+  padding:8px 10px;
+  border-radius:14px;
+  font-size:.78rem;
+  background:rgba(3,12,7,.48);
+  transition:transform .25s ease,color .25s ease,border-color .25s ease,box-shadow .25s ease;
+}
+
+.genre-tag::before {
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:inherit;
+  z-index:-2;
+  opacity:0;
+  filter:blur(10px);
+  background:linear-gradient(
+    90deg,
+    #ff2d55,
+    #ff9f0a,
+    #ffff00,
+    #32d74b,
+    #00f5ff,
+    #0a84ff,
+    #bf5af2,
+    #ff2d55
+  );
+  background-size:400% 400%;
+  animation:rainbowGlow 3.5s linear infinite;
+  transition:opacity .25s ease;
+}
+
+.genre-tag::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  z-index:-1;
+  background:rgba(6,17,12,.92);
+}
+
+.genre-tag:hover {
+  transform:translateY(-2px) scale(1.06);
+  color:#fff;
+  border-color:rgba(255,255,255,.72);
+  box-shadow:
+    0 0 10px rgba(255,255,255,.22),
+    0 0 26px rgba(53,245,155,.26);
+}
+
+.genre-tag:hover::before {
+  opacity:0;
+}
+
+@keyframes rainbowGlow {
+  0% { background-position:0% 50%; }
+  100% { background-position:400% 50%; }
+}
+
+/* Otomatik kontrast sistemi */
+body {
+  --on-accent: var(--deep);
+  --surface-text: var(--text);
+  --surface-muted: var(--muted);
+  --input-bg: rgba(3,12,7,.66);
+  --tag-inner: rgba(6,17,12,.92);
+  --button-soft: rgba(255,255,255,.06);
+}
+
+body
+
+body
+
+body.theme-purple
+
+body.theme-yellow
+
+.hero-text,
+.note,
+.badge,
+.mini-lines,
+footer,
+.genre-tag,
+.field input::placeholder {
+  color:var(--surface-muted);
+}
+
+h1 span,
+.stat b,
+.score-pill,
+footer span,
+.empty-state h2 {
+  color:var(--lime);
+}
+
+.kicker {
+  color:var(--lime);
+}
+
+.count,
+.num,
+.link-btn,
+.theme-btn.active,
+.mode-btn.active {
+  color:var(--on-accent);
+}
+
+.field input,
+select {
+  background:var(--input-bg);
+}
+
+.theme-btn,
+.mode-btn {
+  background:var(--button-soft);
+}
+
+.genre-tag::after {
+  background:var(--tag-inner);
+}
+
+body
+
+body
+
+
+/* Hero sağ panel: öne çıkan oyun alanı */
+.hero-spotlight {
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.spotlight-card {
+  position:relative;
+  overflow:hidden;
+  min-height:172px;
+  border-radius:26px;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.018));
+}
+
+.spotlight-card img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.34;
+  filter:saturate(1.05) contrast(1.05);
+}
+
+.spotlight-card::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.78),rgba(0,0,0,.22)),
+    linear-gradient(to top,rgba(0,0,0,.65),transparent);
+}
+
+.spotlight-content {
+  position:relative;
+  z-index:2;
+  min-height:172px;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  gap:9px;
+}
+
+.spotlight-kicker {
+  width:max-content;
+  max-width:100%;
+  padding:6px 9px;
+  border-radius:999px;
+  background:var(--lime);
+  color:var(--on-accent);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.spotlight-title {
+  color:#fff;
+  font-size:1.2rem;
+  line-height:1.15;
+  letter-spacing:-.04em;
+  text-shadow:0 8px 24px rgba(0,0,0,.55);
+}
+
+.spotlight-meta {
+  color:rgba(255,255,255,.74);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;
+}
+
+.progress-card {
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:16px;
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+}
+
+.progress-top {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  margin-bottom:10px;
+  font-family:'JetBrains Mono',monospace;
+}
+
+.progress-top b {
+  color:var(--lime);
+  font-size:1.2rem;
+}
+
+.progress-top span {
+  color:var(--surface-muted);
+  font-size:.72rem;
+}
+
+.progress-track {
+  height:9px;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(255,255,255,.08);
+}
+
+.progress-fill {
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--green),var(--lime));
+  box-shadow:0 0 20px var(--glow-a);
+  transition:width .75s cubic-bezier(.2,.8,.2,1);
+}
+
+.next-card {
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:14px;
+  background:rgba(255,255,255,.035);
+}
+
+.next-card small {
+  display:block;
+  color:var(--surface-muted);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  margin-bottom:5px;
+}
+
+.next-card b {
+  display:block;
+  color:var(--surface-text);
+  font-size:.95rem;
+  line-height:1.25;
+}
+
+body
+/* Durum sistemi + istatistikler */
+.stats-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.stat.mini {
+  padding:14px;
+}
+
+.stat.mini b {
+  font-size:1.45rem;
+}
+
+.status-badge {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  padding:6px 9px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--surface-text);
+  background:rgba(255,255,255,.06);
+}
+
+.status-badge.bitti {
+  color:#35f59b;
+  border-color:rgba(53,245,155,.36);
+}
+
+.status-badge.oynanıyor {
+  color:#7dd3fc;
+  border-color:rgba(125,211,252,.36);
+}
+
+.status-badge.bırakıldı {
+  color:#fbbf24;
+  border-color:rgba(251,191,36,.38);
+}
+
+.status-badge.planlandı {
+  color:#c77dff;
+  border-color:rgba(199,125,255,.38);
+}
+
+.achievement-strip {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin:0 0 22px;
+}
+
+.achievement {
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.42));
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
+  border-radius:22px;
+  padding:16px;
+}
+
+.achievement b {
+  display:block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.55rem;
+  color:var(--lime);
+}
+
+.achievement span {
+  display:block;
+  margin-top:4px;
+  color:var(--surface-muted);
+  font-size:.8rem;
+}
+
+@media (max-width:900px) {
+  .achievement-strip { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .stats-grid { grid-template-columns:1fr; }
+}
+
+@media (max-width:560px) {
+  .achievement-strip { grid-template-columns:1fr; }
+}
+.theme-controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:22px;
+  align-items:center;
+}
+.theme-toggle { display:flex; gap:7px; padding:7px; border-radius:999px; border:1px solid var(--line); background:rgba(3,12,7,.38); width:fit-content; }
+.theme-btn,.mode-btn { cursor:pointer; border:1px solid rgba(255,255,255,.14); color:var(--text); background:rgba(255,255,255,.06); border-radius:999px; padding:9px 12px; font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:700; }
+.theme-btn:hover,.mode-btn:hover { transform:translateY(-2px); box-shadow:0 0 22px var(--glow-a); }
+.theme-btn.active,.mode-btn.active { color:var(--on-accent); background:var(--lime); border-color:var(--lime); }
+.theme-dot { width:11px; height:11px; border-radius:50%; display:inline-block; margin-right:6px; vertical-align:-1px; }
+.dot-green { background:#b8ff5c; }
+.dot-red { background:#ff4d5e; }
+.dot-purple { background:#c77dff; }
+.dot-yellow { background:#ffd60a; }
+body
+.empty-state { grid-column:1/-1; text-align:center; padding:80px 20px; color:var(--muted); }
+.empty-state h2 { color:var(--lime); margin-bottom:8px; }
+footer { padding:26px 0 44px; color:rgba(234,255,242,.45); font-family:'JetBrains Mono',monospace; font-size:.76rem; }
+footer span { color:var(--lime); }
+
+
+
+.hero-main:hover::before {
+  opacity:0.34;
+  -webkit-text-stroke-color:var(--lime);
+  text-shadow:
+    0 0 18px var(--glow-a),
+    0 0 45px var(--glow-b),
+    0 0 75px var(--glow-a);
+  filter:drop-shadow(0 0 18px var(--glow-a));
+  animation:floatUMUTHover 5s ease-in-out infinite;
+}
+
+@keyframes floatUMUT {
+  0%   { transform:translate(-50%, -50%) translate(0px, 0px) scale(1); }
+  25%  { transform:translate(-50%, -50%) translate(6px, -12px) scale(1.01); }
+  50%  { transform:translate(-50%, -50%) translate(0px, -20px) scale(1); }
+  75%  { transform:translate(-50%, -50%) translate(-6px, -10px) scale(1.01); }
+  100% { transform:translate(-50%, -50%) translate(0px, 0px) scale(1); }
+}
+
+@keyframes floatUMUTHover {
+  0%   { transform:translate(-50%, -50%) translate(0px, 0px) scale(1.04); }
+  25%  { transform:translate(-50%, -50%) translate(10px, -16px) scale(1.075); }
+  50%  { transform:translate(-50%, -50%) translate(0px, -24px) scale(1.06); }
+  75%  { transform:translate(-50%, -50%) translate(-10px, -14px) scale(1.075); }
+  100% { transform:translate(-50%, -50%) translate(0px, 0px) scale(1.04); }
+}
+
+
+/* Favori sistemi + detay modal + gelişmiş filtre */
+.quick-filters {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 22px;
+}
+
+.quick-filter-btn {
+  cursor:pointer;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:9px 12px;
+  background:rgba(255,255,255,.045);
+  color:var(--surface-text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:700;
+  transition:transform .2s ease, background .25s ease, color .25s ease, box-shadow .25s ease;
+}
+
+.quick-filter-btn:hover,
+.quick-filter-btn.active {
+  transform:translateY(-2px);
+  color:var(--on-accent);
+  background:var(--lime);
+  box-shadow:0 0 22px var(--glow-a);
+}
+
+.favorite-label {
+  position:absolute;
+  top:12px;
+  right:12px;
+  z-index:6;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+
+  padding:7px 9px;
+  border-radius:14px;
+
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(12px);
+
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 0 22px var(--glow-a);
+
+  pointer-events:none;
+}
+
+.favorite-label span {
+  color:var(--lime);
+  font-size:1rem;
+  line-height:1;
+  text-shadow:0 0 12px var(--glow-a);
+}
+
+.favorite-label small {
+  font-size:.6rem;
+  font-family:'JetBrains Mono',monospace;
+  color:rgba(255,255,255,.82);
+  line-height:1;
+}
+
+body
+
+body
+
+.detail-btn {
+  border:1px solid var(--line);
+  cursor:pointer;
+  color:var(--surface-text);
+  background:rgba(255,255,255,.06);
+  padding:9px 12px;
+  border-radius:14px;
+  font-weight:700;
+  font-size:.82rem;
+  transition:transform .2s ease,opacity .2s ease,background .25s ease;
+}
+
+.detail-btn:hover {
+  transform:translateY(-2px);
+  background:rgba(255,255,255,.1);
+}
+
+.tag-list {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.mini-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+  padding:5px 8px;
+  border-radius:999px;
+  color:var(--surface-muted);
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+}
+
+.modal-backdrop {
+  position:fixed;
+  inset:0;
+  z-index:200;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  background:rgba(0,0,0,.66);
+  backdrop-filter:blur(12px);
+}
+
+.modal-backdrop.open {
+  display:flex;
+}
+
+.game-modal {
+  width:min(960px,100%);
+  max-height:min(86vh,900px);
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:30px;
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.88));
+  box-shadow:0 36px 110px rgba(0,0,0,.55);
+  position:relative;
+}
+
+body
+
+.modal-hero {
+  position:relative;
+  min-height:260px;
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  border-radius:30px 30px 0 0;
+}
+
+.modal-hero img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:saturate(1.08) contrast(1.05);
+}
+
+.modal-hero::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.88),rgba(0,0,0,.18));
+}
+
+.modal-hero-content {
+  position:relative;
+  z-index:2;
+  padding:26px;
+  color:#fff;
+}
+
+.modal-hero-content h2 {
+  color:#fff;
+  font-size:clamp(1.8rem,4vw,3.4rem);
+  letter-spacing:-.06em;
+  line-height:.95;
+}
+
+.modal-meta {
+  margin-top:12px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+}
+
+.modal-meta span {
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.16);
+}
+
+.modal-body {
+  padding:24px 26px 28px;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:22px;
+}
+
+.modal-note {
+  color:var(--surface-text);
+  line-height:1.75;
+}
+
+.modal-side {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.modal-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.close-modal {
+  position:absolute;
+  top:14px;
+  right:14px;
+  z-index:5;
+  width:40px;
+  height:40px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(0,0,0,.48);
+  color:#fff;
+  cursor:pointer;
+  font-size:1.25rem;
+  backdrop-filter:blur(10px);
+}
+
+@media (max-width:760px) {
+  .modal-body { grid-template-columns:1fr; }
+  .modal-hero { min-height:220px; }
+}
+
+
+/* Gelişmiş detay modalı + akıllı öneriler */
+.modal-section-title {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--lime);
+  margin-bottom:10px;
+}
+
+.modal-info-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.modal-info-box {
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px;
+  background:rgba(255,255,255,.045);
+}
+
+.modal-info-box small {
+  display:block;
+  color:var(--surface-muted);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.64rem;
+  margin-bottom:5px;
+}
+
+.modal-info-box b {
+  color:var(--surface-text);
+  font-size:1rem;
+}
+
+.video-preview {
+  position:relative;
+  display:block;
+  width:100%;
+  aspect-ratio:16/9;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  background:rgba(0,0,0,.35);
+  text-decoration:none;
+}
+
+.video-preview img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  filter:saturate(1.05) contrast(1.05);
+}
+
+.video-preview::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.78),rgba(0,0,0,.12));
+}
+
+.video-play {
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:grid;
+  place-items:center;
+}
+
+.video-play span {
+  width:72px;
+  height:72px;
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  background:var(--lime);
+  color:var(--on-accent);
+  font-size:1.8rem;
+  box-shadow:0 0 34px var(--glow-a);
+}
+
+.video-caption {
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  z-index:3;
+  color:#fff;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+}
+
+.video-caption b {
+  display:block;
+  font-size:.82rem;
+  margin-bottom:3px;
+}
+
+.recommendations {
+  grid-column:1/-1;
+  border-top:1px solid var(--line);
+  padding-top:18px;
+}
+
+.recommendation-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+.recommendation-card {
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  min-height:120px;
+  border-radius:18px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  transition:transform .2s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.recommendation-card:hover {
+  transform:translateY(-4px);
+  border-color:var(--lime);
+  box-shadow:0 0 24px var(--glow-a);
+}
+
+.recommendation-card img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.35;
+}
+
+.recommendation-card::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.15));
+}
+
+.recommendation-content {
+  position:relative;
+  z-index:2;
+  min-height:120px;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  gap:5px;
+}
+
+.recommendation-content b {
+  color:#fff;
+  line-height:1.12;
+  font-size:.9rem;
+}
+
+.recommendation-content small {
+  color:rgba(255,255,255,.72);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+}
+
+.smart-reason {
+  width:max-content;
+  max-width:100%;
+  padding:5px 7px;
+  border-radius:999px;
+  background:var(--lime);
+  color:var(--on-accent);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;
+  font-weight:800;
+}
+
+@media (max-width:900px) {
+  .recommendation-grid { grid-template-columns:1fr; }
+  .modal-info-grid { grid-template-columns:1fr; }
+}
+
+
+/* Oynama süresi + gelişmiş grafik paneli */
+.analytics-panel {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin:0 0 22px;
+}
+
+.analytics-card {
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.42));
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
+  border-radius:24px;
+  padding:18px;
+  overflow:hidden;
+}
+
+.analytics-title {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--lime);
+  font-size:.74rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.analytics-title small {
+  color:var(--surface-muted);
+  font-size:.66rem;
+  text-transform:none;
+  letter-spacing:0;
+}
+
+.analytics-bars {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.analytics-row {
+  display:grid;
+  grid-template-columns:minmax(190px, 260px) 1fr 54px;
+  gap:10px;
+  align-items:center;
+}
+
+.analytics-label {
+  color:var(--surface-muted);
+  font-size:.78rem;
+  white-space:normal;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  line-height:1.2;
+  word-break:normal;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+
+.analytics-track {
+  height:10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.analytics-fill {
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--green),var(--lime));
+  box-shadow:0 0 20px var(--glow-a);
+  transition:width .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.analytics-value {
+  text-align:right;
+  color:var(--surface-text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.analytics-summary {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.analytics-mini {
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:12px;
+  background:rgba(255,255,255,.04);
+}
+
+.analytics-mini b {
+  display:block;
+  color:var(--lime);
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.2rem;
+}
+
+.analytics-mini span {
+  display:block;
+  margin-top:4px;
+  color:var(--surface-muted);
+  font-size:.72rem;
+}
+
+.playtime-pill {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  padding:6px 9px;
+  border-radius:999px;
+  border:1px solid rgba(53,245,155,.32);
+  color:var(--mint);
+  background:rgba(53,245,155,.08);
+}
+
+@media (max-width:900px) {
+  .analytics-panel { grid-template-columns:1fr; }
+  .analytics-row {
+  display:grid;
+  grid-template-columns:minmax(190px, 260px) 1fr 54px;
+  gap:10px;
+  align-items:center;
+}
+  .analytics-summary { grid-template-columns:1fr; }
+}
+
+
+@media (max-width:900px) {
+  .shell {
+  width:100%;
+  padding:0 24px;
+}
+  .hero {
+  width:100%;
+  padding:40px 0 20px;
+}
+  .hero-main {
+  width:100%;
+  max-width:none;
+  border-radius:0;
+  padding:40px 60px 32px;
+  position:relative;
+  overflow:hidden;
+  min-height:240px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+  h1 { font-size:clamp(2.35rem,14vw,4.4rem); }
+  .toolbar {
+  width:100%;
+  border-radius:24px;
+  padding:14px;
+  margin:14px 0 24px;
+  display:grid;
+  grid-template-columns:1fr 200px 200px auto auto;
+  gap:12px;
+  align-items:center;
+}
+  .theme-controls { gap:8px; }
+}
+
+
+/* Açık mod stabil düzeltmeleri */
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+
+/* FINAL ACIK MOD OVERRIDE - tum sayfayi stabil tutar */
+body
+
+
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+
+/* Profesyonel tema sistemi */
+.pro-theme-panel {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:22px;
+  align-items:center;
+}
+
+.pro-theme-group {
+  width:fit-content;
+  flex:0 0 auto;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:7px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:rgba(3,12,7,.38);
+  backdrop-filter:blur(14px);
+}
+
+.pro-theme-btn {
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border:1px solid rgba(255,255,255,.14);
+  color:var(--surface-text);
+  background:rgba(255,255,255,.06);
+  border-radius:999px;
+  padding:9px 12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:700;
+  transition:transform .2s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+}
+
+.pro-theme-btn:hover,
+.pro-theme-btn.active {
+  transform:translateY(-2px);
+  color:var(--on-accent);
+  background:var(--lime);
+  border-color:var(--lime);
+  box-shadow:0 0 22px var(--glow-a);
+}
+
+.pro-theme-dot {
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  display:inline-block;
+  box-shadow:0 0 12px currentColor;
+}
+
+.custom-color-wrap {
+  width:fit-content;
+  max-width:180px;
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 10px;
+  background:rgba(3,12,7,.38);
+  backdrop-filter:blur(14px);
+  color:var(--surface-muted);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:700;
+}
+
+.custom-color-wrap input[type="color"] {
+  width:34px;
+  height:34px;
+  border:0;
+  padding:0;
+  border-radius:999px;
+  background:transparent;
+  cursor:pointer;
+}
+
+.custom-color-wrap input[type="color"]::-webkit-color-swatch-wrapper {
+  padding:0;
+}
+
+.custom-color-wrap input[type="color"]::-webkit-color-swatch {
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:999px;
+}
+
+.reset-theme-btn {
+  cursor:pointer;
+  border:1px solid var(--line);
+  color:var(--surface-text);
+  background:rgba(255,255,255,.06);
+  border-radius:999px;
+  padding:10px 12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:700;
+}
+
+.reset-theme-btn:hover {
+  color:var(--on-accent);
+  background:var(--lime);
+  border-color:var(--lime);
+}
+
+@media (max-width:760px) {
+  .pro-theme-group,
+  .custom-color-wrap {
+  width:fit-content;
+  max-width:180px;
+  flex:0 0 auto;
+    border-radius:18px;
+  }
+}
+
+
+
+/* OPTIMIZE EDILMIS OYUN KARTI - tum oyunlarda ayni hizalama */
+.grid {
+  align-items:stretch;
+}
+
+.card {
+  height:480px;
+  display:flex;
+  flex-direction:column;
+  border-radius:28px;
+}
+
+.poster {
+  height:150px;
+  min-height:150px;
+  flex:0 0 150px;
+}
+
+.card-body {
+  flex:1;
+  min-height:0;
+  padding:18px;
+  display:grid;
+  grid-template-rows:auto auto auto 1fr auto auto;
+  gap:12px;
+}
+
+.name {
+  min-height:44px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  align-self:start;
+}
+
+.badges {
+  min-height:30px;
+  align-items:center;
+}
+
+.score-row {
+  min-height:42px;
+  align-items:center;
+  grid-template-columns:1fr auto;
+}
+
+.score-row small {
+  align-self:center;
+}
+
+.score-pill {
+  min-width:58px;
+  text-align:right;
+}
+
+.note {
+  min-height:66px;
+  max-height:66px;
+  -webkit-line-clamp:3;
+}
+
+.tag-list {
+  min-height:28px;
+  max-height:28px;
+  overflow:hidden;
+  align-items:center;
+}
+
+.mini-tag {
+  white-space:nowrap;
+}
+
+.links {
+  min-height:40px;
+  margin-top:0;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.link-btn,
+.detail-btn {
+  min-height:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:0;
+  text-decoration:none;
+  color:var(--on-accent);
+  background:var(--lime);
+  padding:0 14px;
+  border-radius:14px;
+  font-family:'Space Grotesk', system-ui, sans-serif;
+  font-weight:800;
+  font-size:.82rem;
+  line-height:1;
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+}
+
+.detail-btn {
+  color:var(--surface-text);
+  background:rgba(255,255,255,.07);
+  border:1px solid var(--line);
+}
+
+.link-btn:hover,
+.detail-btn:hover {
+  transform:translateY(-2px);
+  opacity:.95;
+}
+
+.status-badge,
+.badge,
+.playtime-pill {
+  height:28px;
+  display:inline-flex;
+  align-items:center;
+}
+
+@media (max-width:560px) {
+  .card { height:480px; }
+  .poster { height:145px; min-height:145px; flex-basis:145px; }
+  .card-body { padding:17px; }
+}
+
+
+
+/* Oyuncu profili / karakter sistemi */
+.player-profile-panel {
+  display:grid;
+  grid-template-columns:minmax(280px,.9fr) 1.1fr;
+  gap:16px;
+  margin:0 0 22px;
+}
+.player-character-card,.player-traits-card {
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.42));
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
+  border-radius:28px;
+  padding:22px;
+  overflow:hidden;
+  position:relative;
+}
+.player-character-card::before {
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  right:-70px;
+  top:-80px;
+  border-radius:50%;
+  background:radial-gradient(circle,var(--glow-a),transparent 68%);
+  pointer-events:none;
+}
+.profile-kicker {
+  font-family:'JetBrains Mono',monospace;
+  color:var(--lime);
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.player-avatar-row {
+  display:grid;
+  grid-template-columns:86px 1fr;
+  gap:16px;
+  align-items:center;
+}
+.player-avatar {
+  width:86px;
+  height:86px;
+  border-radius:26px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.018));
+  box-shadow:0 0 34px var(--glow-a);
+  font-size:2.4rem;
+}
+.player-role {
+  color:var(--surface-text);
+  font-size:clamp(1.45rem,3vw,2.4rem);
+  line-height:.95;
+  letter-spacing:-.06em;
+}
+.player-subtitle {
+  margin-top:8px;
+  color:var(--surface-muted);
+  line-height:1.55;
+  font-size:.92rem;
+}
+.profile-meter {
+  margin-top:18px;
+  display:grid;
+  gap:9px;
+}
+.profile-meter-top {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  color:var(--surface-muted);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;
+}
+.profile-meter-top b { color:var(--lime); }
+.profile-meter-track {
+  height:10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+.profile-meter-fill {
+  width:0%;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--green),var(--lime));
+  box-shadow:0 0 22px var(--glow-a);
+  transition:width .8s cubic-bezier(.2,.8,.2,1);
+}
+.trait-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.trait-box {
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:13px;
+  background:rgba(255,255,255,.04);
+}
+.trait-box small {
+  display:block;
+  color:var(--surface-muted);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+  margin-bottom:6px;
+}
+.trait-box b {
+  color:var(--surface-text);
+  font-size:.95rem;
+  line-height:1.22;
+}
+.personality-tags {
+  margin-top:14px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.personality-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.66rem;
+  padding:7px 9px;
+  border-radius:999px;
+  color:var(--on-accent);
+  background:var(--lime);
+  font-weight:800;
+}
+.music-toggle-btn {
+  cursor:pointer;
+  border:1px solid var(--line);
+  color:var(--surface-text);
+  background:rgba(255,255,255,.06);
+  border-radius:999px;
+  padding:10px 12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:700;
+  transition:transform .2s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+}
+.music-toggle-btn:hover,.music-toggle-btn.active {
+  transform:translateY(-2px);
+  color:var(--on-accent);
+  background:var(--lime);
+  border-color:var(--lime);
+  box-shadow:0 0 22px var(--glow-a);
+}
+@media (max-width:900px) {
+  .player-profile-panel { grid-template-columns:1fr; }
+  .trait-grid { grid-template-columns:1fr; }
+}
+
+
+
+
+/* TEMIZ COMPACT SON AKTIVITE + SON EKLENEN ROZETI */
+.latest-added-badge {
+  position:absolute;
+  left:10px;
+  top:10px;
+  z-index:8;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:24px;
+  padding:0 8px;
+  border-radius:999px;
+  background:var(--lime);
+  color:var(--on-accent);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 0 14px var(--glow-a);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.56rem;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  pointer-events:none;
+}
+
+.latest-activity-strip {
+  width:100%;
+  margin:0 0 16px;
+  padding:0;
+}
+
+.latest-activity-card {
+  cursor:pointer;
+  display:grid;
+  grid-template-columns:56px minmax(0,1fr) auto;
+  align-items:center;
+  gap:12px;
+  min-height:72px;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  box-shadow:0 16px 42px rgba(0,0,0,.22);
+  backdrop-filter:blur(18px);
+  overflow:hidden;
+  transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.latest-activity-card:hover {
+  transform:translateY(-2px);
+  border-color:var(--lime);
+  box-shadow:0 18px 48px rgba(0,0,0,.28), 0 0 22px var(--glow-a);
+}
+
+.latest-activity-img {
+  width:56px;
+  height:52px;
+  border-radius:14px;
+  object-fit:cover;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.05);
+  display:block;
+}
+
+.latest-activity-main {
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:4px;
+}
+
+.latest-activity-top {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+
+.latest-activity-label {
+  flex:0 0 auto;
+  height:20px;
+  display:inline-flex;
+  align-items:center;
+  padding:0 8px;
+  border-radius:999px;
+  background:rgba(184,255,92,.10);
+  border:1px solid var(--line);
+  color:var(--lime);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.56rem;
+  font-weight:900;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+}
+
+.latest-activity-title {
+  min-width:0;
+  color:var(--surface-text);
+  font-size:.98rem;
+  font-weight:800;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.latest-activity-meta {
+  color:var(--surface-muted);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.66rem;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.latest-activity-score {
+  flex:0 0 auto;
+  min-width:54px;
+  height:38px;
+  padding:0 10px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--lime);
+  color:var(--on-accent);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.82rem;
+  font-weight:900;
+  box-shadow:0 0 18px var(--glow-a);
+}
+
+@media (max-width:700px) {
+  .latest-activity-card {
+    grid-template-columns:48px minmax(0,1fr);
+    min-height:64px;
+    padding:8px 10px;
+    gap:10px;
+  }
+  .latest-activity-img {
+    width:48px;
+    height:46px;
+    border-radius:12px;
+  }
+  .latest-activity-score {
+    display:none;
+  }
+  .latest-activity-label {
+    display:none;
+  }
+  .latest-activity-title {
+    font-size:.9rem;
+  }
+  .latest-activity-meta {
+    font-size:.62rem;
+  }
+}
+
+
+/* Mini Achievement Sistemi */
+.achievement-board {
+  margin:0 0 22px;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.42));
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
+  border-radius:28px;
+  padding:20px;
+  overflow:hidden;
+  position:relative;
+}
+
+.achievement-board::before {
+  content:"";
+  position:absolute;
+  width:260px;
+  height:260px;
+  right:-90px;
+  top:-110px;
+  border-radius:50%;
+  background:radial-gradient(circle,var(--glow-a),transparent 68%);
+  pointer-events:none;
+}
+
+.achievement-board-head {
+  position:relative;
+  z-index:2;
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:flex-end;
+  margin-bottom:16px;
+}
+
+.achievement-board-title {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.achievement-board-title small {
+  font-family:'JetBrains Mono',monospace;
+  color:var(--lime);
+  font-size:.7rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.achievement-board-title h2 {
+  color:var(--surface-text);
+  font-size:clamp(1.35rem,3vw,2.2rem);
+  letter-spacing:-.05em;
+  line-height:1;
+}
+
+.achievement-progress {
+  min-width:170px;
+  text-align:right;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--surface-muted);
+  font-size:.72rem;
+}
+
+.achievement-progress b {
+  display:block;
+  color:var(--lime);
+  font-size:1.35rem;
+  margin-bottom:4px;
+}
+
+.achievement-progress-track {
+  margin-top:8px;
+  height:8px;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(255,255,255,.08);
+}
+
+.achievement-progress-fill {
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--green),var(--lime));
+  box-shadow:0 0 18px var(--glow-a);
+  transition:width .75s cubic-bezier(.2,.8,.2,1);
+}
+
+.achievement-grid-mini {
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+  gap:12px;
+}
+
+.achievement-badge-card {
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:14px;
+  background:rgba(255,255,255,.045);
+  display:grid;
+  grid-template-columns:44px 1fr;
+  gap:12px;
+  align-items:center;
+  min-height:92px;
+  transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease, opacity .2s ease, filter .2s ease;
+}
+
+.achievement-badge-card.unlocked:hover {
+  transform:translateY(-4px);
+  border-color:var(--lime);
+  box-shadow:0 0 24px var(--glow-a);
+}
+
+.achievement-badge-card.locked {
+  opacity:.48;
+  filter:saturate(.55);
+}
+
+.achievement-icon {
+  width:44px;
+  height:44px;
+  border-radius:16px;
+  display:grid;
+  place-items:center;
+  background:var(--lime);
+  color:var(--on-accent);
+  box-shadow:0 0 20px var(--glow-a);
+  font-size:1.35rem;
+}
+
+.achievement-badge-card.locked .achievement-icon {
+  background:rgba(255,255,255,.08);
+  color:var(--surface-muted);
+  box-shadow:none;
+}
+
+.achievement-info {
+  min-width:0;
+}
+
+.achievement-info b {
+  display:block;
+  color:var(--surface-text);
+  font-size:.95rem;
+  line-height:1.15;
+  margin-bottom:5px;
+}
+
+.achievement-info span {
+  display:block;
+  color:var(--surface-muted);
+  font-size:.72rem;
+  line-height:1.35;
+}
+
+.achievement-state {
+  display:inline-flex !important;
+  width:max-content;
+  margin-top:8px;
+  padding:4px 7px;
+  border-radius:999px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.56rem !important;
+  font-weight:900;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--line);
+  color:var(--surface-muted) !important;
+}
+
+.achievement-badge-card.unlocked .achievement-state {
+  background:var(--lime);
+  color:var(--on-accent) !important;
+  border-color:var(--lime);
+}
+
+@media (max-width:700px) {
+  .achievement-board-head {
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .achievement-progress {
+    width:100%;
+    text-align:left;
+  }
+  .achievement-grid-mini {
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* Achievement Modal/Pencere Sistemi */
+.achievement-launcher {
+  margin:0 0 22px;
+  display:flex;
+  justify-content:flex-start;
+}
+
+.achievement-open-btn {
+  cursor:pointer;
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid var(--line);
+  color:var(--on-accent);
+  background:var(--lime);
+  box-shadow:0 0 22px var(--glow-a);
+  border-radius:999px;
+  padding:0 16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.78rem;
+  font-weight:900;
+  transition:transform .2s ease, box-shadow .25s ease, opacity .2s ease;
+}
+
+.achievement-open-btn:hover {
+  transform:translateY(-2px);
+  opacity:.94;
+  box-shadow:0 0 30px var(--glow-a);
+}
+
+.achievement-open-btn span {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:44px;
+  height:24px;
+  padding:0 8px;
+  border-radius:999px;
+  background:rgba(0,0,0,.16);
+  color:var(--on-accent);
+}
+
+.achievement-modal-backdrop {
+  position:fixed;
+  inset:0;
+  z-index:260;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  background:rgba(0,0,0,.68);
+  backdrop-filter:blur(14px);
+}
+
+.achievement-modal-backdrop.open {
+  display:flex;
+}
+
+.achievement-modal-window {
+  width:min(1080px,100%);
+  max-height:min(88vh,920px);
+  overflow:auto;
+  position:relative;
+  border-radius:32px;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.92));
+  box-shadow:0 36px 120px rgba(0,0,0,.58);
+}
+
+.achievement-board-modal {
+  margin:0;
+  border:0;
+  border-radius:32px;
+  box-shadow:none;
+  background:transparent;
+}
+
+.achievement-modal-close {
+  position:sticky;
+  top:14px;
+  margin-left:auto;
+  margin-right:14px;
+  margin-top:14px;
+  z-index:5;
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(0,0,0,.48);
+  color:#fff;
+  cursor:pointer;
+  font-size:1.35rem;
+  backdrop-filter:blur(10px);
+}
+
+.achievement-modal-close:hover {
+  background:var(--lime);
+  color:var(--on-accent);
+}
+
+@media (max-width:700px) {
+  .achievement-modal-backdrop {
+    padding:12px;
+  }
+
+  .achievement-modal-window {
+    max-height:90vh;
+    border-radius:24px;
+  }
+
+  .achievement-board-modal {
+    border-radius:24px;
+  }
+
+  .achievement-open-btn {
+    width:100%;
+    justify-content:center;
+  }
+}
+
+
+/* Cok daha fazla basarim icin sikilastirilmis modal */
+.achievement-board-modal .achievement-grid-mini {
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+}
+
+.achievement-board-modal .achievement-badge-card {
+  min-height:98px;
+}
+
+.achievement-modal-window {
+  width:min(1180px,100%);
+}
+
+.achievement-board-title h2::after {
+  content:" · genişletilmiş liste";
+  color:var(--surface-muted);
+  font-size:.9rem;
+  letter-spacing:0;
+  font-weight:500;
+}
+
+@media (max-width:700px) {
+  .achievement-board-title h2::after {
+    display:block;
+    margin-top:6px;
+  }
+}
+
+</style>
+</head>
+<body>
+<main class="shell">
+<audio id="bgMusic" preload="auto" loop>
+  <source src="nier.mp3" type="audio/mpeg">
+</audio>
+
+<section class="hero"><div class="hero-main"><div class="kicker">◒ Umut Arşiv · Oyun Bitirme Günlüğü</div><h1>umut<span>melih</span>akyol</h1><p class="hero-text">Oyunlara ve teknolojiye ilgi duyan, deneyimlerini paylaşmayı seven biriyim.</p>
+<div class="pro-theme-panel">
+  <div class="pro-theme-group" aria-label="Tema renkleri">
+    <button class="pro-theme-btn" data-theme-button="green" onclick="setPresetTheme('green')"><span class="pro-theme-dot" style="color:#b8ff5c;background:#b8ff5c"></span>Yeşil</button>
+    <button class="pro-theme-btn" data-theme-button="red" onclick="setPresetTheme('red')"><span class="pro-theme-dot" style="color:#ff4d5e;background:#ff4d5e"></span>Kırmızı</button>
+    <button class="pro-theme-btn" data-theme-button="purple" onclick="setPresetTheme('purple')"><span class="pro-theme-dot" style="color:#c77dff;background:#c77dff"></span>Mor</button>
+    <button class="pro-theme-btn" data-theme-button="yellow" onclick="setPresetTheme('yellow')"><span class="pro-theme-dot" style="color:#ffd60a;background:#ffd60a"></span>Sarı</button>
+    <button class="pro-theme-btn" data-theme-button="cyan" onclick="setPresetTheme('cyan')"><span class="pro-theme-dot" style="color:#00f5ff;background:#00f5ff"></span>Cyber</button>
+<button class="pro-theme-btn" data-theme-button="orange" onclick="setPresetTheme('orange')">🟠 Turuncu</button>
+<button class="pro-theme-btn" data-theme-button="pink" onclick="setPresetTheme('pink')">🌸 Pembe</button>
+<button class="pro-theme-btn" data-theme-button="blue" onclick="setPresetTheme('blue')">🔵 Mavi</button>
+<button class="pro-theme-btn" data-theme-button="indigo" onclick="setPresetTheme('indigo')">🟣 Indigo</button>
+<button class="pro-theme-btn" data-theme-button="teal" onclick="setPresetTheme('teal')">🟢 Teal</button>
+<button class="pro-theme-btn" data-theme-button="gold" onclick="setPresetTheme('gold')">🟡 Altın</button>
+<button class="pro-theme-btn" data-theme-button="lime" onclick="setPresetTheme('lime')">🟢 Neon</button>
+<button class="pro-theme-btn" data-theme-button="rose" onclick="setPresetTheme('rose')">🌹 Rose</button>
+
+  </div>
+
+  <label class="custom-color-wrap">
+    Özel renk
+    <input id="customThemeColor" type="color" value="#b8ff5c" oninput="setCustomTheme(this.value)">
+  </label>
+
+  <button class="reset-theme-btn" onclick="resetTheme()">Sıfırla</button>
+  <button class="music-toggle-btn" id="musicToggleBtn" type="button" onclick="toggleBackgroundMusic()">🎵 Müzik</button>
+</div><div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;"><a href="games.html" class="link-btn">Tüm Oyunları Gör</a></div></div></section>
+<section class="achievement-strip" id="achievementStrip">
+  <div class="achievement"><b id="statTotal">000</b><span>Toplam oyun</span></div>
+  <div class="achievement"><b id="statbitti">000</b><span>Bitirilen oyun</span></div>
+  <div class="achievement"><b id="statoynanıyor">000</b><span>Oynanıyor</span></div>
+  <div class="achievement"><b id="statAvg">0.0</b><span>Ortalama puan</span></div>
+</section>
+
+<section class="player-profile-panel" id="playerProfilePanel">
+  <article class="player-character-card">
+    <div class="profile-kicker">Oyuncu karakterin</div>
+    <div class="player-avatar-row">
+      <div class="player-avatar" id="playerAvatar">🧭</div>
+      <div>
+        <h2 class="player-role" id="playerRole">Profil hesaplanıyor</h2>
+        <p class="player-subtitle" id="playerSubtitle">Oyun listene göre otomatik oyuncu kimliği çıkarılıyor.</p>
+      </div>
+    </div>
+    <div class="profile-meter">
+      <div class="profile-meter-top"><span>Seçicilik seviyesi</span><b id="selectiveScore">0%</b></div>
+      <div class="profile-meter-track"><div class="profile-meter-fill" id="selectiveFill"></div></div>
+    </div>
+  </article>
+  <article class="player-traits-card">
+    <div class="profile-kicker">Profil istatistikleri</div>
+    <div class="trait-grid">
+      <div class="trait-box"><small>Baskın tür</small><b id="dominantGenre">-</b></div>
+      <div class="trait-box"><small>Oynama tarzı</small><b id="playStyle">-</b></div>
+      <div class="trait-box"><small>Ruh hali</small><b id="playerMood">-</b></div>
+    </div>
+    <div class="personality-tags" id="personalityTags"></div>
+  </article>
+</section>
+
+
+<section class="latest-activity-strip" id="latestActivityStrip"></section>
+
+<section class="achievement-launcher">
+  <button class="achievement-open-btn" type="button" onclick="openAchievementModal()">
+    🏆 Başarımları Gör
+    <span id="achievementButtonCount">0/0</span>
+  </button>
+</section>
+
+<div class="achievement-modal-backdrop" id="achievementModalBackdrop" onclick="closeAchievementModal(event)">
+  <div class="achievement-modal-window" role="dialog" aria-modal="true" aria-labelledby="achievementModalTitle" onclick="event.stopPropagation()">
+    <button class="achievement-modal-close" type="button" onclick="closeAchievementModal()" aria-label="Kapat">×</button>
+    <section class="achievement-board achievement-board-modal" id="achievementBoard"></section>
+  </div>
+</div>
+
+<section class="analytics-panel" id="analyticsPanel">
+  <div class="analytics-card">
+    <div class="analytics-title">Oynama süresi <small>Toplam ve ortalama</small></div>
+    <div class="analytics-summary">
+      <div class="analytics-mini"><b id="totalHoursStat">0s</b><span>Toplam süre</span></div>
+      <div class="analytics-mini"><b id="avgHoursStat">0s</b><span>Ortalama</span></div>
+      <div class="analytics-mini"><b id="longestGameStat">-</b><span>En uzun oyun</span></div>
+    </div>
+    <div class="analytics-bars" id="playtimeChart"></div>
+  </div>
+  <div class="analytics-card">
+    <div class="analytics-title">Grafik paneli <small>Tür ve puan dağılımı</small></div>
+    <div class="analytics-bars" id="genreChart"></div>
+    <div style="height:16px"></div>
+    <div class="analytics-title" style="margin-top:4px;">Puan dağılımı <small>Senin skorların</small></div>
+    <div class="analytics-bars" id="scoreChart"></div>
+  </div>
+</section>
+<section class="quick-filters" id="quickFilters"></section>
+<section class="toolbar"><div class="field"><input id="searchInput" type="search" placeholder="Oyun, tür, not veya puan ara..." oninput="render()" /></div><select id="statusFilter" onchange="render()">
+  <option value="all">Tüm oyunlar</option>
+  <option value="bitti">✅ Bitirildi</option>
+  <option value="oynanıyor">🎮 Oynanıyor</option>
+  <option value="bırakıldı">⏸️ Bırakıldı</option>
+  <option value="planlandı">📅 Planlandı</option>
+  <option value="special">Özel seçkiler</option>
+  <option value="high">9+ puan</option>
+  <option value="mc75">Metacritic 75+</option>
+</select><select id="sortFilter" onchange="render()"><option value="default">Liste sırası</option><option value="score">Puana göre</option><option value="mc">Metacritic</option><option value="name">İsme göre</option></select><button class="random-game-btn" type="button" onclick="openRandomGame()">🎲 Rastgele oyun</button><div class="count" id="countBadge">000 / 000 oyun</div></section>
+<section class="grid" id="grid"></section><footer><span>@umutmelihakyol</span> · oyun arşivi · <span id="totalCount">0</span> kayıt</footer>
+
+<div class="modal-backdrop" id="gameModalBackdrop" onclick="closeGameModal(event)">
+  <div class="game-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="event.stopPropagation()">
+    <button class="close-modal" onclick="closeGameModal()" aria-label="Kapat">×</button>
+    <div class="modal-hero" id="modalHero">
+      <div class="modal-hero-content">
+        <h2 id="modalTitle">Oyun</h2>
+        <div class="modal-meta" id="modalMeta"></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="modal-section-title">Kişisel not</div>
+        <p class="modal-note" id="modalNote"></p>
+        <div id="modalVideoWrap" style="margin-top:18px;"></div>
+      </div>
+      <aside class="modal-side">
+        <div>
+          <div class="modal-section-title">Oyun bilgileri</div>
+          <div class="modal-info-grid" id="modalInfoGrid"></div>
+        </div>
+        <div>
+          <div class="modal-section-title">Etiketler</div>
+          <div class="tag-list" id="modalTags"></div>
+        </div>
+        <div class="modal-actions" id="modalActions"></div>
+      </aside>
+      <div class="recommendations">
+        <div class="modal-section-title">Akıllı öneriler</div>
+        <div class="recommendation-grid" id="modalRecommendations"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+<script src="games-data.js"></script>
+<script>
+/* 
+{ 
+  id: , 
+  name: "", 
+  appId: , 
+  special: false,
+  favorite: false,
+  status: "bitti",
+  genre: "", 
+  score: "", 
+  metacritic: "",
+  playtime: 0,
+  note: "", 
+  steam: "", 
+  youtube: "" 
+},
+
+
+{ id: , name: "", appId: , special: false, favorite: false, status: "bitti", genre: "", score: "", metacritic: "", playtime: 0, note: "", steam: "", youtube: "" },
+
+ */
+/* favorite:true yazarsan ziyaretçiler oyunu favori olarak görür. favorite:false yazarsan favori değil görünür. */
+/* GAMES listesi games-data.js dosyasından gelir. */
+
+function normalizeText(value) { return String(value || '').toLocaleLowerCase('tr-TR'); }
+
+function getGameDateValue(game) {
+  const raw = game.lastPlayed || game.playedAt || game.addedAt || game.date || "";
+  if (raw) {
+    const time = Date.parse(raw);
+    if (!Number.isNaN(time)) return time;
+  }
+  return Number(game.id || 0);
+}
+
+function getNewestGames(limit = 3) {
+  return [...GAMES]
+    .sort((a,b) => {
+      const dateDiff = getGameDateValue(b) - getGameDateValue(a);
+      return dateDiff || Number(b.id || 0) - Number(a.id || 0);
+    })
+    .slice(0, limit);
+}
+
+function isLatestAddedGame(id) {
+  const latest = getNewestGames(1)[0];
+  return latest && Number(latest.id) === Number(id);
+}
+
+function formatGameActivityDate(game) {
+  const raw = game.lastPlayed || game.playedAt || game.addedAt || game.date || "";
+  if (!raw) return "Liste sırası #" + String(game.id || "").padStart(3,"0");
+  const date = new Date(raw);
+  if (Number.isNaN(date.getTime())) return raw;
+  return date.toLocaleDateString("tr-TR", { day:"2-digit", month:"long", year:"numeric" });
+}
+
+function renderLatestActivityStrip() {
+  const el = document.getElementById("latestActivityStrip");
+  if (!el) return;
+
+  const game = getNewestGames(1)[0];
+  if (!game) {
+    el.innerHTML = "";
+    return;
+  }
+
+  const img = getImageUrl(game);
+  const scoreText = game.score ? game.score : "-";
+  const meta = [
+    "En son oynanan",
+    formatGameActivityDate(game),
+    getStatusLabel(game.status),
+    game.playtime ? formatHours(game.playtime) : ""
+  ].filter(Boolean).join(" · ");
+
+  el.innerHTML = `
+    <article class="latest-activity-card" onclick="openGameModal(${game.id})">
+      ${img ? `<img class="latest-activity-img" src="${img}" alt="${game.name}" loading="lazy">` : `<div class="latest-activity-img"></div>`}
+      <div class="latest-activity-main">
+        <div class="latest-activity-top">
+          <span class="latest-activity-label">Son aktivite</span>
+          <strong class="latest-activity-title">${game.name}</strong>
+        </div>
+        <div class="latest-activity-meta">${meta}</div>
+      </div>
+      <div class="latest-activity-score">${scoreText}</div>
+    </article>
+  `;
+}
+
+
+function collectManualCards() {
+  const grid = document.getElementById('grid');
+  const manualCards = Array.from(grid.querySelectorAll('.card'));
+  if (!manualCards.length) return;
+  manualCards.forEach((card) => {
+    const name = (card.querySelector('.name, h2, h3')?.textContent || card.dataset.name || '').trim();
+    if (!name) return;
+    const note = (card.querySelector('.note, p')?.textContent || card.dataset.note || '').trim();
+    const genre = (card.querySelector('.genre-tag, .genre, [data-genre]')?.textContent || card.dataset.genre || '').trim();
+    const img = card.querySelector('img')?.src || '';
+    const steam = card.querySelector('a[href*="steampowered.com"]')?.href || card.dataset.steam || '';
+    const appMatch = steam.match(/app\/(\d+)/) || img.match(/apps\/(\d+)/);
+    const appId = appMatch ? Number(appMatch[1]) : 0;
+    const scoreText = (card.querySelector('.score-pill, .score')?.textContent || card.dataset.score || '').replace('/10','').trim();
+    const mcText = (card.querySelector('.metacritic, .mc')?.textContent || card.dataset.metacritic || '').replace(/[^0-9]/g,'');
+    GAMES.push({ id: GAMES.length + 1, name, appId, special: card.dataset.special === 'true', genre, score: scoreText, metacritic: mcText, playtime: Number(card.dataset.playtime || 0), note, steam, youtube: card.dataset.youtube || '', image: img });
+  });
+}
+
+collectManualCards();
+
+
+
+
+let activeQuickFilter = "all";
+
+function getGameTags(game) {
+  const raw = game.tags || game.genre || "";
+  return String(raw)
+    .split(/[·,|]/)
+    .map(t => t.trim())
+    .filter(Boolean);
+}
+
+function isFavorite(id) {
+  const game = GAMES.find(g => Number(g.id) === Number(id));
+  return Boolean(game && game.favorite);
+}
+
+function setQuickFilter(filter) {
+  activeQuickFilter = filter;
+  render();
+}
+
+
+function formatHours(hours) {
+  const n = Number(hours || 0);
+  return n > 0 ? Math.round(n) + "s" : "0s";
+}
+
+function renderBarRows(containerId, rows, options = {}) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const max = Math.max(...rows.map(row => Number(row.value) || 0), 1);
+  el.innerHTML = rows.length ? rows.map(row => `
+    <div class="analytics-row">
+      <div class="analytics-label" title="${row.label}">${row.label}</div>
+      <div class="analytics-track">
+        <div class="analytics-fill" style="width:${((Number(row.value) || 0) / max) * 100}%"></div>
+      </div>
+      <div class="analytics-value">${options.suffix ? row.value + options.suffix : row.value}</div>
+    </div>
+  `).join("") : '<div class="analytics-label">Veri yok</div>';
+}
+
+function updateAnalyticsPanel() {
+  const playtimeGames = GAMES
+    .map(game => ({ ...game, playtime: Number(game.playtime || 0) }))
+    .filter(game => game.playtime > 0);
+
+  const totalHours = playtimeGames.reduce((sum, game) => sum + game.playtime, 0);
+  const avgHours = playtimeGames.length ? totalHours / playtimeGames.length : 0;
+  const longest = [...playtimeGames].sort((a,b) => b.playtime - a.playtime)[0];
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+
+  setText("totalHoursStat", formatHours(totalHours));
+  setText("avgHoursStat", formatHours(avgHours));
+  setText("longestGameStat", longest ? longest.name : "-");
+
+  const topPlaytime = [...playtimeGames]
+    .sort((a,b) => b.playtime - a.playtime)
+    .slice(0, 5)
+    .map(game => ({ label: game.name, value: Math.round(game.playtime) }));
+
+  renderBarRows("playtimeChart", topPlaytime, { suffix:"s" });
+
+  const genreMap = new Map();
+  GAMES.forEach(game => {
+    getGameTags(game).forEach(tag => {
+      genreMap.set(tag, (genreMap.get(tag) || 0) + 1);
+    });
+  });
+
+  const genreRows = [...genreMap.entries()]
+    .sort((a,b) => b[1] - a[1])
+    .slice(0, 6)
+    .map(([label, value]) => ({ label, value }));
+
+  renderBarRows("genreChart", genreRows);
+
+  const scoreBuckets = {
+    "9-10": 0,
+    "8-8.9": 0,
+    "7-7.9": 0,
+    "0-6.9": 0
+  };
+
+  GAMES.forEach(game => {
+    const score = parseFloat(game.score);
+    if (Number.isNaN(score)) return;
+    if (score >= 9) scoreBuckets["9-10"]++;
+    else if (score >= 8) scoreBuckets["8-8.9"]++;
+    else if (score >= 7) scoreBuckets["7-7.9"]++;
+    else scoreBuckets["0-6.9"]++;
+  });
+
+  renderBarRows("scoreChart", Object.entries(scoreBuckets).map(([label, value]) => ({ label, value })));
+}
+
+function renderQuickFilters() {
+  const el = document.getElementById("quickFilters");
+  if (!el) return;
+
+  const tagCounts = new Map();
+  GAMES.forEach(game => {
+    getGameTags(game).forEach(tag => {
+      tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+    });
+  });
+
+  const topTags = [...tagCounts.entries()]
+    .sort((a,b) => b[1] - a[1])
+    .slice(0, 6)
+    .map(([tag]) => tag);
+
+  const buttons = [
+    { label:"Tümü", value:"all" },
+    { label:"⭐ Favoriler", value:"favorites" },
+    { label:"🔥 9+ Puan", value:"high" },
+    ...topTags.map(tag => ({ label:tag, value:"tag:" + tag }))
+  ];
+
+  el.innerHTML = buttons.map(btn => `
+    <button class="quick-filter-btn ${activeQuickFilter === btn.value ? "active" : ""}"
+            onclick="setQuickFilter('${String(btn.value).replace(/'/g, "\'")}')">
+      ${btn.label}
+    </button>
+  `).join("");
+}
+
+
+function getYoutubeVideoId(url) {
+  const value = String(url || "").trim();
+  if (!value) return "";
+  const patterns = [
+    /youtu\.be\/([^?&]+)/,
+    /youtube\.com\/watch\?v=([^?&]+)/,
+    /youtube\.com\/embed\/([^?&]+)/
+  ];
+  for (const pattern of patterns) {
+    const match = value.match(pattern);
+    if (match && match[1]) return match[1];
+  }
+  return "";
+}
+
+function getYoutubeWatchUrl(url) {
+  const id = getYoutubeVideoId(url);
+  return id ? "https://www.youtube.com/watch?v=" + id : String(url || "");
+}
+
+function getImageUrl(game) {
+  return game.image || (game.appId ? "https://cdn.cloudflare.steamstatic.com/steam/apps/" + game.appId + "/header.jpg" : "");
+}
+
+function getSmartRecommendations(currentGame, limit = 3) {
+  const currentTags = getGameTags(currentGame).map(t => normalizeText(t));
+  const currentScore = parseFloat(currentGame.score || 0);
+
+  return GAMES
+    .filter(game => Number(game.id) !== Number(currentGame.id))
+    .map(game => {
+      const tags = getGameTags(game).map(t => normalizeText(t));
+      const sharedTags = tags.filter(tag => currentTags.includes(tag));
+      const score = parseFloat(game.score || 0);
+      let points = 0;
+      let reason = "Benzer oyun";
+
+      if (sharedTags.length) {
+        points += sharedTags.length * 4;
+        reason = "Benzer tür";
+      }
+
+      if (game.favorite) {
+        points += 3;
+        reason = "Favori seçim";
+      }
+
+      if (!Number.isNaN(score) && !Number.isNaN(currentScore)) {
+        const diff = Math.abs(score - currentScore);
+        if (diff <= 1) {
+          points += 2;
+          if (!sharedTags.length) reason = "Yakın puan";
+        }
+        points += Math.max(0, score / 3);
+      }
+
+      if (game.status === "planlandı" || game.status === "oynanıyor") {
+        points += 1;
+      }
+
+      return { game, points, reason };
+    })
+    .sort((a,b) => b.points - a.points)
+    .slice(0, limit);
+}
+
+function renderRecommendations(game) {
+  const el = document.getElementById("modalRecommendations");
+  if (!el) return;
+
+  const recommendations = getSmartRecommendations(game, 3);
+  if (!recommendations.length) {
+    el.innerHTML = '<p class="modal-note">Şimdilik önerilecek başka oyun yok.</p>';
+    return;
+  }
+
+  el.innerHTML = recommendations.map(item => {
+    const rec = item.game;
+    const img = getImageUrl(rec);
+    return `
+      <article class="recommendation-card" onclick="openGameModal(${rec.id})">
+        ${img ? `<img src="${img}" alt="${rec.name}" loading="lazy">` : ""}
+        <div class="recommendation-content">
+          <span class="smart-reason">${item.reason}</span>
+          <b>${rec.name}</b>
+          <small>${rec.score ? "Puan " + rec.score + " · " : ""}${getStatusLabel(rec.status)}</small>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function openGameModal(id) {
+  const game = GAMES.find(g => Number(g.id) === Number(id));
+  if (!game) return;
+
+  const backdrop = document.getElementById("gameModalBackdrop");
+  const hero = document.getElementById("modalHero");
+  const title = document.getElementById("modalTitle");
+  const meta = document.getElementById("modalMeta");
+  const note = document.getElementById("modalNote");
+  const tags = document.getElementById("modalTags");
+  const actions = document.getElementById("modalActions");
+  const infoGrid = document.getElementById("modalInfoGrid");
+  const videoWrap = document.getElementById("modalVideoWrap");
+
+  const imgUrl = getImageUrl(game);
+  const existingImg = hero.querySelector("img");
+  if (existingImg) existingImg.remove();
+  if (imgUrl) {
+    const img = document.createElement("img");
+    img.src = imgUrl;
+    img.alt = game.name;
+    hero.prepend(img);
+  }
+
+  title.textContent = game.name;
+  meta.innerHTML = `
+    ${game.favorite ? `<span>⭐ Favori</span>` : ""}
+    ${game.status ? `<span>${getStatusLabel(game.status)}</span>` : ""}
+    ${game.score ? `<span>Puan ${game.score}</span>` : ""}
+    ${game.metacritic ? `<span>MC ${game.metacritic}</span>` : ""}
+    ${game.special ? `<span>◆ Özel seçki</span>` : ""}
+  `;
+  note.textContent = game.note || "Bu oyun için henüz not eklenmedi.";
+  tags.innerHTML = getGameTags(game).map(tag => `<span class="mini-tag">${tag}</span>`).join("");
+
+  if (infoGrid) {
+    infoGrid.innerHTML = `
+      <div class="modal-info-box"><small>Benim puanım</small><b>${game.score || "-"}</b></div>
+      <div class="modal-info-box"><small>Metacritic</small><b>${game.metacritic || "-"}</b></div>
+      <div class="modal-info-box"><small>Oynama süresi</small><b>${game.playtime ? formatHours(game.playtime) : "-"}</b></div>
+      <div class="modal-info-box"><small>Durum</small><b>${game.status ? getStatusLabel(game.status) : "-"}</b></div>
+      <div class="modal-info-box"><small>Favori</small><b>${game.favorite ? "⭐ Evet" : "Hayır"}</b></div>
+    `;
+  }
+
+  const youtubeId = getYoutubeVideoId(game.youtube);
+  const youtubeUrl = getYoutubeWatchUrl(game.youtube);
+  if (videoWrap) {
+    videoWrap.innerHTML = youtubeId
+      ? `<div class="modal-section-title">Video / Trailer</div>
+         <a class="video-preview" href="${youtubeUrl}" target="_blank" rel="noopener">
+           <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${game.name} video">
+           <div class="video-play"><span>▶</span></div>
+           <div class="video-caption"><b>YouTube'da izle</b>Yeni sekmede açılır.</div>
+         </a>`
+      : "";
+  }
+
+  actions.innerHTML = `
+    ${game.steam ? `<a class="link-btn" href="${game.steam}" target="_blank">Steam</a>` : ""}
+    ${game.youtube ? `<a class="link-btn" href="${youtubeUrl}" target="_blank">YouTube</a>` : ""}
+  `;
+
+  renderRecommendations(game);
+
+  backdrop.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeGameModal(event) {
+  if (event && event.target && event.target.id !== "gameModalBackdrop") return;
+  const backdrop = document.getElementById("gameModalBackdrop");
+  if (backdrop) backdrop.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeGameModal();
+});
+
+const STATUS_LABELS = {
+  bitti: "✅ Bitirildi",
+  oynanıyor: "🎮 Oynanıyor",
+  bırakıldı: "⏸️ Bırakıldı",
+  planlandı: "📅 Planlandı"
+};
+
+function getStatusLabel(status) {
+  return STATUS_LABELS[status] || "Durum yok";
+}
+
+function getStatusClass(status) {
+  return ["bitti", "oynanıyor", "bırakıldı", "planlandı"].includes(status) ? status : "";
+}
+
+
+function updateHeroPanel(total, bitti, oynanıyor, bırakıldı, planlandı) {
+  const spotlight = [...GAMES]
+    .filter(g => !Number.isNaN(parseFloat(g.score)))
+    .sort((a,b) => parseFloat(b.score || 0) - parseFloat(a.score || 0))[0];
+
+  const spotlightCard = document.getElementById("spotlightCard");
+  const spotlightTitle = document.getElementById("spotlightTitle");
+  const spotlightMeta = document.getElementById("spotlightMeta");
+
+  if (spotlight && spotlightTitle && spotlightMeta && spotlightCard) {
+    const imgUrl = spotlight.image || (spotlight.appId ? "https://cdn.cloudflare.steamstatic.com/steam/apps/" + spotlight.appId + "/header.jpg" : "");
+    const oldImg = spotlightCard.querySelector("img");
+    if (oldImg) oldImg.remove();
+    if (imgUrl) {
+      const img = document.createElement("img");
+      img.src = imgUrl;
+      img.alt = spotlight.name;
+      img.loading = "lazy";
+      spotlightCard.prepend(img);
+    }
+    spotlightTitle.textContent = spotlight.name;
+    spotlightMeta.textContent = "Puan " + spotlight.score + " · " + getStatusLabel(spotlight.status);
+  }
+
+  const rate = total ? Math.round((bitti / total) * 100) : 0;
+  const completionRate = document.getElementById("completionRate");
+  const completionFill = document.getElementById("completionFill");
+  if (completionRate) completionRate.textContent = rate + "%";
+  if (completionFill) completionFill.style.width = rate + "%";
+
+  const next = GAMES.find(g => g.status === "oynanıyor") || GAMES.find(g => g.status === "planlandı");
+  const nextGameTitle = document.getElementById("nextGameTitle");
+  if (nextGameTitle) {
+    nextGameTitle.textContent = next ? next.name + " · " + getStatusLabel(next.status) : "Planlanan veya oynanan oyun yok";
+  }
+}
+
+function updateStats() {
+  const total = GAMES.length;
+  const bitti = GAMES.filter(g => g.status === "bitti").length;
+  const oynanıyor = GAMES.filter(g => g.status === "oynanıyor").length;
+  const bırakıldı = GAMES.filter(g => g.status === "bırakıldı").length;
+  const planlandı = GAMES.filter(g => g.status === "planlandı").length;
+
+  const scores = GAMES
+    .map(g => parseFloat(g.score))
+    .filter(n => !Number.isNaN(n));
+
+  const avg = scores.length
+    ? (scores.reduce((a,b) => a + b, 0) / scores.length).toFixed(1)
+    : "0.0";
+
+  const topScore = scores.length ? Math.max(...scores).toFixed(1) : "-";
+
+  const p = n => String(n).padStart(3,'0');
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+
+  /* Alt istatistik kartları */
+  setText("statTotal", p(total));
+  setText("statbitti", p(bitti));
+  setText("statoynanıyor", p(oynanıyor));
+  setText("statAvg", avg);
+
+  /* Footer / üst panel güvenli güncellemeler */
+  setText("totalCount", total);
+  setText("totalHero", p(total));
+  setText("bittiHero", p(bitti));
+  setText("avgHero", avg);
+  setText("topHero", topScore);
+
+  updateHeroPanel(total, bitti, oynanıyor, bırakıldı, planlandı);
+  updateMiniChart(total, bitti, oynanıyor, bırakıldı, planlandı);
+}
+
+
+function updateMiniChart(total, bitti, oynanıyor, bırakıldı, planlandı) {
+  const mini = document.getElementById("miniChart");
+  if (!mini) return;
+
+  const max = Math.max(bitti, oynanıyor, bırakıldı, planlandı, 1);
+  const safeTotal = Math.max(total, 1);
+  const doneDeg = (bitti / safeTotal) * 360;
+  const playingDeg = doneDeg + (oynanıyor / safeTotal) * 360;
+  const pausedDeg = playingDeg + (bırakıldı / safeTotal) * 360;
+  const plannedDeg = pausedDeg + (planlandı / safeTotal) * 360;
+
+  mini.style.setProperty("--done-deg", doneDeg + "deg");
+  mini.style.setProperty("--playing-deg", playingDeg + "deg");
+  mini.style.setProperty("--paused-deg", pausedDeg + "deg");
+  mini.style.setProperty("--planned-deg", plannedDeg + "deg");
+
+  mini.innerHTML = `
+    <div class="mini-chart-title">
+      <span>Durum Grafiği</span>
+      <span class="mini-chart-total">${total} oyun</span>
+    </div>
+
+    <div class="mini-donut-wrap">
+      <div class="mini-donut">
+        <div class="mini-donut-center">${total}</div>
+      </div>
+
+      <div class="mini-chart-legend">
+        <div class="mini-stat-row">
+          <span class="mini-stat-label">Bitirildi</span>
+          <span class="mini-stat-track"><span class="mini-stat-fill fill-bitti" style="width:${(bitti / max) * 100}%"></span></span>
+          <span class="mini-stat-value">${bitti}</span>
+        </div>
+        <div class="mini-stat-row">
+          <span class="mini-stat-label">Oynanıyor</span>
+          <span class="mini-stat-track"><span class="mini-stat-fill fill-oynaniyor" style="width:${(oynanıyor / max) * 100}%"></span></span>
+          <span class="mini-stat-value">${oynanıyor}</span>
+        </div>
+        <div class="mini-stat-row">
+          <span class="mini-stat-label">Bırakıldı</span>
+          <span class="mini-stat-track"><span class="mini-stat-fill fill-birakildi" style="width:${(bırakıldı / max) * 100}%"></span></span>
+          <span class="mini-stat-value">${bırakıldı}</span>
+        </div>
+        <div class="mini-stat-row">
+          <span class="mini-stat-label">Planlandı</span>
+          <span class="mini-stat-track"><span class="mini-stat-fill fill-planlandi" style="width:${(planlandı / max) * 100}%"></span></span>
+          <span class="mini-stat-value">${planlandı}</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function getVisibleGamesForRandom() {
+  const q = normalizeText(document.getElementById('searchInput')?.value || '');
+  const status = document.getElementById('statusFilter')?.value || 'all';
+
+  return GAMES.filter(g => {
+    const haystack = normalizeText(g.name + ' ' + g.genre + ' ' + g.note + ' ' + g.score + ' ' + g.metacritic + ' ' + (g.playtime || ''));
+    const tags = getGameTags(g).map(t => normalizeText(t));
+    if (q && !haystack.includes(q)) return false;
+    if (activeQuickFilter === 'favorites' && !isFavorite(g.id)) return false;
+    if (activeQuickFilter === 'high' && parseFloat(g.score || 0) < 9) return false;
+    if (activeQuickFilter.startsWith('tag:') && !tags.includes(normalizeText(activeQuickFilter.slice(4)))) return false;
+    if (['bitti','oynanıyor','bırakıldı','planlandı'].includes(status) && g.status !== status) return false;
+    if (status === 'special' && !g.special) return false;
+    if (status === 'high' && parseFloat(g.score || 0) < 9) return false;
+    if (status === 'mc75' && parseInt(g.metacritic || 0) < 75) return false;
+    return true;
+  });
+}
+
+function openRandomGame() {
+  const pool = getVisibleGamesForRandom();
+  const fallbackPool = GAMES;
+  const games = pool.length ? pool : fallbackPool;
+  if (!games.length) return;
+
+  const randomGame = games[Math.floor(Math.random() * games.length)];
+  openGameModal(randomGame.id);
+}
+
+function render() {
+  const q = normalizeText(document.getElementById('searchInput').value);
+  const status = document.getElementById('statusFilter').value;
+  const sort = document.getElementById('sortFilter').value;
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  let filtered = GAMES.filter(g => {
+    const haystack = normalizeText(g.name + ' ' + g.genre + ' ' + g.note + ' ' + g.score + ' ' + g.metacritic + ' ' + (g.playtime || ''));
+    const tags = getGameTags(g).map(t => normalizeText(t));
+    if (q && !haystack.includes(q)) return false;
+    if (activeQuickFilter === 'favorites' && !isFavorite(g.id)) return false;
+    if (activeQuickFilter === 'high' && parseFloat(g.score || 0) < 9) return false;
+    if (activeQuickFilter.startsWith('tag:') && !tags.includes(normalizeText(activeQuickFilter.slice(4)))) return false;
+    if (['bitti','oynanıyor','bırakıldı','planlandı'].includes(status) && g.status !== status) return false;
+    if (status === 'special' && !g.special) return false;
+    if (status === 'high' && parseFloat(g.score || 0) < 9) return false;
+    if (status === 'mc75' && parseInt(g.metacritic || 0) < 75) return false;
+    return true;
+  });
+  filtered.sort((a,b) => {
+    if (sort === 'score') return parseFloat(b.score || 0) - parseFloat(a.score || 0);
+    if (sort === 'mc') return parseInt(b.metacritic || 0) - parseInt(a.metacritic || 0);
+    if (sort === 'name') return a.name.localeCompare(b.name, 'tr');
+    return a.id - b.id;
+  });
+  if (filtered.length === 0) grid.innerHTML = '<div class="empty-state"><h2>Sonuç bulunamadı</h2><p>Arama kelimesini veya filtreyi değiştir.</p></div>';
+  filtered.forEach((g, index) => {
+    const imgUrl = g.image || (g.appId ? 'https://cdn.cloudflare.steamstatic.com/steam/apps/' + g.appId + '/header.jpg' : '');
+    const steamUrl = g.steam || (g.appId ? 'https://store.steampowered.com/app/' + g.appId + '/' : '#');
+    const specialHtml = g.special ? '<span class="badge hot">◆ özel</span>' : '';
+    const statusHtml = g.status ? '<span class="status-badge ' + getStatusClass(g.status) + '">' + getStatusLabel(g.status) + '</span>' : '';
+    const mcHtml = g.metacritic ? '<span class="badge">MC ' + g.metacritic + '</span>' : '';
+    const playtimeHtml = g.playtime ? '<span class="playtime-pill">⏱ ' + formatHours(g.playtime) + '</span>' : '';
+    const scoreHtml = g.score ? '<div class="score-row"><small>Benim puanım</small><span class="score-pill">' + g.score + '</span></div>' : '';
+    const noteHtml = g.note ? '<p class="note">' + g.note + '</p>' : '';
+    const genreHtml = ''; // Kart altındaki tür etiketi gizlendi
+    const tagHtml = getGameTags(g).slice(0,3).map(tag => '<span class="mini-tag">' + tag + '</span>').join('');
+    const ytBtn = g.youtube ? '<a class="link-btn" href="' + g.youtube + '" target="_blank" onclick="event.stopPropagation()">Video</a>' : '';
+    const favBtn = g.favorite ? '<div class="favorite-label" aria-label="Favori"><span>★</span><small>Favori</small></div>' : '';
+    const latestBadge = isLatestAddedGame(g.id) ? '<div class="latest-added-badge">✨ Yeni</div>' : '';
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.setAttribute('onclick', 'openGameModal(' + g.id + ')');
+    card.style.cursor = 'pointer';
+    card.style.animationDelay = Math.min(index * 0.045, 0.55) + 's';
+    const posterHtml = imgUrl ? '<img src="' + imgUrl + '" alt="' + g.name + '" loading="lazy" onerror="this.style.opacity=\'.25\'" />' : '<div style="height:100%;display:grid;place-items:center;color:var(--lime);font-family:JetBrains Mono,monospace;">NO IMAGE</div>';
+    card.innerHTML = '<div class="poster">' + posterHtml + latestBadge + favBtn + '<span class="num">#' + String(g.id).padStart(3,'0') + '</span></div><div class="card-body"><h2 class="name">' + g.name + '</h2><div class="badges">' + statusHtml + specialHtml + mcHtml + '</div>' + scoreHtml + noteHtml + '<div class="tag-list">' + tagHtml + '</div><div class="links"><button class="detail-btn" onclick="event.stopPropagation(); openGameModal(' + g.id + ')">Detay</button><a class="link-btn" href="' + steamUrl + '" target="_blank" onclick="event.stopPropagation()">Steam</a>' + ytBtn + genreHtml + '</div></div>';
+    grid.appendChild(card);
+  });
+  const p = n => String(n).padStart(3,'0');
+  document.getElementById('countBadge').textContent = p(filtered.length) + ' / ' + p(GAMES.length) + ' oyun';
+  document.getElementById('totalCount').textContent = GAMES.length;
+  const totalHeroEl = document.getElementById('totalHero');
+  if (totalHeroEl) totalHeroEl.textContent = p(GAMES.length);
+  updateStats();
+  updateAnalyticsPanel();
+  updatePlayerProfile();
+  renderLatestActivityStrip();
+  renderAchievements();
+  renderQuickFilters();
+}
+
+
+
+/* Otomatik oyuncu profili */
+function getDominantGenre() {
+  const tagCounts = new Map();
+  GAMES.forEach(game => getGameTags(game).forEach(tag => tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)));
+  return [...tagCounts.entries()].sort((a,b) => b[1] - a[1])[0]?.[0] || "Karışık";
+}
+
+function updatePlayerProfile() {
+  const total = GAMES.length || 1;
+  const scores = GAMES.map(g => parseFloat(g.score)).filter(n => !Number.isNaN(n));
+  const avg = scores.length ? scores.reduce((a,b) => a + b, 0) / scores.length : 0;
+  const highCount = GAMES.filter(g => parseFloat(g.score || 0) >= 9).length;
+  const completed = GAMES.filter(g => g.status === "bitti").length;
+  const planned = GAMES.filter(g => g.status === "planlandı").length;
+  const favoriteCount = GAMES.filter(g => g.favorite).length;
+  const dominant = getDominantGenre();
+  const totalHours = GAMES.reduce((sum, g) => sum + Number(g.playtime || 0), 0);
+
+  let avatar = "🧭";
+  let role = "Dengeli Arşivci";
+  let mood = "Keşif odaklı";
+
+  const d = normalizeText(dominant);
+  if (d.includes("rpg") || d.includes("açık dünya")) {
+    avatar = "⚔️";
+    role = "Açık Dünya Gezgini";
+    mood = "Derin hikaye ve keşif";
+  } else if (d.includes("strateji")) {
+    avatar = "♟️";
+    role = "Taktik Ustası";
+    mood = "Planlı ve hesaplı";
+  } else if (d.includes("macera") || d.includes("hikaye")) {
+    avatar = "📖";
+    role = "Hikaye Avcısı";
+    mood = "Karakter ve atmosfer";
+  } else if (d.includes("aksiyon")) {
+    avatar = "🔥";
+    role = "Aksiyon Odaklı Oyuncu";
+    mood = "Tempo ve heyecan";
+  }
+
+  const completionRate = Math.round((completed / total) * 100);
+  const selective = Math.min(100, Math.round((avg / 10) * 70 + (highCount / total) * 30));
+  const playStyle = totalHours >= 100 ? "Uzun soluklu oyuncu" : planned > completed ? "Backlog planlayıcısı" : completionRate >= 60 ? "Bitirici oyuncu" : "Deneysel oyuncu";
+
+  const subtitle = `${total} oyunluk arşivinde ${dominant} tarafı baskın. Ortalama puanın ${avg.toFixed(1)}; bu da seni ${selective >= 80 ? "seçici" : "dengeli"} bir oyuncu yapıyor.`;
+  const tags = [
+    completed >= 3 ? "🏁 Bitirici" : "🧪 Deneysel",
+    highCount >= 2 ? "🔥 9+ Avcısı" : "🎯 Puan dengeli",
+    favoriteCount ? "⭐ Favori seçici" : "🗂️ Arşivci",
+    totalHours >= 100 ? "⏱️ Maratoncu" : "⚡ Odaklı oynar"
+  ];
+
+  const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+  setText("playerAvatar", avatar);
+  setText("playerRole", role);
+  setText("playerSubtitle", subtitle);
+  setText("dominantGenre", dominant);
+  setText("playStyle", playStyle);
+  setText("playerMood", mood);
+  setText("selectiveScore", selective + "%");
+  const fill = document.getElementById("selectiveFill");
+  if (fill) fill.style.width = selective + "%";
+  const tagWrap = document.getElementById("personalityTags");
+  if (tagWrap) tagWrap.innerHTML = tags.map(tag => `<span class="personality-tag">${tag}</span>`).join("");
+}
+
+/* Dosya ile çalışan arka plan müziği
+   Kullanım: music.mp3 dosyasını bu HTML dosyasıyla aynı klasöre koy.
+   Farklı dosya adı kullanacaksan yukarıdaki <source src="music.mp3"> kısmını değiştir. */
+const MUSIC_KEY = "umut_bg_music_enabled_v1";
+let musicEnabled = localStorage.getItem(MUSIC_KEY) === "on";
+
+function getBackgroundMusicElement() {
+  return document.getElementById("bgMusic");
+}
+
+function startBackgroundMusic() {
+  const audio = getBackgroundMusicElement();
+  if (!audio || !musicEnabled) return;
+  audio.volume = 0.35;
+  const playPromise = audio.play();
+  if (playPromise && typeof playPromise.catch === "function") {
+    playPromise.catch(() => {
+      // Tarayıcı otomatik oynatmayı engellerse kullanıcı Müzik butonuna tekrar basınca başlar.
+    });
+  }
+}
+
+function stopBackgroundMusic() {
+  const audio = getBackgroundMusicElement();
+  if (!audio) return;
+  audio.pause();
+}
+
+function updateMusicButton() {
+  const btn = document.getElementById("musicToggleBtn");
+  if (!btn) return;
+  btn.classList.toggle("active", musicEnabled);
+  btn.textContent = musicEnabled ? "🎵 Müzik Açık" : "🔇 Müzik Kapalı";
+}
+
+function toggleBackgroundMusic() {
+  musicEnabled = !musicEnabled;
+  localStorage.setItem(MUSIC_KEY, musicEnabled ? "on" : "off");
+  if (musicEnabled) startBackgroundMusic();
+  else stopBackgroundMusic();
+  updateMusicButton();
+}
+
+function initBackgroundMusic() {
+  updateMusicButton();
+  const audio = getBackgroundMusicElement();
+  if (!audio) return;
+
+  audio.addEventListener("error", () => {
+    console.warn("music.mp3 bulunamadı. HTML dosyasıyla aynı klasöre music.mp3 ekle.");
+  });
+
+  const unlock = () => {
+    if (musicEnabled) startBackgroundMusic();
+    window.removeEventListener("pointerdown", unlock);
+    window.removeEventListener("keydown", unlock);
+  };
+
+  window.addEventListener("pointerdown", unlock, { once:true });
+  window.addEventListener("keydown", unlock, { once:true });
+}
+
+
+function calculateAchievementData() {
+  const total = GAMES.length;
+  const completed = GAMES.filter(g => g.status === "bitti").length;
+  const playing = GAMES.filter(g => g.status === "oynanıyor").length;
+  const planned = GAMES.filter(g => g.status === "planlandı").length;
+  const dropped = GAMES.filter(g => g.status === "bırakıldı").length;
+  const favorites = GAMES.filter(g => g.favorite).length;
+  const highScores = GAMES.filter(g => parseFloat(g.score || 0) >= 9).length;
+  const eightPlus = GAMES.filter(g => parseFloat(g.score || 0) >= 8).length;
+  const sevenPlus = GAMES.filter(g => parseFloat(g.score || 0) >= 7).length;
+  const lowScores = GAMES.filter(g => g.score && parseFloat(g.score || 0) <= 6).length;
+  const totalHours = GAMES.reduce((sum, g) => sum + Number(g.playtime || 0), 0);
+  const avgScoreList = GAMES.map(g => parseFloat(g.score)).filter(n => !Number.isNaN(n));
+  const avgScore = avgScoreList.length ? avgScoreList.reduce((a,b) => a + b, 0) / avgScoreList.length : 0;
+  const withNotes = GAMES.filter(g => String(g.note || "").trim().length > 0).length;
+  const longNotes = GAMES.filter(g => String(g.note || "").trim().length >= 250).length;
+  const withScore = GAMES.filter(g => String(g.score || "").trim()).length;
+  const withMetacritic = GAMES.filter(g => String(g.metacritic || "").trim()).length;
+  const metacritic85 = GAMES.filter(g => parseInt(g.metacritic || 0) >= 85).length;
+  const metacritic90 = GAMES.filter(g => parseInt(g.metacritic || 0) >= 90).length;
+  const videoCount = GAMES.filter(g => String(g.youtube || "").trim()).length;
+  const steamCount = GAMES.filter(g => String(g.steam || "").includes("steampowered.com")).length;
+  const specialCount = GAMES.filter(g => g.special).length;
+  const longGames = GAMES.filter(g => Number(g.playtime || 0) >= 40).length;
+  const shortGames = GAMES.filter(g => Number(g.playtime || 0) > 0 && Number(g.playtime || 0) <= 5).length;
+  const mediumGames = GAMES.filter(g => Number(g.playtime || 0) >= 10 && Number(g.playtime || 0) <= 25).length;
+  const hasAllNotes = total > 0 && GAMES.every(g => String(g.note || "").trim().length > 0);
+  const hasAllScores = total > 0 && GAMES.every(g => String(g.score || "").trim().length > 0);
+  const hasAllPlaytime = total > 0 && GAMES.every(g => Number(g.playtime || 0) > 0);
+
+  const genreTokens = GAMES
+    .flatMap(g => getGameTags(g))
+    .map(t => normalizeText(t))
+    .filter(Boolean);
+
+  const uniqueGenres = new Set(genreTokens).size;
+
+  const genreIncludes = (word) => GAMES.filter(g => normalizeText(g.genre).includes(word)).length;
+
+  const horrorCount = genreIncludes("korku");
+  const actionCount = genreIncludes("aksiyon");
+  const adventureCount = genreIncludes("macera");
+  const fpsCount = genreIncludes("fps") + genreIncludes("nişancı");
+  const rpgCount = genreIncludes("rpg");
+  const openWorldCount = genreIncludes("açık dünya");
+  const storyCount = genreIncludes("hikaye") + genreIncludes("interaktif hikaye");
+  const indieCount = genreIncludes("bağımsız");
+  const strategyCount = genreIncludes("strateji");
+  const metroidvaniaCount = GAMES.filter(g => {
+    const genre = normalizeText(g.genre);
+    return genre.includes("metroidvania") || genre.includes("metrovania") || genre.includes("medrovania");
+  }).length;
+  const sciFiCount = genreIncludes("bilim kurgu");
+  const zombieCount = genreIncludes("zombi");
+  const comedyCount = genreIncludes("komedi");
+  const coOpCount = genreIncludes("eşli") + genreIncludes("co-op") + genreIncludes("coop");
+
+  return [
+    { id:"starter", icon:"🚀", title:"İlk Adım", desc:"İlk oyununu ekle.", unlocked: total >= 1 },
+    { id:"first-five", icon:"🎮", title:"Koleksiyon Başladı", desc:"En az 5 oyun ekle.", unlocked: total >= 5 },
+    { id:"ten-games", icon:"🧱", title:"Arşiv Kurucusu", desc:"En az 10 oyun ekle.", unlocked: total >= 10 },
+    { id:"collector-20", icon:"📚", title:"Koleksiyoncu", desc:"En az 20 oyun ekle.", unlocked: total >= 20 },
+    { id:"collector-30", icon:"🗄️", title:"Büyük Arşiv", desc:"En az 30 oyun ekle.", unlocked: total >= 30 },
+    { id:"collector-50", icon:"🏛️", title:"Oyun Müzesi", desc:"En az 50 oyun ekle.", unlocked: total >= 50 },
+
+    { id:"completed-one", icon:"✅", title:"İlk Final", desc:"En az 1 oyunu bitir.", unlocked: completed >= 1 },
+    { id:"completed-five", icon:"🏁", title:"Bitirici Ruh", desc:"En az 5 oyunu bitir.", unlocked: completed >= 5 },
+    { id:"completed-ten", icon:"💀", title:"Hardcore Oyuncu", desc:"En az 10 oyunu bitir.", unlocked: completed >= 10 },
+    { id:"completed-twenty", icon:"👑", title:"Final Ustası", desc:"En az 20 oyunu bitir.", unlocked: completed >= 20 },
+    { id:"completion-half", icon:"⚖️", title:"Yarıdan Fazlası Bitti", desc:"Listedeki oyunların yarısından fazlası bitmiş olsun.", unlocked: total > 0 && completed / total >= 0.5 },
+    { id:"completion-king", icon:"🏆", title:"Bitirme Disiplini", desc:"Listedeki oyunların %75'i bitmiş olsun.", unlocked: total > 0 && completed / total >= 0.75 },
+
+    { id:"currently-playing", icon:"🕹️", title:"Aktif Oyuncu", desc:"En az 1 oyun oynanıyor durumunda olsun.", unlocked: playing >= 1 },
+    { id:"multi-playing", icon:"🎛️", title:"Aynı Anda Çok İş", desc:"En az 3 oyun oynanıyor durumunda olsun.", unlocked: playing >= 3 },
+    { id:"backlog", icon:"📌", title:"Backlog Var", desc:"En az 1 planlanan oyun olsun.", unlocked: planned >= 1 },
+    { id:"backlog-king", icon:"📦", title:"Backlog Canavarı", desc:"En az 5 planlanan oyun olsun.", unlocked: planned >= 5 },
+    { id:"no-drop", icon:"🧘", title:"Sabırlı Oyuncu", desc:"Hiç bırakılmış oyun olmasın.", unlocked: total > 0 && dropped === 0 },
+    { id:"dropped-one", icon:"⏸️", title:"Seçici Tercih", desc:"En az 1 oyunu bırakılmış olarak işaretle.", unlocked: dropped >= 1 },
+
+    { id:"hours-10", icon:"⏱️", title:"10 Saat Isınma", desc:"Toplam 10 saat oyun süresi olsun.", unlocked: totalHours >= 10 },
+    { id:"hours-50", icon:"⌛", title:"50 Saatlik Yol", desc:"Toplam 50 saat oyun süresi olsun.", unlocked: totalHours >= 50 },
+    { id:"hundred-hours", icon:"🕒", title:"100 Saat Kulübü", desc:"Toplam oynama süren 100 saati geçsin.", unlocked: totalHours >= 100 },
+    { id:"hours-250", icon:"🧭", title:"Uzun Yolcu", desc:"Toplam 250 saat oyun süresi olsun.", unlocked: totalHours >= 250 },
+    { id:"hours-500", icon:"🌌", title:"Zaman Yolcusu", desc:"Toplam 500 saat oyun süresi olsun.", unlocked: totalHours >= 500 },
+    { id:"long-game-one", icon:"🐉", title:"Uzun Macera", desc:"40+ saatlik en az 1 oyun olsun.", unlocked: longGames >= 1 },
+    { id:"long-game-three", icon:"🏔️", title:"Maratoncu", desc:"40+ saatlik en az 3 oyun olsun.", unlocked: longGames >= 3 },
+    { id:"short-game-three", icon:"⚡", title:"Kısa Oyun Sever", desc:"5 saat veya altı en az 3 oyun olsun.", unlocked: shortGames >= 3 },
+    { id:"medium-game-five", icon:"🎯", title:"Dengeli Süre", desc:"10-25 saat arası en az 5 oyun olsun.", unlocked: mediumGames >= 5 },
+    { id:"all-playtime", icon:"📊", title:"Süre Takipçisi", desc:"Her oyuna oynama süresi ekle.", unlocked: hasAllPlaytime },
+
+    { id:"favorite-one", icon:"⭐", title:"İlk Favori", desc:"En az 1 favori oyun belirle.", unlocked: favorites >= 1 },
+    { id:"favorite-three", icon:"🌟", title:"Favori Seçici", desc:"En az 3 favori oyun belirle.", unlocked: favorites >= 3 },
+    { id:"favorite-five", icon:"💫", title:"Favori Rafı", desc:"En az 5 favori oyun belirle.", unlocked: favorites >= 5 },
+    { id:"special-one", icon:"◆", title:"Özel Seçki", desc:"En az 1 oyunu özel seçki yap.", unlocked: specialCount >= 1 },
+    { id:"special-three", icon:"💎", title:"Elmas Koleksiyon", desc:"En az 3 özel seçki olsun.", unlocked: specialCount >= 3 },
+
+    { id:"score-first", icon:"🧮", title:"Puanlama Başladı", desc:"En az 1 oyuna puan ver.", unlocked: withScore >= 1 },
+    { id:"all-scores", icon:"📐", title:"Tam Puanlayıcı", desc:"Her oyuna puan ver.", unlocked: hasAllScores },
+    { id:"seven-plus-five", icon:"👍", title:"İyi Seçimler", desc:"7+ puanlı en az 5 oyun olsun.", unlocked: sevenPlus >= 5 },
+    { id:"eight-plus-five", icon:"✨", title:"Kaliteli Liste", desc:"8+ puanlı en az 5 oyun olsun.", unlocked: eightPlus >= 5 },
+    { id:"high-score-one", icon:"🔥", title:"İlk Başyapıt", desc:"9+ puanlı en az 1 oyun olsun.", unlocked: highScores >= 1 },
+    { id:"high-score-three", icon:"🚒", title:"Kalite Avcısı", desc:"9+ puan verdiğin en az 3 oyun olsun.", unlocked: highScores >= 3 },
+    { id:"high-score-five", icon:"🌋", title:"Başyapıt Rafı", desc:"9+ puan verdiğin en az 5 oyun olsun.", unlocked: highScores >= 5 },
+    { id:"low-score-one", icon:"🧊", title:"Sert Eleştirmen", desc:"6 veya altı puan verdiğin en az 1 oyun olsun.", unlocked: lowScores >= 1 },
+    { id:"high-standard", icon:"🏅", title:"Yüksek Standart", desc:"Ortalama puanın 8+ olsun.", unlocked: total > 0 && avgScore >= 8 },
+    { id:"elite-standard", icon:"🥇", title:"Elit Damak", desc:"Ortalama puanın 8.5+ olsun.", unlocked: total > 0 && avgScore >= 8.5 },
+
+    { id:"notes-one", icon:"✍️", title:"İlk Not", desc:"En az 1 oyuna açıklama yaz.", unlocked: withNotes >= 1 },
+    { id:"notes-five", icon:"📝", title:"Not Tutucu", desc:"En az 5 oyuna açıklama yaz.", unlocked: withNotes >= 5 },
+    { id:"critic", icon:"🧠", title:"Eleştirmen", desc:"En az 10 oyuna açıklama yaz.", unlocked: withNotes >= 10 },
+    { id:"personal-notes", icon:"📓", title:"Eksiksiz Yorumcu", desc:"Her oyuna kişisel açıklama ekle.", unlocked: hasAllNotes },
+    { id:"long-notes-three", icon:"📖", title:"Detaylı İnceleme", desc:"250+ karakterlik en az 3 açıklama yaz.", unlocked: longNotes >= 3 },
+    { id:"long-notes-seven", icon:"📚", title:"Mini Yazar", desc:"250+ karakterlik en az 7 açıklama yaz.", unlocked: longNotes >= 7 },
+    { id:"detailed", icon:"🔍", title:"Detaycı", desc:"Tüm oyunlarda puan + açıklama olsun.", unlocked: total > 0 && hasAllScores && hasAllNotes },
+
+    { id:"genre-three", icon:"🎲", title:"Tür Denemeleri", desc:"En az 3 farklı tür etiketi olsun.", unlocked: uniqueGenres >= 3 },
+    { id:"genre-five", icon:"🧩", title:"Çok Yönlü Oyuncu", desc:"En az 5 farklı tür etiketi olsun.", unlocked: uniqueGenres >= 5 },
+    { id:"genre-ten", icon:"🧬", title:"Tür Kaşifi", desc:"En az 10 farklı tür etiketi olsun.", unlocked: uniqueGenres >= 10 },
+    { id:"action-fan", icon:"💥", title:"Aksiyon Damarı", desc:"En az 3 aksiyon oyunu ekle.", unlocked: actionCount >= 3 },
+    { id:"adventure-fan", icon:"🧭", title:"Macera Ruhu", desc:"En az 3 macera oyunu ekle.", unlocked: adventureCount >= 3 },
+    { id:"horror-fan", icon:"👁️", title:"Korku Koridoru", desc:"En az 3 korku oyunu ekle.", unlocked: horrorCount >= 3 },
+    { id:"fps-fan", icon:"🎯", title:"Nişancı Refleksi", desc:"En az 3 FPS / nişancı oyunu ekle.", unlocked: fpsCount >= 3 },
+    { id:"rpg-fan", icon:"🛡️", title:"Rol Yapma Sevdası", desc:"En az 2 RPG oyunu ekle.", unlocked: rpgCount >= 2 },
+    { id:"open-world-fan", icon:"🌍", title:"Açık Dünya Gezgini", desc:"En az 2 açık dünya oyunu ekle.", unlocked: openWorldCount >= 2 },
+    { id:"story-lover", icon:"📜", title:"Hikaye Bağımlısı", desc:"En az 3 hikaye odaklı oyun ekle.", unlocked: storyCount >= 3 },
+    { id:"indie-lover", icon:"🪄", title:"Bağımsız Ruh", desc:"En az 2 bağımsız oyun ekle.", unlocked: indieCount >= 2 },
+    { id:"strategy-mind", icon:"♟️", title:"Stratejik Zihin", desc:"En az 2 strateji oyunu ekle.", unlocked: strategyCount >= 2 },
+    { id:"metroidvania", icon:"🗺️", title:"Harita Kaşifi", desc:"En az 2 metroidvania / metrovania oyunu ekle.", unlocked: metroidvaniaCount >= 2 },
+    { id:"sci-fi", icon:"🚀", title:"Bilim Kurgu Rotası", desc:"En az 2 bilim kurgu oyunu ekle.", unlocked: sciFiCount >= 2 },
+    { id:"zombie", icon:"🧟", title:"Zombi Avcısı", desc:"En az 1 zombi oyunu ekle.", unlocked: zombieCount >= 1 },
+    { id:"comedy", icon:"😂", title:"Gülerek Oyna", desc:"En az 1 komedi oyunu ekle.", unlocked: comedyCount >= 1 },
+    { id:"coop", icon:"🤝", title:"Eşli Deneyim", desc:"En az 1 eşli / co-op oyun ekle.", unlocked: coOpCount >= 1 },
+
+    { id:"mc-first", icon:"🟢", title:"Metacritic Takibi", desc:"En az 1 oyuna Metacritic puanı ekle.", unlocked: withMetacritic >= 1 },
+    { id:"mc-five", icon:"📈", title:"Veri Seven", desc:"En az 5 oyuna Metacritic puanı ekle.", unlocked: withMetacritic >= 5 },
+    { id:"mc-all", icon:"🧾", title:"Eksiksiz Veri", desc:"Her oyuna Metacritic puanı ekle.", unlocked: total > 0 && withMetacritic === total },
+    { id:"trending", icon:"🔥", title:"Trend Avcısı", desc:"Metacritic 85+ en az 3 oyun olsun.", unlocked: metacritic85 >= 3 },
+    { id:"masterpiece-mc", icon:"🏛️", title:"Eleştirmenlerin Gözdesi", desc:"Metacritic 90+ en az 1 oyun olsun.", unlocked: metacritic90 >= 1 },
+    { id:"mc-five-85", icon:"💹", title:"Üst Düzey Liste", desc:"Metacritic 85+ en az 5 oyun olsun.", unlocked: metacritic85 >= 5 },
+
+    { id:"steam-first", icon:"🛒", title:"Steam Bağlantısı", desc:"En az 1 Steam linki ekle.", unlocked: steamCount >= 1 },
+    { id:"steam-five", icon:"🧺", title:"Steam Rafı", desc:"En az 5 Steam linki ekle.", unlocked: steamCount >= 5 },
+    { id:"steam-all", icon:"🧿", title:"Tam Mağaza Linki", desc:"Her oyuna Steam linki ekle.", unlocked: total > 0 && steamCount === total },
+    { id:"trailer-one", icon:"🎬", title:"İlk Trailer", desc:"En az 1 oyuna YouTube videosu ekle.", unlocked: videoCount >= 1 },
+    { id:"trailer-collector", icon:"📺", title:"Trailer Arşivcisi", desc:"En az 3 oyuna YouTube videosu ekle.", unlocked: videoCount >= 3 },
+    { id:"content", icon:"📹", title:"İçerik Üretici", desc:"En az 5 oyuna YouTube videosu ekle.", unlocked: videoCount >= 5 },
+
+    { id:"balanced-library", icon:"⚖️", title:"Dengeli Kütüphane", desc:"En az 1 favori, 1 video, 1 9+ puan ve 1 uzun açıklama olsun.", unlocked: favorites >= 1 && videoCount >= 1 && highScores >= 1 && longNotes >= 1 },
+    { id:"premium-profile", icon:"💎", title:"Premium Profil", desc:"10+ oyun, 100+ saat, 5+ favori ve 3+ video olsun.", unlocked: total >= 10 && totalHours >= 100 && favorites >= 5 && videoCount >= 3 },
+    { id:"completionist-profile", icon:"🧿", title:"Completionist Profil", desc:"10+ oyun ve %75+ bitirme oranı yakala.", unlocked: total >= 10 && completed / Math.max(total,1) >= 0.75 },
+    { id:"archive-legend", icon:"🌟", title:"Arşiv Efsanesi", desc:"20+ oyun, 250+ saat ve 10+ açıklama olsun.", unlocked: total >= 20 && totalHours >= 250 && withNotes >= 10 }
+  ];
+}
+
+function renderAchievements() {
+  const board = document.getElementById("achievementBoard");
+  updateAchievementButtonCount();
+  if (!board) return;
+
+  const achievements = calculateAchievementData();
+  const unlocked = achievements.filter(a => a.unlocked).length;
+  const total = achievements.length;
+  const percent = total ? Math.round((unlocked / total) * 100) : 0;
+
+  board.innerHTML = `
+    <div class="achievement-board-head">
+      <div class="achievement-board-title">
+        <small>Mini Achievement Sistemi</small>
+        <h2>Başarımlar</h2>
+      </div>
+      <div class="achievement-progress">
+        <b>${unlocked}/${total}</b>
+        <span>Açılan başarım · ${percent}%</span>
+        <div class="achievement-progress-track">
+          <div class="achievement-progress-fill" style="width:${percent}%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="achievement-grid-mini">
+      ${achievements.map(item => `
+        <article class="achievement-badge-card ${item.unlocked ? "unlocked" : "locked"}">
+          <div class="achievement-icon">${item.unlocked ? item.icon : "🔒"}</div>
+          <div class="achievement-info">
+            <b>${item.title}</b>
+            <span>${item.desc}</span>
+            <span class="achievement-state">${item.unlocked ? "Açıldı" : "Kilitli"}</span>
+          </div>
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
+
+
+function openAchievementModal() {
+  renderAchievements();
+  const backdrop = document.getElementById("achievementModalBackdrop");
+  if (!backdrop) return;
+  backdrop.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeAchievementModal(event) {
+  if (event && event.target && event.target.id !== "achievementModalBackdrop") return;
+  const backdrop = document.getElementById("achievementModalBackdrop");
+  if (backdrop) backdrop.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeAchievementModal();
+});
+
+function updateAchievementButtonCount() {
+  const btnCount = document.getElementById("achievementButtonCount");
+  if (!btnCount || typeof calculateAchievementData !== "function") return;
+  const achievements = calculateAchievementData();
+  const unlocked = achievements.filter(a => a.unlocked).length;
+  btnCount.textContent = unlocked + "/" + achievements.length;
+}
+
+
+const THEME_KEY = "umut_professional_theme_v2";
+
+const PRESET_THEMES = {
+  green:{lime:"#b8ff5c",mint:"#35f59b",green:"#0dd66d",bg:"#06110c",card:"#0f2419cc",bodyStart:"#030805",bodyEnd:"#0c2116",deep:"#06170e",muted:"#9fcfb2",text:"#eafff2"},
+  red:{lime:"#ff4d5e",mint:"#ff8a7a",green:"#ff2d55",bg:"#130609",card:"#2a1117cc",bodyStart:"#080204",bodyEnd:"#260911",deep:"#180509",muted:"#ffc0c7",text:"#fff1f3"},
+  purple:{lime:"#c77dff",mint:"#9d4edd",green:"#7b2cbf",bg:"#10051d",card:"#241238cc",bodyStart:"#07020d",bodyEnd:"#1d0b32",deep:"#12061f",muted:"#d8b7f2",text:"#fbf3ff"},
+  yellow:{lime:"#ffd60a",mint:"#ffea70",green:"#ffb703",bg:"#151104",card:"#2d250bcc",bodyStart:"#080601",bodyEnd:"#2a2105",deep:"#181202",muted:"#ffe9a3",text:"#fff9dc"},
+  cyan:{lime:"#00f5ff",mint:"#6ee7ff",green:"#06b6d4",bg:"#031116",card:"#092630cc",bodyStart:"#01070a",bodyEnd:"#062434",deep:"#021217",muted:"#a5f3fc",text:"#e6fdff"},
+  orange:{lime:"#ff9f1c",mint:"#ffbf69",green:"#ff7b00",bg:"#160b02",card:"#2e1907cc",bodyStart:"#080401",bodyEnd:"#2b1303",deep:"#180b02",muted:"#ffd0a0",text:"#fff3e4"},
+  pink:{lime:"#ff4ecd",mint:"#ff85e1",green:"#e60073",bg:"#160616",card:"#32112ecc",bodyStart:"#080208",bodyEnd:"#2b0927",deep:"#190619",muted:"#ffc1ef",text:"#fff0fb"},
+  blue:{lime:"#3a86ff",mint:"#74a7ff",green:"#1f5eff",bg:"#06101f",card:"#0e2340cc",bodyStart:"#020711",bodyEnd:"#0a1e3a",deep:"#071326",muted:"#b8d4ff",text:"#eef6ff"},
+  indigo:{lime:"#5c7cfa",mint:"#91a7ff",green:"#364fc7",bg:"#080b1f",card:"#151a3dcc",bodyStart:"#03040f",bodyEnd:"#10163a",deep:"#090d25",muted:"#c8d2ff",text:"#f0f3ff"},
+  teal:{lime:"#2ec4b6",mint:"#6ee7dd",green:"#1098ad",bg:"#031312",card:"#0b2a28cc",bodyStart:"#010807",bodyEnd:"#062826",deep:"#041615",muted:"#a7f3ec",text:"#ecfffd"},
+  gold:{lime:"#ffd166",mint:"#ffe29a",green:"#ffb703",bg:"#151004",card:"#2b220bcc",bodyStart:"#070501",bodyEnd:"#2a1e06",deep:"#171103",muted:"#ffe4ad",text:"#fff7e6"},
+  lime:{lime:"#aaff00",mint:"#ccff66",green:"#70e000",bg:"#0a1302",card:"#1b2a08cc",bodyStart:"#040801",bodyEnd:"#142606",deep:"#0b1702",muted:"#d7ffa3",text:"#f5ffe6"},
+  rose:{lime:"#ff6b6b",mint:"#ff9a9a",green:"#ff3b3b",bg:"#150606",card:"#2d1111cc",bodyStart:"#080202",bodyEnd:"#280a0a",deep:"#180606",muted:"#ffc4c4",text:"#fff1f1"}
+};
+
+function hexToRgb(hex) {
+  const clean = String(hex || "#b8ff5c").replace("#", "");
+  const full = clean.length === 3 ? clean.split("").map(c => c + c).join("") : clean;
+  const num = parseInt(full, 16);
+  return {
+    r: (num >> 16) & 255,
+    g: (num >> 8) & 255,
+    b: num & 255
+  };
+}
+
+function shadeColor(hex, percent) {
+  const { r, g, b } = hexToRgb(hex);
+  const t = percent < 0 ? 0 : 255;
+  const p = Math.abs(percent) / 100;
+  const nr = Math.round((t - r) * p + r);
+  const ng = Math.round((t - g) * p + g);
+  const nb = Math.round((t - b) * p + b);
+  return "#" + [nr, ng, nb].map(v => v.toString(16).padStart(2, "0")).join("");
+}
+
+function setThemeVariables(theme) {
+  const root = document.documentElement;
+  const accent = hexToRgb(theme.lime);
+  const mint = hexToRgb(theme.mint);
+
+  root.style.setProperty("--lime", theme.lime);
+  root.style.setProperty("--mint", theme.mint);
+  root.style.setProperty("--green", theme.green);
+
+  /* Tema değişince artık tüm sayfa arka planı da uyumlu değişir. */
+  root.style.setProperty("--bg", theme.bg || shadeColor(theme.lime, -86));
+  root.style.setProperty("--card", theme.card || 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .13)');
+  root.style.setProperty("--body-start", theme.bodyStart || shadeColor(theme.lime, -94));
+  root.style.setProperty("--body-end", theme.bodyEnd || shadeColor(theme.lime, -82));
+  root.style.setProperty("--deep", theme.deep || shadeColor(theme.lime, -88));
+  root.style.setProperty("--muted", theme.muted || shadeColor(theme.lime, 30));
+  root.style.setProperty("--text", theme.text || "#f4fff8");
+
+  root.style.setProperty("--line", 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .28)');
+  root.style.setProperty("--glow-a", 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .24)');
+  root.style.setProperty("--glow-b", 'rgba(' + mint.r + ', ' + mint.g + ', ' + mint.b + ', .20)');
+  root.style.setProperty("--grid-line", 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .06)');
+  root.style.setProperty("--hero-stroke", 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .16)');
+  root.style.setProperty("--shadow", '0 24px 70px rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .12), 0 24px 70px rgba(0,0,0,.38)');
+
+  /* Oyun kartlarının fareyle üstüne gelme efekti de seçili temaya uyarlanır. */
+  root.style.setProperty("--card-hover-line", 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .72)');
+  root.style.setProperty("--card-hover-shadow", '0 30px 90px rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .24), 0 18px 55px rgba(0,0,0,.40)');
+  root.style.setProperty("--card-hover-gradient", 'linear-gradient(135deg, rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .34), transparent 36%, rgba(' + mint.r + ', ' + mint.g + ', ' + mint.b + ', .24))');
+  root.style.setProperty("--poster-hover-filter", 'saturate(1.30) contrast(1.10) brightness(1.07) drop-shadow(0 0 18px rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .18))');
+}
+
+function updateThemeButtons(activeName) {
+  document.querySelectorAll("[data-theme-button]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.themeButton === activeName);
+  });
+}
+
+function saveTheme(themeData) {
+  localStorage.setItem(THEME_KEY, JSON.stringify(themeData));
+}
+
+function setPresetTheme(name) {
+  const theme = PRESET_THEMES[name] || PRESET_THEMES.green;
+  setThemeVariables(theme);
+  updateThemeButtons(name);
+  const picker = document.getElementById("customThemeColor");
+  if (picker) picker.value = theme.lime;
+  saveTheme({ type:"preset", name });
+}
+
+function setCustomTheme(color) {
+  const lime = color || "#b8ff5c";
+  const rgb = hexToRgb(lime);
+  const theme = {
+    lime,
+    mint: shadeColor(lime, 24),
+    green: shadeColor(lime, -18),
+    bg: shadeColor(lime, -88),
+    card: 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', .13)',
+    bodyStart: shadeColor(lime, -96),
+    bodyEnd: shadeColor(lime, -82),
+    deep: shadeColor(lime, -90),
+    muted: shadeColor(lime, 34),
+    text: "#f8fffb"
+  };
+  setThemeVariables(theme);
+  updateThemeButtons("");
+  saveTheme({ type:"custom", color:lime });
+}
+
+function resetTheme() {
+  setPresetTheme("green");
+}
+
+function initProfessionalTheme() {
+  let saved = null;
+  try {
+    saved = JSON.parse(localStorage.getItem(THEME_KEY) || "null");
+  } catch (e) {
+    saved = null;
+  }
+
+  if (saved && saved.type === "custom") {
+    const picker = document.getElementById("customThemeColor");
+    if (picker) picker.value = saved.color;
+    setCustomTheme(saved.color);
+    return;
+  }
+
+  setPresetTheme(saved && saved.name ? saved.name : "green");
+}
+
+initProfessionalTheme();
+initBackgroundMusic();
+
+render();
+</script>
+</body>
+</html>

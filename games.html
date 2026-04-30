@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<!-- Guncel games.html: oyun listesi games-data.js dosyasindan gelir. -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>umutmelihakyol · Oyunlar</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
+* { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --hue-bg:#06110c;
+  --bg:#06110c;
+  --card:#0f2419cc;
+  --text:#eafff2;
+  --muted:#9fcfb2;
+  --lime:#b8ff5c;
+  --mint:#35f59b;
+  --green:#0dd66d;
+  --deep:#06170e;
+  --line:rgba(184,255,92,.25);
+  --shadow:0 24px 70px rgba(0,0,0,.35);
+  --panel-alpha:.82;
+  --body-start:#030805;
+  --body-end:#0c2116;
+  --grid-line:rgba(184,255,92,.05);
+  --hero-stroke:rgba(184,255,92,.12);
+  --glow-a:rgba(184,255,92,.22);
+  --glow-b:rgba(53,245,155,.18);
+}
+
+/* Smooth tema gecisi */
+html, body, body::before, body::after, .hero-main, .hero-side, .toolbar, .card, .stat,
+.kicker, .badge, .link-btn, .random-game-btn, .count, .num, .score-pill, h1 span, footer span,
+.field input, select, .theme-toggle, .theme-btn, .mode-btn, .genre-tag {
+  transition:
+    background-color .45s ease,
+    background .45s ease,
+    color .45s ease,
+    border-color .45s ease,
+    box-shadow .45s ease,
+    text-shadow .45s ease,
+    filter .45s ease;
+}
+
+/* Renk temalari */
+body.theme-green {
+  --lime:#b8ff5c;
+  --mint:#35f59b;
+  --green:#0dd66d;
+  --line:rgba(184,255,92,.25);
+  --glow-a:rgba(184,255,92,.22);
+  --glow-b:rgba(53,245,155,.18);
+  --grid-line:rgba(184,255,92,.05);
+  --hero-stroke:rgba(184,255,92,.12);
+}
+body.theme-red {
+  --lime:#ff4d5e;
+  --mint:#ff8a7a;
+  --green:#ff2d55;
+  --line:rgba(255,77,94,.28);
+  --glow-a:rgba(255,77,94,.22);
+  --glow-b:rgba(255,138,122,.16);
+  --grid-line:rgba(255,77,94,.055);
+  --hero-stroke:rgba(255,77,94,.13);
+}
+body.theme-purple {
+  --lime:#c77dff;
+  --mint:#9d4edd;
+  --green:#7b2cbf;
+  --line:rgba(199,125,255,.28);
+  --glow-a:rgba(199,125,255,.22);
+  --glow-b:rgba(157,78,221,.17);
+  --grid-line:rgba(199,125,255,.055);
+  --hero-stroke:rgba(199,125,255,.13);
+}
+body.theme-yellow {
+  --lime:#ffd60a;
+  --mint:#ffea70;
+  --green:#ffb703;
+  --line:rgba(255,214,10,.30);
+  --glow-a:rgba(255,214,10,.22);
+  --glow-b:rgba(255,234,112,.15);
+  --grid-line:rgba(255,214,10,.055);
+  --hero-stroke:rgba(255,214,10,.13);
+}
+
+/* Koyu / acik mod */
+body
+body
+html { scroll-behavior:smooth; }
+body { min-height:100vh; font-family:'Space Grotesk', system-ui, sans-serif; color:var(--text); background:radial-gradient(circle at 20% -10%, var(--glow-a), transparent 32rem),radial-gradient(circle at 92% 10%, var(--glow-b), transparent 28rem),linear-gradient(135deg,var(--body-start) 0%,var(--bg) 45%,var(--body-end) 100%); overflow-x:hidden; }
+body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:-2; background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 85%); }
+body::after { content:""; position:fixed; inset:-30%; pointer-events:none; z-index:-1; background:conic-gradient(from 90deg,transparent,var(--glow-b),transparent,var(--glow-a),transparent); animation:spin 22s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.shell {
+  width:100%;
+  padding:0 24px;
+}
+.hero {
+  width:100%;
+  padding:40px 0 20px;
+}
+.hero-main,.hero-side,.toolbar,.card { border:1px solid var(--line); background:linear-gradient(145deg,var(--card),rgba(5,15,9,.42)); box-shadow:var(--shadow); backdrop-filter:blur(18px); }
+.hero-main {
+  width:100%;
+  max-width:none;
+  border-radius:0;
+  padding:40px 60px 32px;
+  position:relative;
+  overflow:hidden;
+  min-height:240px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.hero-main > * { position:relative; z-index:2; }
+.hero-main::before {
+  content:"UMUT";
+  position:absolute;
+
+  top:52%;
+  left:54%;
+  z-index:0;
+
+  transform:translate(-50%, -50%) translate(0, 0) scale(1);
+
+  font-family:'JetBrains Mono',monospace;
+  font-size:clamp(3.4rem,9vw,8rem);
+  font-weight:700;
+
+  color:transparent;
+  -webkit-text-stroke:1px var(--hero-stroke);
+  letter-spacing:-8px;
+
+  opacity:0.16;
+  pointer-events:none;
+
+  text-shadow:0 0 30px var(--glow-a);
+  animation:floatUMUT 12s ease-in-out infinite;
+
+  transition:
+    opacity .45s ease,
+    -webkit-text-stroke-color .45s ease,
+    text-shadow .45s ease,
+    filter .45s ease;
+}
+.kicker { display:inline-flex; gap:10px; align-items:center; padding:8px 12px; border-radius:999px; background:rgba(184,255,92,.09); border:1px solid rgba(184,255,92,.2); color:var(--lime); font-family:'JetBrains Mono',monospace; font-size:.74rem; letter-spacing:.08em; }
+h1 {
+  margin-top:22px;
+  font-size:clamp(2.6rem,6.4vw,5.4rem);
+  line-height:.9;
+  letter-spacing:-.08em;
+  max-width:880px;
+}
+h1 span { color:var(--lime); text-shadow:0 0 30px rgba(184,255,92,.26); }
+.hero-text {
+  margin-top:18px;
+  color:var(--muted);
+  max-width:760px;
+  font-size:1.02rem;
+  line-height:1.6;
+}
+.hero-side { border-radius:34px; padding:24px; display:flex; flex-direction:column; justify-content:space-between; gap:22px; }
+.stat { padding:18px; border-radius:24px; background:rgba(184,255,92,.07); border:1px solid rgba(184,255,92,.16); }
+.stat b { display:block; font-family:'JetBrains Mono',monospace; font-size:2.2rem; color:var(--lime); }
+.stat span { color:var(--muted); font-size:.86rem; }
+.mini-lines { font-family:'JetBrains Mono',monospace; color:rgba(234,255,242,.5); font-size:.72rem; line-height:1.9; }
+.mini-chart {
+  font-family:'JetBrains Mono',monospace;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:14px;
+  border-radius:22px;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  overflow:hidden;
+}
+.mini-chart-title {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  color:var(--lime);
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.mini-chart-total {
+  color:var(--surface-muted);
+  font-size:.68rem;
+}
+.mini-stat-row {
+  display:grid;
+  grid-template-columns:92px 1fr 28px;
+  gap:9px;
+  align-items:center;
+}
+.mini-stat-label {
+  color:var(--surface-muted);
+  font-size:.68rem;
+  white-space:nowrap;
+}
+.mini-stat-track {
+  position:relative;
+  height:8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+.mini-stat-fill {
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  box-shadow:0 0 18px currentColor;
+  transition:width .75s cubic-bezier(.2,.8,.2,1);
+}
+.mini-stat-value {
+  text-align:right;
+  color:var(--surface-text);
+  font-size:.72rem;
+  font-weight:700;
+}
+.fill-bitti { color:#35f59b; background:linear-gradient(90deg,#1fd983,#35f59b); }
+.fill-oynaniyor { color:#7dd3fc; background:linear-gradient(90deg,#38bdf8,#7dd3fc); }
+.fill-birakildi { color:#fbbf24; background:linear-gradient(90deg,#f59e0b,#fbbf24); }
+.fill-planlandi { color:#c77dff; background:linear-gradient(90deg,#9d4edd,#c77dff); }
+.mini-donut-wrap {
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:14px;
+  align-items:center;
+}
+.mini-donut {
+  width:74px;
+  height:74px;
+  border-radius:50%;
+  background:conic-gradient(
+    #35f59b 0deg,
+    #35f59b var(--done-deg, 0deg),
+    #7dd3fc var(--done-deg, 0deg),
+    #7dd3fc var(--playing-deg, 0deg),
+    #fbbf24 var(--playing-deg, 0deg),
+    #fbbf24 var(--paused-deg, 0deg),
+    #c77dff var(--paused-deg, 0deg),
+    #c77dff var(--planned-deg, 0deg),
+    rgba(255,255,255,.08) var(--planned-deg, 0deg)
+  );
+  position:relative;
+  box-shadow:0 0 30px var(--glow-a);
+}
+.mini-donut::after {
+  content:"";
+  position:absolute;
+  inset:13px;
+  border-radius:50%;
+  background:var(--bg);
+  box-shadow:inset 0 0 18px rgba(0,0,0,.25);
+}
+body
+.mini-donut-center {
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  z-index:2;
+  color:var(--lime);
+  font-size:.95rem;
+  font-weight:700;
+}
+.mini-chart-legend {
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+@media (max-width:900px) {
+  .mini-stat-row { grid-template-columns:86px 1fr 26px; }
+}
+
+.toolbar {
+  width:100%;
+  border-radius:24px;
+  padding:14px;
+  margin:14px 0 24px;
+  display:grid;
+  grid-template-columns:1fr 200px 200px auto auto;
+  gap:12px;
+  align-items:center;
+}
+.field input, select { width:100%; border:1px solid rgba(184,255,92,.22); outline:0; border-radius:18px; background:rgba(3,12,7,.66); color:var(--text); padding:13px 15px; font:500 .92rem 'Space Grotesk',sans-serif; }
+.field input:focus, select:focus { border-color:var(--lime); box-shadow:0 0 0 4px rgba(184,255,92,.08); }
+.count { white-space:nowrap; font-family:'JetBrains Mono',monospace; color:var(--on-accent); background:var(--lime); padding:13px 16px; border-radius:18px; font-size:.8rem; font-weight:700; }
+.random-game-btn {
+  cursor:pointer;
+  white-space:nowrap;
+  border:1px solid var(--line);
+  color:var(--surface-text);
+  background:rgba(255,255,255,.06);
+  padding:13px 16px;
+  border-radius:18px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.8rem;
+  font-weight:800;
+  transition:transform .2s ease, background .25s ease, color .25s ease, box-shadow .25s ease;
+}
+.random-game-btn:hover {
+  transform:translateY(-2px);
+  color:var(--on-accent);
+  background:var(--lime);
+  box-shadow:0 0 22px var(--glow-a);
+}
+@media (max-width:900px) {
+  .toolbar { grid-template-columns:1fr 1fr; }
+  .toolbar .field { grid-column:1/-1; }
+}
+@media (max-width:560px) {
+  .toolbar { grid-template-columns:1fr; }
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;
+  padding:20px 0;
+}
+.card { border-radius:28px; overflow:hidden; position:relative; transform:translateY(12px); opacity:0; animation:rise .55s ease forwards; transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; }
+.card::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:2; opacity:0; background:linear-gradient(135deg,rgba(184,255,92,.25),transparent 35%,rgba(53,245,155,.18)); transition:opacity .22s ease; }
+.card:hover { transform:translateY(-8px) scale(1.012); border-color:rgba(184,255,92,.62); box-shadow:0 26px 80px rgba(13,214,109,.18); }
+.card:hover::before { opacity:1; }
+@keyframes rise { to { transform:translateY(0); opacity:1; } }
+.poster { position:relative; height:138px; overflow:hidden; background:#08140c; }
+.poster img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.9) contrast(1.05); transform:scale(1.02); transition:transform .35s ease,filter .35s ease; }
+.card:hover .poster img { transform:scale(1.1); filter:saturate(1.22) contrast(1.08); }
+.poster::after { content:""; position:absolute; inset:0; background:linear-gradient(to top,rgba(6,17,12,.96),transparent 55%); }
+.num { position:absolute; left:14px; bottom:12px; z-index:3; font-family:'JetBrains Mono',monospace; color:var(--on-accent); background:var(--lime); border-radius:999px; padding:5px 10px; font-size:.72rem; font-weight:700; }
+.card-body { padding:18px; display:flex; flex-direction:column; gap:12px; min-height:300px; }
+.name { font-size:1.08rem; line-height:1.22; letter-spacing:-.03em; font-weight:700; }
+.badges { display:flex; flex-wrap:wrap; gap:8px; }
+.badge { font-family:'JetBrains Mono',monospace; font-size:.68rem; padding:6px 9px; border-radius:999px; background:rgba(184,255,92,.08); border:1px solid rgba(184,255,92,.16); color:var(--muted); }
+.badge.hot { color:var(--lime); border-color:rgba(184,255,92,.36); }
+.score-row { display:grid; grid-template-columns:1fr auto; gap:12px; align-items:end; }
+.score-row small { color:var(--muted); }
+.score-pill { font-family:'JetBrains Mono',monospace; font-size:1.7rem; font-weight:700; color:var(--lime); line-height:1; }
+.note { color:rgba(234,255,242,.68); line-height:1.55; font-size:.88rem; display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden; }
+.links { margin-top:auto; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.link-btn { text-decoration:none; color:var(--on-accent); background:var(--lime); padding:9px 12px; border-radius:14px; font-weight:700; font-size:.82rem; transition:transform .2s ease,opacity .2s ease; }
+.link-btn:hover { transform:translateY(-2px); opacity:.9; }
+.genre-tag {
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  isolation:isolate;
+  overflow:visible;
+  color:var(--muted);
+  border:1px solid rgba(255,255,255,.18);
+  padding:8px 10px;
+  border-radius:14px;
+  font-size:.78rem;
+  background:rgba(3,12,7,.48);
+  transition:transform .25s ease,color .25s ease,border-color .25s ease,box-shadow .25s ease;
+}
+
+.genre-tag::before {
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:inherit;
+  z-index:-2;
+  opacity:0;
+  filter:blur(10px);
+  background:linear-gradient(
+    90deg,
+    #ff2d55,
+    #ff9f0a,
+    #ffff00,
+    #32d74b,
+    #00f5ff,
+    #0a84ff,
+    #bf5af2,
+    #ff2d55
+  );
+  background-size:400% 400%;
+  animation:rainbowGlow 3.5s linear infinite;
+  transition:opacity .25s ease;
+}
+
+.genre-tag::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  z-index:-1;
+  background:rgba(6,17,12,.92);
+}
+
+.genre-tag:hover {
+  transform:translateY(-2px) scale(1.06);
+  color:#fff;
+  border-color:rgba(255,255,255,.72);
+  box-shadow:
+    0 0 10px rgba(255,255,255,.22),
+    0 0 26px rgba(53,245,155,.26);
+}
+
+.genre-tag:hover::before {
+  opacity:0;
+}
+
+@keyframes rainbowGlow {
+  0% { background-position:0% 50%; }
+  100% { background-position:400% 50%; }
+}
+
+/* Otomatik kontrast sistemi */
+body {
+  --on-accent: var(--deep);
+  --surface-text: var(--text);
+  --surface-muted: var(--muted);
+  --input-bg: rgba(3,12,7,.66);
+  --tag-inner: rgba(6,17,12,.92);
+  --button-soft: rgba(255,255,255,.06);
+}
+
+body
+
+body
+
+body.theme-purple
+
+body.theme-yellow
+
+.hero-text,
+.note,
+.badge,
+.mini-lines,
+footer,
+.genre-tag,
+.field input::placeholder {
+  color:var(--surface-muted);
+}
+
+h1 span,
+.stat b,
+.score-pill,
+footer span,
+.empty-state h2 {
+  color:var(--lime);
+}
+
+.kicker {
+  color:var(--lime);
+}
+
+.count,
+.num,
+.link-btn,
+.theme-btn.active,
+.mode-btn.active {
+  color:var(--on-accent);
+}
+
+.field input,
+select {
+  background:var(--input-bg);
+}
+
+.theme-btn,
+.mode-btn {
+  background:var(--button-soft);
+}
+
+.genre-tag::after {
+  background:var(--tag-inner);
+}
+
+body
+
+body
+
+
+/* Hero sağ panel: öne çıkan oyun alanı */
+.hero-spotlight {
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.spotlight-card {
+  position:relative;
+  overflow:hidden;
+  min-height:172px;
+  border-radius:26px;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.018));
+}
+
+.spotlight-card img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.34;
+  filter:saturate(1.05) contrast(1.05);
+}
+
+.spotlight-card::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.78),rgba(0,0,0,.22)),
+    linear-gradient(to top,rgba(0,0,0,.65),transparent);
+}
+
+.spotlight-content {
+  position:relative;
+  z-index:2;
+  min-height:172px;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  gap:9px;
+}
+
+.spotlight-kicker {
+  width:max-content;
+  max-width:100%;
+  padding:6px 9px;
+  border-radius:999px;
+  background:var(--lime);
+  color:var(--on-accent);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.spotlight-title {
+  color:#fff;
+  font-size:1.2rem;
+  line-height:1.15;
+  letter-spacing:-.04em;
+  text-shadow:0 8px 24px rgba(0,0,0,.55);
+}
+
+.spotlight-meta {
+  color:rgba(255,255,255,.74);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;
+}
+
+.progress-card {
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:16px;
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+}
+
+.progress-top {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  margin-bottom:10px;
+  font-family:'JetBrains Mono',monospace;
+}
+
+.progress-top b {
+  color:var(--lime);
+  font-size:1.2rem;
+}
+
+.progress-top span {
+  color:var(--surface-muted);
+  font-size:.72rem;
+}
+
+.progress-track {
+  height:9px;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(255,255,255,.08);
+}
+
+.progress-fill {
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--green),var(--lime));
+  box-shadow:0 0 20px var(--glow-a);
+  transition:width .75s cubic-bezier(.2,.8,.2,1);
+}
+
+.next-card {
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:14px;
+  background:rgba(255,255,255,.035);
+}
+
+.next-card small {
+  display:block;
+  color:var(--surface-muted);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  margin-bottom:5px;
+}
+
+.next-card b {
+  display:block;
+  color:var(--surface-text);
+  font-size:.95rem;
+  line-height:1.25;
+}
+
+body
+/* Durum sistemi + istatistikler */
+.stats-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.stat.mini {
+  padding:14px;
+}
+
+.stat.mini b {
+  font-size:1.45rem;
+}
+
+.status-badge {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  padding:6px 9px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--surface-text);
+  background:rgba(255,255,255,.06);
+}
+
+.status-badge.bitti {
+  color:#35f59b;
+  border-color:rgba(53,245,155,.36);
+}
+
+.status-badge.oynanıyor {
+  color:#7dd3fc;
+  border-color:rgba(125,211,252,.36);
+}
+
+.status-badge.bırakıldı {
+  color:#fbbf24;
+  border-color:rgba(251,191,36,.38);
+}
+
+.status-badge.planlandı {
+  color:#c77dff;
+  border-color:rgba(199,125,255,.38);
+}
+
+.achievement-strip {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin:0 0 22px;
+}
+
+.achievement {
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.42));
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
+  border-radius:22px;
+  padding:16px;
+}
+
+.achievement b {
+  display:block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.55rem;
+  color:var(--lime);
+}
+
+.achievement span {
+  display:block;
+  margin-top:4px;
+  color:var(--surface-muted);
+  font-size:.8rem;
+}
+
+@media (max-width:900px) {
+  .achievement-strip { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .stats-grid { grid-template-columns:1fr; }
+}
+
+@media (max-width:560px) {
+  .achievement-strip { grid-template-columns:1fr; }
+}
+.theme-controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:22px;
+  align-items:center;
+}
+.theme-toggle { display:flex; gap:7px; padding:7px; border-radius:999px; border:1px solid var(--line); background:rgba(3,12,7,.38); width:fit-content; }
+.theme-btn,.mode-btn { cursor:pointer; border:1px solid rgba(255,255,255,.14); color:var(--text); background:rgba(255,255,255,.06); border-radius:999px; padding:9px 12px; font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:700; }
+.theme-btn:hover,.mode-btn:hover { transform:translateY(-2px); box-shadow:0 0 22px var(--glow-a); }
+.theme-btn.active,.mode-btn.active { color:var(--on-accent); background:var(--lime); border-color:var(--lime); }
+.theme-dot { width:11px; height:11px; border-radius:50%; display:inline-block; margin-right:6px; vertical-align:-1px; }
+.dot-green { background:#b8ff5c; }
+.dot-red { background:#ff4d5e; }
+.dot-purple { background:#c77dff; }
+.dot-yellow { background:#ffd60a; }
+body
+.empty-state { grid-column:1/-1; text-align:center; padding:80px 20px; color:var(--muted); }
+.empty-state h2 { color:var(--lime); margin-bottom:8px; }
+footer { padding:26px 0 44px; color:rgba(234,255,242,.45); font-family:'JetBrains Mono',monospace; font-size:.76rem; }
+footer span { color:var(--lime); }
+
+
+
+.hero-main:hover::before {
+  opacity:0.34;
+  -webkit-text-stroke-color:var(--lime);
+  text-shadow:
+    0 0 18px var(--glow-a),
+    0 0 45px var(--glow-b),
+    0 0 75px var(--glow-a);
+  filter:drop-shadow(0 0 18px var(--glow-a));
+  animation:floatUMUTHover 5s ease-in-out infinite;
+}
+
+@keyframes floatUMUT {
+  0%   { transform:translate(-50%, -50%) translate(0px, 0px) scale(1); }
+  25%  { transform:translate(-50%, -50%) translate(6px, -12px) scale(1.01); }
+  50%  { transform:translate(-50%, -50%) translate(0px, -20px) scale(1); }
+  75%  { transform:translate(-50%, -50%) translate(-6px, -10px) scale(1.01); }
+  100% { transform:translate(-50%, -50%) translate(0px, 0px) scale(1); }
+}
+
+@keyframes floatUMUTHover {
+  0%   { transform:translate(-50%, -50%) translate(0px, 0px) scale(1.04); }
+  25%  { transform:translate(-50%, -50%) translate(10px, -16px) scale(1.075); }
+  50%  { transform:translate(-50%, -50%) translate(0px, -24px) scale(1.06); }
+  75%  { transform:translate(-50%, -50%) translate(-10px, -14px) scale(1.075); }
+  100% { transform:translate(-50%, -50%) translate(0px, 0px) scale(1.04); }
+}
+
+
+/* Favori sistemi + detay modal + gelişmiş filtre */
+.quick-filters {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 22px;
+}
+
+.quick-filter-btn {
+  cursor:pointer;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:9px 12px;
+  background:rgba(255,255,255,.045);
+  color:var(--surface-text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:700;
+  transition:transform .2s ease, background .25s ease, color .25s ease, box-shadow .25s ease;
+}
+
+.quick-filter-btn:hover,
+.quick-filter-btn.active {
+  transform:translateY(-2px);
+  color:var(--on-accent);
+  background:var(--lime);
+  box-shadow:0 0 22px var(--glow-a);
+}
+
+.favorite-label {
+  position:absolute;
+  top:12px;
+  right:12px;
+  z-index:6;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+
+  padding:7px 9px;
+  border-radius:14px;
+
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(12px);
+
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 0 22px var(--glow-a);
+
+  pointer-events:none;
+}
+
+.favorite-label span {
+  color:var(--lime);
+  font-size:1rem;
+  line-height:1;
+  text-shadow:0 0 12px var(--glow-a);
+}
+
+.favorite-label small {
+  font-size:.6rem;
+  font-family:'JetBrains Mono',monospace;
+  color:rgba(255,255,255,.82);
+  line-height:1;
+}
+
+body
+
+body
+
+.detail-btn {
+  border:1px solid var(--line);
+  cursor:pointer;
+  color:var(--surface-text);
+  background:rgba(255,255,255,.06);
+  padding:9px 12px;
+  border-radius:14px;
+  font-weight:700;
+  font-size:.82rem;
+  transition:transform .2s ease,opacity .2s ease,background .25s ease;
+}
+
+.detail-btn:hover {
+  transform:translateY(-2px);
+  background:rgba(255,255,255,.1);
+}
+
+.tag-list {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.mini-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+  padding:5px 8px;
+  border-radius:999px;
+  color:var(--surface-muted);
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+}
+
+.modal-backdrop {
+  position:fixed;
+  inset:0;
+  z-index:200;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  background:rgba(0,0,0,.66);
+  backdrop-filter:blur(12px);
+}
+
+.modal-backdrop.open {
+  display:flex;
+}
+
+.game-modal {
+  width:min(960px,100%);
+  max-height:min(86vh,900px);
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:30px;
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.88));
+  box-shadow:0 36px 110px rgba(0,0,0,.55);
+  position:relative;
+}
+
+body
+
+.modal-hero {
+  position:relative;
+  min-height:260px;
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  border-radius:30px 30px 0 0;
+}
+
+.modal-hero img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:saturate(1.08) contrast(1.05);
+}
+
+.modal-hero::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.88),rgba(0,0,0,.18));
+}
+
+.modal-hero-content {
+  position:relative;
+  z-index:2;
+  padding:26px;
+  color:#fff;
+}
+
+.modal-hero-content h2 {
+  color:#fff;
+  font-size:clamp(1.8rem,4vw,3.4rem);
+  letter-spacing:-.06em;
+  line-height:.95;
+}
+
+.modal-meta {
+  margin-top:12px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+}
+
+.modal-meta span {
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.16);
+}
+
+.modal-body {
+  padding:24px 26px 28px;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:22px;
+}
+
+.modal-note {
+  color:var(--surface-text);
+  line-height:1.75;
+}
+
+.modal-side {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.modal-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.close-modal {
+  position:absolute;
+  top:14px;
+  right:14px;
+  z-index:5;
+  width:40px;
+  height:40px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(0,0,0,.48);
+  color:#fff;
+  cursor:pointer;
+  font-size:1.25rem;
+  backdrop-filter:blur(10px);
+}
+
+@media (max-width:760px) {
+  .modal-body { grid-template-columns:1fr; }
+  .modal-hero { min-height:220px; }
+}
+
+
+/* Gelişmiş detay modalı + akıllı öneriler */
+.modal-section-title {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--lime);
+  margin-bottom:10px;
+}
+
+.modal-info-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.modal-info-box {
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px;
+  background:rgba(255,255,255,.045);
+}
+
+.modal-info-box small {
+  display:block;
+  color:var(--surface-muted);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.64rem;
+  margin-bottom:5px;
+}
+
+.modal-info-box b {
+  color:var(--surface-text);
+  font-size:1rem;
+}
+
+.video-preview {
+  position:relative;
+  display:block;
+  width:100%;
+  aspect-ratio:16/9;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  background:rgba(0,0,0,.35);
+  text-decoration:none;
+}
+
+.video-preview img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  filter:saturate(1.05) contrast(1.05);
+}
+
+.video-preview::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.78),rgba(0,0,0,.12));
+}
+
+.video-play {
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:grid;
+  place-items:center;
+}
+
+.video-play span {
+  width:72px;
+  height:72px;
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  background:var(--lime);
+  color:var(--on-accent);
+  font-size:1.8rem;
+  box-shadow:0 0 34px var(--glow-a);
+}
+
+.video-caption {
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  z-index:3;
+  color:#fff;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+}
+
+.video-caption b {
+  display:block;
+  font-size:.82rem;
+  margin-bottom:3px;
+}
+
+.recommendations {
+  grid-column:1/-1;
+  border-top:1px solid var(--line);
+  padding-top:18px;
+}
+
+.recommendation-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+.recommendation-card {
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  min-height:120px;
+  border-radius:18px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  transition:transform .2s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.recommendation-card:hover {
+  transform:translateY(-4px);
+  border-color:var(--lime);
+  box-shadow:0 0 24px var(--glow-a);
+}
+
+.recommendation-card img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.35;
+}
+
+.recommendation-card::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.15));
+}
+
+.recommendation-content {
+  position:relative;
+  z-index:2;
+  min-height:120px;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  gap:5px;
+}
+
+.recommendation-content b {
+  color:#fff;
+  line-height:1.12;
+  font-size:.9rem;
+}
+
+.recommendation-content small {
+  color:rgba(255,255,255,.72);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+}
+
+.smart-reason {
+  width:max-content;
+  max-width:100%;
+  padding:5px 7px;
+  border-radius:999px;
+  background:var(--lime);
+  color:var(--on-accent);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;
+  font-weight:800;
+}
+
+@media (max-width:900px) {
+  .recommendation-grid { grid-template-columns:1fr; }
+  .modal-info-grid { grid-template-columns:1fr; }
+}
+
+
+/* Oynama süresi + gelişmiş grafik paneli */
+.analytics-panel {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin:0 0 22px;
+}
+
+.analytics-card {
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.42));
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
+  border-radius:24px;
+  padding:18px;
+  overflow:hidden;
+}
+
+.analytics-title {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--lime);
+  font-size:.74rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.analytics-title small {
+  color:var(--surface-muted);
+  font-size:.66rem;
+  text-transform:none;
+  letter-spacing:0;
+}
+
+.analytics-bars {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.analytics-row {
+  display:grid;
+  grid-template-columns:minmax(190px, 260px) 1fr 54px;
+  gap:10px;
+  align-items:center;
+}
+
+.analytics-label {
+  color:var(--surface-muted);
+  font-size:.78rem;
+  white-space:normal;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  line-height:1.2;
+  word-break:normal;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+
+.analytics-track {
+  height:10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.analytics-fill {
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--green),var(--lime));
+  box-shadow:0 0 20px var(--glow-a);
+  transition:width .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.analytics-value {
+  text-align:right;
+  color:var(--surface-text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.analytics-summary {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.analytics-mini {
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:12px;
+  background:rgba(255,255,255,.04);
+}
+
+.analytics-mini b {
+  display:block;
+  color:var(--lime);
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.2rem;
+}
+
+.analytics-mini span {
+  display:block;
+  margin-top:4px;
+  color:var(--surface-muted);
+  font-size:.72rem;
+}
+
+.playtime-pill {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  padding:6px 9px;
+  border-radius:999px;
+  border:1px solid rgba(53,245,155,.32);
+  color:var(--mint);
+  background:rgba(53,245,155,.08);
+}
+
+@media (max-width:900px) {
+  .analytics-panel { grid-template-columns:1fr; }
+  .analytics-row {
+  display:grid;
+  grid-template-columns:minmax(190px, 260px) 1fr 54px;
+  gap:10px;
+  align-items:center;
+}
+  .analytics-summary { grid-template-columns:1fr; }
+}
+
+
+@media (max-width:900px) {
+  .shell {
+  width:100%;
+  padding:0 24px;
+}
+  .hero {
+  width:100%;
+  padding:40px 0 20px;
+}
+  .hero-main {
+  width:100%;
+  max-width:none;
+  border-radius:0;
+  padding:40px 60px 32px;
+  position:relative;
+  overflow:hidden;
+  min-height:240px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+  h1 { font-size:clamp(2.35rem,14vw,4.4rem); }
+  .toolbar {
+  width:100%;
+  border-radius:24px;
+  padding:14px;
+  margin:14px 0 24px;
+  display:grid;
+  grid-template-columns:1fr 200px 200px auto auto;
+  gap:12px;
+  align-items:center;
+}
+  .theme-controls { gap:8px; }
+}
+
+
+/* Açık mod stabil düzeltmeleri */
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+
+/* FINAL ACIK MOD OVERRIDE - tum sayfayi stabil tutar */
+body
+
+
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+body
+
+
+/* Profesyonel tema sistemi */
+.pro-theme-panel {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:22px;
+  align-items:center;
+}
+
+.pro-theme-group {
+  width:fit-content;
+  flex:0 0 auto;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:7px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:rgba(3,12,7,.38);
+  backdrop-filter:blur(14px);
+}
+
+.pro-theme-btn {
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border:1px solid rgba(255,255,255,.14);
+  color:var(--surface-text);
+  background:rgba(255,255,255,.06);
+  border-radius:999px;
+  padding:9px 12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:700;
+  transition:transform .2s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+}
+
+.pro-theme-btn:hover,
+.pro-theme-btn.active {
+  transform:translateY(-2px);
+  color:var(--on-accent);
+  background:var(--lime);
+  border-color:var(--lime);
+  box-shadow:0 0 22px var(--glow-a);
+}
+
+.pro-theme-dot {
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  display:inline-block;
+  box-shadow:0 0 12px currentColor;
+}
+
+.custom-color-wrap {
+  width:fit-content;
+  max-width:180px;
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 10px;
+  background:rgba(3,12,7,.38);
+  backdrop-filter:blur(14px);
+  color:var(--surface-muted);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:700;
+}
+
+.custom-color-wrap input[type="color"] {
+  width:34px;
+  height:34px;
+  border:0;
+  padding:0;
+  border-radius:999px;
+  background:transparent;
+  cursor:pointer;
+}
+
+.custom-color-wrap input[type="color"]::-webkit-color-swatch-wrapper {
+  padding:0;
+}
+
+.custom-color-wrap input[type="color"]::-webkit-color-swatch {
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:999px;
+}
+
+.reset-theme-btn {
+  cursor:pointer;
+  border:1px solid var(--line);
+  color:var(--surface-text);
+  background:rgba(255,255,255,.06);
+  border-radius:999px;
+  padding:10px 12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:700;
+}
+
+.reset-theme-btn:hover {
+  color:var(--on-accent);
+  background:var(--lime);
+  border-color:var(--lime);
+}
+
+@media (max-width:760px) {
+  .pro-theme-group,
+  .custom-color-wrap {
+  width:fit-content;
+  max-width:180px;
+  flex:0 0 auto;
+    border-radius:18px;
+  }
+}
+
+
+
+/* OPTIMIZE EDILMIS OYUN KARTI - tum oyunlarda ayni hizalama */
+.grid {
+  align-items:stretch;
+}
+
+.card {
+  height:480px;
+  display:flex;
+  flex-direction:column;
+  border-radius:28px;
+}
+
+.poster {
+  height:150px;
+  min-height:150px;
+  flex:0 0 150px;
+}
+
+.card-body {
+  flex:1;
+  min-height:0;
+  padding:18px;
+  display:grid;
+  grid-template-rows:auto auto auto 1fr auto auto;
+  gap:12px;
+}
+
+.name {
+  min-height:44px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  align-self:start;
+}
+
+.badges {
+  min-height:30px;
+  align-items:center;
+}
+
+.score-row {
+  min-height:42px;
+  align-items:center;
+  grid-template-columns:1fr auto;
+}
+
+.score-row small {
+  align-self:center;
+}
+
+.score-pill {
+  min-width:58px;
+  text-align:right;
+}
+
+.note {
+  min-height:66px;
+  max-height:66px;
+  -webkit-line-clamp:3;
+}
+
+.tag-list {
+  min-height:28px;
+  max-height:28px;
+  overflow:hidden;
+  align-items:center;
+}
+
+.mini-tag {
+  white-space:nowrap;
+}
+
+.links {
+  min-height:40px;
+  margin-top:0;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.link-btn,
+.detail-btn {
+  min-height:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:0;
+  text-decoration:none;
+  color:var(--on-accent);
+  background:var(--lime);
+  padding:0 14px;
+  border-radius:14px;
+  font-family:'Space Grotesk', system-ui, sans-serif;
+  font-weight:800;
+  font-size:.82rem;
+  line-height:1;
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+}
+
+.detail-btn {
+  color:var(--surface-text);
+  background:rgba(255,255,255,.07);
+  border:1px solid var(--line);
+}
+
+.link-btn:hover,
+.detail-btn:hover {
+  transform:translateY(-2px);
+  opacity:.95;
+}
+
+.status-badge,
+.badge,
+.playtime-pill {
+  height:28px;
+  display:inline-flex;
+  align-items:center;
+}
+
+@media (max-width:560px) {
+  .card { height:480px; }
+  .poster { height:145px; min-height:145px; flex-basis:145px; }
+  .card-body { padding:17px; }
+}
+
+
+
+/* Games sayfası sade düzeltmeler */
+.toolbar,
+.achievement-strip,
+.analytics-panel,
+.quick-filters {
+  display:none !important;
+}
+
+.hero-main {
+  margin-bottom:24px;
+}
+
+.card {
+  cursor:pointer;
+}
+</style>
+</head>
+<body>
+<main class="shell">
+<section class="hero">
+  <div class="hero-main">
+    <div class="kicker">◒ Umut Arşiv · Oyun Listesi</div>
+    <h1>Oyun <span>Önerileri</span></h1>
+    <p class="hero-text">Oyun önerileri sayfası.</p>
+    <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
+      <a href="index.html" class="link-btn">Ana Sayfaya Dön</a>
+    </div>
+  </div>
+</section>
+
+<section class="grid" id="grid"></section>
+
+<footer><span>@umutmelihakyol</span> · oyun listesi · <span id="totalCount">0</span> kayıt</footer>
+
+<div class="modal-backdrop" id="gameModalBackdrop" onclick="closeGameModal(event)">
+  <div class="game-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="event.stopPropagation()">
+    <button class="close-modal" onclick="closeGameModal()" aria-label="Kapat">×</button>
+    <div class="modal-hero" id="modalHero">
+      <div class="modal-hero-content">
+        <h2 id="modalTitle">Oyun</h2>
+        <div class="modal-meta" id="modalMeta"></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="modal-section-title">Kişisel not</div>
+        <p class="modal-note" id="modalNote"></p>
+        <div id="modalVideoWrap" style="margin-top:18px;"></div>
+      </div>
+      <aside class="modal-side">
+        <div>
+          <div class="modal-section-title">Oyun bilgileri</div>
+          <div class="modal-info-grid" id="modalInfoGrid"></div>
+        </div>
+        <div>
+          <div class="modal-section-title">Etiketler</div>
+          <div class="tag-list" id="modalTags"></div>
+        </div>
+        <div class="modal-actions" id="modalActions"></div>
+      </aside>
+      <div class="recommendations">
+        <div class="modal-section-title">Akıllı öneriler</div>
+        <div class="recommendation-grid" id="modalRecommendations"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script src="games-data.js"></script>
+<script>
+/* GAMES listesi games-data.js dosyasından gelir. */
+
+function normalizeText(value) {
+  return String(value || '').toLocaleLowerCase('tr-TR');
+}
+
+function getGameTags(game) {
+  const raw = game.tags || game.genre || "";
+  return String(raw)
+    .split(/[·,|]/)
+    .map(t => t.trim())
+    .filter(Boolean);
+}
+
+function getImageUrl(game) {
+  return game.image || (game.appId ? "https://cdn.cloudflare.steamstatic.com/steam/apps/" + game.appId + "/header.jpg" : "");
+}
+
+function formatHours(hours) {
+  const n = Number(hours || 0);
+  return n > 0 ? Math.round(n) + "s" : "0s";
+}
+
+function getYoutubeVideoId(url) {
+  const value = String(url || "").trim();
+  if (!value) return "";
+  const patterns = [
+    /youtu\.be\/([^?&]+)/,
+    /youtube\.com\/watch\?v=([^?&]+)/,
+    /youtube\.com\/embed\/([^?&]+)/
+  ];
+  for (const pattern of patterns) {
+    const match = value.match(pattern);
+    if (match && match[1]) return match[1];
+  }
+  return "";
+}
+
+function getYoutubeWatchUrl(url) {
+  const id = getYoutubeVideoId(url);
+  return id ? "https://www.youtube.com/watch?v=" + id : String(url || "");
+}
+
+function getSmartRecommendations(currentGame, limit = 3) {
+  const currentTags = getGameTags(currentGame).map(t => normalizeText(t));
+  const currentScore = parseFloat(currentGame.score || 0);
+
+  return GAMES
+    .filter(game => Number(game.id) !== Number(currentGame.id))
+    .map(game => {
+      const tags = getGameTags(game).map(t => normalizeText(t));
+      const sharedTags = tags.filter(tag => currentTags.includes(tag));
+      const score = parseFloat(game.score || 0);
+      let points = 0;
+      let reason = "Benzer oyun";
+
+      if (sharedTags.length) {
+        points += sharedTags.length * 4;
+        reason = "Benzer tür";
+      }
+
+      if (game.favorite) {
+        points += 3;
+        reason = "Favori seçim";
+      }
+
+      if (!Number.isNaN(score) && !Number.isNaN(currentScore)) {
+        const diff = Math.abs(score - currentScore);
+        if (diff <= 1) {
+          points += 2;
+          if (!sharedTags.length) reason = "Yakın puan";
+        }
+        points += Math.max(0, score / 3);
+      }
+
+      return { game, points, reason };
+    })
+    .sort((a,b) => b.points - a.points)
+    .slice(0, limit);
+}
+
+function renderRecommendations(game) {
+  const el = document.getElementById("modalRecommendations");
+  if (!el) return;
+
+  const recommendations = getSmartRecommendations(game, 3);
+  if (!recommendations.length) {
+    el.innerHTML = '<p class="modal-note">Şimdilik önerilecek başka oyun yok.</p>';
+    return;
+  }
+
+  el.innerHTML = recommendations.map(item => {
+    const rec = item.game;
+    const img = getImageUrl(rec);
+    return `
+      <article class="recommendation-card" onclick="openGameModal(${rec.id})">
+        ${img ? `<img src="${img}" alt="${rec.name}" loading="lazy">` : ""}
+        <div class="recommendation-content">
+          <span class="smart-reason">${item.reason}</span>
+          <b>${rec.name}</b>
+          <small>${rec.score ? "Puan " + rec.score : ""}</small>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function openGameModal(id) {
+  const game = GAMES.find(g => Number(g.id) === Number(id));
+  if (!game) return;
+
+  const backdrop = document.getElementById("gameModalBackdrop");
+  const hero = document.getElementById("modalHero");
+  const title = document.getElementById("modalTitle");
+  const meta = document.getElementById("modalMeta");
+  const note = document.getElementById("modalNote");
+  const tags = document.getElementById("modalTags");
+  const actions = document.getElementById("modalActions");
+  const infoGrid = document.getElementById("modalInfoGrid");
+  const videoWrap = document.getElementById("modalVideoWrap");
+
+  const imgUrl = getImageUrl(game);
+  const existingImg = hero.querySelector("img");
+  if (existingImg) existingImg.remove();
+
+  if (imgUrl) {
+    const img = document.createElement("img");
+    img.src = imgUrl;
+    img.alt = game.name;
+    hero.prepend(img);
+  }
+
+  title.textContent = game.name;
+
+  meta.innerHTML = `
+    ${game.favorite ? `<span>⭐ Favori</span>` : ""}
+    ${game.score ? `<span>Puan ${game.score}</span>` : ""}
+    ${game.metacritic ? `<span>MC ${game.metacritic}</span>` : ""}
+    ${game.special ? `<span>◆ Özel seçki</span>` : ""}
+  `;
+
+  note.textContent = game.note || "Bu oyun için henüz açıklama eklenmedi.";
+  tags.innerHTML = getGameTags(game).map(tag => `<span class="mini-tag">${tag}</span>`).join("");
+
+  infoGrid.innerHTML = `
+    <div class="modal-info-box"><small>Benim puanım</small><b>${game.score || "-"}</b></div>
+    <div class="modal-info-box"><small>Metacritic</small><b>${game.metacritic || "-"}</b></div>
+    <div class="modal-info-box"><small>Oynama süresi</small><b>${game.playtime ? formatHours(game.playtime) : "-"}</b></div>
+    <div class="modal-info-box"><small>Favori</small><b>${game.favorite ? "⭐ Evet" : "Hayır"}</b></div>
+  `;
+
+  const youtubeId = getYoutubeVideoId(game.youtube);
+  const youtubeUrl = getYoutubeWatchUrl(game.youtube);
+
+  videoWrap.innerHTML = youtubeId
+    ? `<div class="modal-section-title">Video / Trailer</div>
+       <a class="video-preview" href="${youtubeUrl}" target="_blank" rel="noopener">
+         <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${game.name} video">
+         <div class="video-play"><span>▶</span></div>
+         <div class="video-caption"><b>YouTube'da izle</b>Yeni sekmede açılır.</div>
+       </a>`
+    : "";
+
+  actions.innerHTML = `
+    ${game.steam ? `<a class="link-btn" href="${game.steam}" target="_blank">Steam</a>` : ""}
+    ${game.youtube ? `<a class="link-btn" href="${youtubeUrl}" target="_blank">YouTube</a>` : ""}
+  `;
+
+  renderRecommendations(game);
+
+  backdrop.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeGameModal(event) {
+  if (event && event.target && event.target.id !== "gameModalBackdrop") return;
+  const backdrop = document.getElementById("gameModalBackdrop");
+  if (backdrop) backdrop.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeGameModal();
+});
+
+function render() {
+  const grid = document.getElementById('grid');
+  if (!grid) return;
+
+  grid.innerHTML = '';
+
+  const games = [...GAMES].sort((a,b) => Number(a.id || 0) - Number(b.id || 0));
+
+  if (!games.length) {
+    grid.innerHTML = '<div class="empty-state"><h2>Henüz oyun yok</h2><p>GAMES listesine oyun ekleyince burada görünür.</p></div>';
+    return;
+  }
+
+  games.forEach((g, index) => {
+    const imgUrl = getImageUrl(g);
+    const steamUrl = g.steam || (g.appId ? 'https://store.steampowered.com/app/' + g.appId + '/' : '#');
+
+    const specialHtml = g.special ? '<span class="badge hot">◆ özel</span>' : '';
+    const mcHtml = g.metacritic ? '<span class="badge">MC ' + g.metacritic + '</span>' : '';
+    const scoreHtml = g.score
+      ? '<div class="score-row"><small>Benim puanım</small><span class="score-pill">' + g.score + '</span></div>'
+      : '';
+    const noteHtml = g.note ? '<p class="note">' + g.note + '</p>' : '';
+    const tagHtml = getGameTags(g).slice(0,3).map(tag => '<span class="mini-tag">' + tag + '</span>').join('');
+    const ytBtn = g.youtube
+      ? '<a class="link-btn" href="' + getYoutubeWatchUrl(g.youtube) + '" target="_blank" onclick="event.stopPropagation()">Video</a>'
+      : '';
+    const favBtn = g.favorite
+      ? '<div class="favorite-label" aria-label="Favori"><span>★</span><small>Favori</small></div>'
+      : '';
+
+    const posterHtml = imgUrl
+      ? '<img src="' + imgUrl + '" alt="' + g.name + '" loading="lazy" onerror="this.style.opacity=\'.25\'" />'
+      : '<div style="height:100%;display:grid;place-items:center;color:var(--lime);font-family:JetBrains Mono,monospace;">NO IMAGE</div>';
+
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.setAttribute('onclick', 'openGameModal(' + g.id + ')');
+    card.style.animationDelay = Math.min(index * 0.045, 0.55) + 's';
+
+    card.innerHTML =
+      '<div class="poster">' +
+        posterHtml +
+        favBtn +
+        '<span class="num">#' + String(g.id).padStart(3,'0') + '</span>' +
+      '</div>' +
+      '<div class="card-body">' +
+        '<h2 class="name">' + g.name + '</h2>' +
+        '<div class="badges">' + specialHtml + mcHtml + '</div>' +
+        scoreHtml +
+        noteHtml +
+        '<div class="tag-list">' + tagHtml + '</div>' +
+        '<div class="links">' +
+          '<button class="detail-btn" onclick="event.stopPropagation(); openGameModal(' + g.id + ')">Detay</button>' +
+          '<a class="link-btn" href="' + steamUrl + '" target="_blank" onclick="event.stopPropagation()">Steam</a>' +
+          ytBtn +
+        '</div>' +
+      '</div>';
+
+    grid.appendChild(card);
+  });
+
+  const totalCount = document.getElementById('totalCount');
+  if (totalCount) totalCount.textContent = GAMES.length;
+}
+
+render();
+</script>
+</body>
+</html>
