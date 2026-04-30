@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<!-- Guncel index.html: oyun listesi games-data.js dosyasindan gelir. -->
+<!-- index.html: oyun listesi games-data.js -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>umutmelihakyol · Oyun Günlüğüm</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
 * { box-sizing:border-box; margin:0; padding:0; }
+
+/* Scrollbar kaldırıldı */
+html {
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* Eski Edge / IE */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;               /* Chrome, Safari, Edge */
+}
+
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 :root {
   --hue-bg:#06110c;
   --bg:#06110c;
@@ -27,16 +47,17 @@
   --hero-stroke:rgba(184,255,92,.12);
   --glow-a:rgba(184,255,92,.22);
   --glow-b:rgba(53,245,155,.18);
-  --card-hover-line:rgba(184,255,92,.68);
-  --card-hover-shadow:0 30px 90px rgba(184,255,92,.22), 0 18px 55px rgba(0,0,0,.38);
-  --card-hover-gradient:linear-gradient(135deg,rgba(184,255,92,.30),transparent 36%,rgba(53,245,155,.22));
-  --poster-hover-filter:saturate(1.28) contrast(1.1) brightness(1.06);
+  --hover-border:rgba(184,255,92,.68);
+  --hover-shadow:rgba(184,255,92,.24);
+  --hover-overlay-a:rgba(184,255,92,.26);
+  --hover-overlay-b:rgba(53,245,155,.18);
+  --poster-hover-filter:saturate(1.22) contrast(1.08) brightness(1.04);
 }
 
 /* Smooth tema gecisi */
 html, body, body::before, body::after, .hero-main, .hero-side, .toolbar, .card, .stat,
 .kicker, .badge, .link-btn, .random-game-btn, .count, .num, .score-pill, h1 span, footer span,
-.field input, select, .theme-toggle, .theme-btn, .mode-btn, .genre-tag {
+.field input, select, .theme-toggle, .theme-btn, .mode-btn, .genre-tag, .card::before {
   transition:
     background-color .45s ease,
     background .45s ease,
@@ -89,14 +110,14 @@ body.theme-yellow {
   --hero-stroke:rgba(255,214,10,.13);
 }
 
-/* Koyu / acik mod */
+
 body
 body
 html { scroll-behavior:smooth; }
 body { min-height:100vh; font-family:'Space Grotesk', system-ui, sans-serif; color:var(--text); background:radial-gradient(circle at 20% -10%, var(--glow-a), transparent 32rem),radial-gradient(circle at 92% 10%, var(--glow-b), transparent 28rem),linear-gradient(135deg,var(--body-start) 0%,var(--bg) 45%,var(--body-end) 100%); overflow-x:hidden; }
 body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:-2; background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 85%); }
-body::after { content:""; position:fixed; inset:-30%; pointer-events:none; z-index:-1; background:conic-gradient(from 90deg,transparent,var(--glow-b),transparent,var(--glow-a),transparent); animation:spin 22s linear infinite; }
-@keyframes spin { to { transform:rotate(360deg); } }
+body::after { content:""; position:fixed; inset:-30%; pointer-events:none; z-index:-1; background:conic-gradient(from 90deg,transparent,var(--glow-b),transparent,var(--glow-a),transparent); animation:none; transform:none; }
+/* Hareketli arka plan kaldirildi: sabit arka plan */
 .shell {
   width:100%;
   padding:0 24px;
@@ -329,8 +350,8 @@ body
   padding:20px 0;
 }
 .card { border-radius:28px; overflow:hidden; position:relative; transform:translateY(12px); opacity:0; animation:rise .55s ease forwards; transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; }
-.card::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:2; opacity:0; background:var(--card-hover-gradient); transition:opacity .22s ease; }
-.card:hover { transform:translateY(-8px) scale(1.012); border-color:var(--card-hover-line); box-shadow:var(--card-hover-shadow); }
+.card::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:2; opacity:0; background:linear-gradient(135deg,var(--hover-overlay-a),transparent 35%,var(--hover-overlay-b)); transition:opacity .22s ease, background .45s ease; }
+.card:hover { transform:translateY(-8px) scale(1.012); border-color:var(--hover-border); box-shadow:0 26px 80px rgba(0,0,0,.30), 0 0 34px var(--hover-shadow); }
 .card:hover::before { opacity:1; }
 @keyframes rise { to { transform:translateY(0); opacity:1; } }
 .poster { position:relative; height:138px; overflow:hidden; background:#08140c; }
@@ -416,7 +437,7 @@ body
   100% { background-position:400% 50%; }
 }
 
-/* Otomatik kontrast sistemi */
+/* Otomatik kontrast */
 body {
   --on-accent: var(--deep);
   --surface-text: var(--text);
@@ -1352,71 +1373,14 @@ body
 }
 
 
-/* Açık mod stabil düzeltmeleri */
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-
-/* FINAL ACIK MOD OVERRIDE - tum sayfayi stabil tutar */
+/* tum sayfayi stabil tutar */
 body
 
 
 
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
-
-body
 
 
-/* Profesyonel tema sistemi */
+/* Tema sistemi */
 .pro-theme-panel {
   display:flex;
   flex-wrap:wrap;
@@ -1538,7 +1502,7 @@ body
 
 
 
-/* OPTIMIZE EDILMIS OYUN KARTI - tum oyunlarda ayni hizalama */
+/* Tum oyunlarda ayni hizalama */
 .grid {
   align-items:stretch;
 }
@@ -2332,6 +2296,569 @@ body
   }
 }
 
+
+/* =========================================================
+   OYUN KARTI FINAL FIX
+   Steam / Detay / Video butonlari kartin altinda sabit kalir.
+   Aksiyon, Esli, Macera gibi oyun etiketleri butonlarin
+   HEMEN USTUNDE sabit konumlanir.
+   ========================================================= */
+
+.grid {
+  align-items: stretch !important;
+}
+
+.card {
+  height: 480px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 28px !important;
+  overflow: hidden !important;
+}
+
+.poster {
+  height: 150px !important;
+  min-height: 150px !important;
+  flex: 0 0 150px !important;
+}
+
+.card-body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  padding: 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.card-body .name {
+  min-height: 44px !important;
+  max-height: 44px !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.card-body .badges {
+  min-height: 30px !important;
+  max-height: 30px !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 8px !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
+
+.card-body .score-row {
+  min-height: 42px !important;
+  max-height: 42px !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  gap: 12px !important;
+  align-items: center !important;
+}
+
+.card-body .note {
+  flex: 0 1 auto !important;
+  min-height: 0 !important;
+  max-height: 62px !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+/* Alt blok kartin dibine sabitlenir */
+.card-footer {
+  margin-top: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important; /* etiketler butonlarin hemen ustunde */
+}
+
+/* Oyun tur etiketleri */
+.card-footer .tag-list,
+.card-body .tag-list {
+  min-height: 28px !important;
+  max-height: 28px !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 7px !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
+
+/* Steam / Detay / Video butonlari sabit */
+.card-footer .links,
+.card-body .links {
+  min-height: 40px !important;
+  margin-top: 0 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.card-footer .mini-tag,
+.card-body .mini-tag {
+  white-space: nowrap !important;
+  flex: 0 0 auto !important;
+}
+
+.card-footer .link-btn,
+.card-footer .detail-btn,
+.card-body .link-btn,
+.card-body .detail-btn {
+  min-height: 36px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 14px !important;
+  border-radius: 14px !important;
+  font-family: 'Space Grotesk', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: .82rem !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+.status-badge,
+.badge,
+.playtime-pill {
+  height: 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 560px) {
+  .card {
+    height: 480px !important;
+  }
+
+  .poster {
+    height: 145px !important;
+    min-height: 145px !important;
+    flex-basis: 145px !important;
+  }
+
+  .card-body {
+    padding: 17px !important;
+  }
+
+  .card-footer {
+    gap: 8px !important;
+  }
+}
+
+
+
+/* Tum oynama sureleri modal butonu */
+.analytics-card.playtime-card {
+  position:relative;
+  min-height:350px;
+  display:flex;
+  flex-direction:column;
+}
+
+.playtime-chart-wrap {
+  flex:1;
+}
+
+.view-all-playtime-wrap {
+  margin-top:auto;
+  padding-top:16px;
+  display:flex;
+  justify-content:flex-end;
+}
+
+.view-all-playtime-btn {
+  cursor:pointer;
+  min-height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:0 15px;
+  color:var(--on-accent);
+  background:linear-gradient(135deg,var(--lime),var(--mint));
+  box-shadow:0 0 22px var(--glow-a);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:900;
+  transition:transform .2s ease, box-shadow .25s ease, filter .25s ease;
+}
+
+.view-all-playtime-btn:hover {
+  transform:translateY(-2px);
+  box-shadow:0 0 32px var(--glow-a), 0 0 48px var(--glow-b);
+  filter:saturate(1.08);
+}
+
+.playtime-modal-backdrop {
+  position:fixed;
+  inset:0;
+  z-index:280;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  background:rgba(0,0,0,.68);
+  backdrop-filter:blur(14px);
+}
+
+.playtime-modal-backdrop.open {
+  display:flex;
+}
+
+.playtime-modal-window {
+  width:min(980px,100%);
+  max-height:min(88vh,900px);
+  overflow:auto;
+  position:relative;
+  border:1px solid var(--line);
+  border-radius:32px;
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.92));
+  box-shadow:0 36px 120px rgba(0,0,0,.58), 0 0 40px var(--glow-a);
+}
+
+.playtime-modal-head {
+  position:sticky;
+  top:0;
+  z-index:3;
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-start;
+  padding:22px 22px 16px;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.94));
+  backdrop-filter:blur(18px);
+}
+
+.playtime-modal-kicker {
+  font-family:'JetBrains Mono',monospace;
+  color:var(--lime);
+  font-size:.7rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.playtime-modal-title {
+  color:var(--surface-text);
+  font-size:clamp(1.6rem,4vw,2.7rem);
+  line-height:1;
+  letter-spacing:-.06em;
+}
+
+.playtime-modal-sub {
+  margin-top:8px;
+  color:var(--surface-muted);
+  font-size:.88rem;
+}
+
+.playtime-modal-close {
+  flex:0 0 auto;
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(0,0,0,.48);
+  color:#fff;
+  cursor:pointer;
+  font-size:1.35rem;
+  backdrop-filter:blur(10px);
+}
+
+.playtime-modal-close:hover {
+  background:var(--lime);
+  color:var(--on-accent);
+}
+
+.playtime-modal-body {
+  padding:20px 22px 24px;
+}
+
+.playtime-list {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.playtime-list-row {
+  display:grid;
+  grid-template-columns:minmax(160px,280px) 1fr 62px;
+  gap:12px;
+  align-items:center;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:rgba(255,255,255,.045);
+}
+
+.playtime-list-name {
+  min-width:0;
+  color:var(--surface-text);
+  font-weight:800;
+  line-height:1.2;
+}
+
+.playtime-list-track {
+  height:10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.playtime-list-fill {
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--green),var(--lime),var(--mint));
+  box-shadow:0 0 20px var(--glow-a);
+}
+
+.playtime-list-value {
+  color:var(--surface-text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.78rem;
+  font-weight:900;
+  text-align:right;
+  white-space:nowrap;
+}
+
+@media (max-width:700px) {
+  .playtime-modal-backdrop { padding:12px; }
+  .playtime-modal-window { border-radius:24px; max-height:90vh; }
+  .playtime-modal-head { padding:18px 16px 14px; }
+  .playtime-modal-body { padding:16px; }
+  .playtime-list-row { grid-template-columns:1fr 54px; gap:9px; }
+  .playtime-list-track { grid-column:1 / -1; order:3; }
+  .playtime-list-value { font-size:.72rem; }
+}
+
+
+
+/* Oynanıyor kartı tıklanabilir ekran */
+.clickable-achievement {
+  cursor:pointer;
+  transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.clickable-achievement:hover {
+  transform:translateY(-4px);
+  border-color:var(--lime);
+  box-shadow:0 20px 60px rgba(0,0,0,.30), 0 0 28px var(--glow-a);
+}
+
+.status-screen-backdrop {
+  position:fixed;
+  inset:0;
+  z-index:320;
+  display:none;
+  padding:22px;
+  background:rgba(0,0,0,.70);
+  backdrop-filter:blur(14px);
+  overflow:auto;
+}
+.status-screen-backdrop.open {
+  display:block;
+}
+.status-screen {
+  width:min(1180px,100%);
+  margin:0 auto;
+  border:1px solid var(--line);
+  border-radius:32px;
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.94));
+  box-shadow:0 36px 120px rgba(0,0,0,.58), 0 0 40px var(--glow-a);
+  overflow:hidden;
+}
+.status-screen-head {
+  position:sticky;
+  top:0;
+  z-index:3;
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-start;
+  padding:24px;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(145deg,var(--card),rgba(5,15,9,.96));
+  backdrop-filter:blur(18px);
+}
+.status-screen-kicker {
+  font-family:'JetBrains Mono',monospace;
+  color:var(--lime);
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.status-screen-head h2 {
+  color:var(--surface-text);
+  font-size:clamp(1.7rem,4vw,3rem);
+  line-height:1;
+  letter-spacing:-.06em;
+}
+.status-screen-head p {
+  margin-top:8px;
+  color:var(--surface-muted);
+  font-size:.9rem;
+}
+.status-screen-close {
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(0,0,0,.48);
+  color:#fff;
+  cursor:pointer;
+  font-size:1.35rem;
+}
+.status-screen-close:hover {
+  background:var(--lime);
+  color:var(--on-accent);
+}
+.status-screen-grid {
+  padding:24px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:18px;
+}
+.playing-screen-card {
+  cursor:pointer;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.playing-screen-card:hover {
+  transform:translateY(-5px);
+  border-color:var(--lime);
+  box-shadow:0 0 26px var(--glow-a);
+}
+.playing-screen-card img {
+  width:100%;
+  height:130px;
+  object-fit:cover;
+  display:block;
+}
+.playing-screen-body {
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.playing-screen-body h3 {
+  color:var(--surface-text);
+  font-size:1rem;
+  line-height:1.2;
+}
+.playing-screen-meta {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+.playing-screen-meta span {
+  min-height:26px;
+  display:inline-flex;
+  align-items:center;
+  padding:4px 9px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--surface-muted);
+  background:rgba(255,255,255,.045);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+}
+.playing-screen-note {
+  color:var(--surface-muted);
+  font-size:.82rem;
+  line-height:1.45;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+@media (max-width:700px) {
+  .status-screen-backdrop { padding:12px; }
+  .status-screen { border-radius:24px; }
+  .status-screen-head { padding:18px 16px; }
+  .status-screen-grid { padding:16px; grid-template-columns:1fr; }
+}
+
+
+/* Status etiketleri kartlarda bir üst satırda sabit kalsın */
+.card-body .badges {
+  min-height: 30px !important;
+  max-height: 30px !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 8px !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
+
+
+
+/* FINAL ETIKET SIRALAMASI: isim > durum > meta */
+.card-body .name {
+  order: 1 !important;
+}
+
+.card-body .status-row {
+  order: 2 !important;
+}
+
+.card-body .meta-row {
+  order: 3 !important;
+}
+
+.card-body .score-row {
+  order: 4 !important;
+}
+
+.card-body .note {
+  order: 5 !important;
+}
+
+.card-body .card-footer {
+  order: 6 !important;
+}
+
+.card-body .badges {
+  min-height: 30px !important;
+  max-height: 30px !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 8px !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
+
+
+/* FINAL SIKISTIRMA: oyun adi > durum > meta etiketleri birbirine yakin */
+.card-body { gap: 7px !important; }
+.card-body .name { order: 1 !important; min-height: auto !important; max-height: 42px !important; margin: 0 0 2px 0 !important; line-height: 1.18 !important; }
+.card-body .status-row { order: 2 !important; margin-top: 0 !important; }
+.card-body .meta-row { order: 3 !important; margin-top: -3px !important; }
+.card-body .badges { min-height: 26px !important; max-height: 26px !important; gap: 7px !important; }
+.status-badge, .badge, .playtime-pill { height: 26px !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+.card-body .score-row { order: 4 !important; min-height: 38px !important; max-height: 38px !important; margin-top: 3px !important; }
+.card-body .note { order: 5 !important; max-height: 74px !important; min-height: 42px !important; -webkit-line-clamp: 3 !important; }
+.card-body .card-footer { order: 6 !important; gap: 7px !important; }
+
 </style>
 </head>
 <body>
@@ -2370,7 +2897,7 @@ body
 <section class="achievement-strip" id="achievementStrip">
   <div class="achievement"><b id="statTotal">000</b><span>Toplam oyun</span></div>
   <div class="achievement"><b id="statbitti">000</b><span>Bitirilen oyun</span></div>
-  <div class="achievement"><b id="statoynanıyor">000</b><span>Oynanıyor</span></div>
+  <div class="achievement clickable-achievement" onclick="openPlayingScreen()"><b id="statoynanıyor">000</b><span>Oynanıyor</span></div>
   <div class="achievement"><b id="statAvg">0.0</b><span>Ortalama puan</span></div>
 </section>
 
@@ -2418,14 +2945,17 @@ body
 </div>
 
 <section class="analytics-panel" id="analyticsPanel">
-  <div class="analytics-card">
+  <div class="analytics-card playtime-card">
     <div class="analytics-title">Oynama süresi <small>Toplam ve ortalama</small></div>
     <div class="analytics-summary">
       <div class="analytics-mini"><b id="totalHoursStat">0s</b><span>Toplam süre</span></div>
       <div class="analytics-mini"><b id="avgHoursStat">0s</b><span>Ortalama</span></div>
       <div class="analytics-mini"><b id="longestGameStat">-</b><span>En uzun oyun</span></div>
     </div>
-    <div class="analytics-bars" id="playtimeChart"></div>
+    <div class="analytics-bars playtime-chart-wrap" id="playtimeChart"></div>
+    <div class="view-all-playtime-wrap">
+      <button class="view-all-playtime-btn" type="button" onclick="openPlaytimeModal()">Tümünü Gör</button>
+    </div>
   </div>
   <div class="analytics-card">
     <div class="analytics-title">Grafik paneli <small>Tür ve puan dağılımı</small></div>
@@ -2442,11 +2972,45 @@ body
   <option value="oynanıyor">🎮 Oynanıyor</option>
   <option value="bırakıldı">⏸️ Bırakıldı</option>
   <option value="planlandı">📅 Planlandı</option>
-  <option value="special">Özel seçkiler</option>
+  <option value="special">Özel seçimler</option>
   <option value="high">9+ puan</option>
   <option value="mc75">Metacritic 75+</option>
 </select><select id="sortFilter" onchange="render()"><option value="default">Liste sırası</option><option value="score">Puana göre</option><option value="mc">Metacritic</option><option value="name">İsme göre</option></select><button class="random-game-btn" type="button" onclick="openRandomGame()">🎲 Rastgele oyun</button><div class="count" id="countBadge">000 / 000 oyun</div></section>
 <section class="grid" id="grid"></section><footer><span>@umutmelihakyol</span> · oyun arşivi · <span id="totalCount">0</span> kayıt</footer>
+
+
+<div class="playtime-modal-backdrop" id="playtimeModalBackdrop" onclick="closePlaytimeModal(event)">
+  <div class="playtime-modal-window" role="dialog" aria-modal="true" aria-labelledby="playtimeModalTitle" onclick="event.stopPropagation()">
+    <div class="playtime-modal-head">
+      <div>
+        <div class="playtime-modal-kicker">Oynama süresi arşivi</div>
+        <h2 class="playtime-modal-title" id="playtimeModalTitle">Tüm oyun süreleri</h2>
+        <p class="playtime-modal-sub" id="playtimeModalSub">Oyunlar en uzun süreden en kısaya göre sıralanır.</p>
+      </div>
+      <button class="playtime-modal-close" type="button" onclick="closePlaytimeModal()" aria-label="Kapat">×</button>
+    </div>
+    <div class="playtime-modal-body">
+      <div class="playtime-list" id="playtimeFullList"></div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="status-screen-backdrop" id="playingScreenBackdrop" onclick="closePlayingScreen(event)">
+  <section class="status-screen" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
+    <div class="status-screen-head">
+      <div>
+        <div class="status-screen-kicker">🎮 Oynanıyor</div>
+        <h2>Şu An Oynanan Oyunlar</h2>
+        <p id="playingScreenSub">Oynanıyor tagındaki oyunlar burada listelenir.</p>
+      </div>
+      <button class="status-screen-close" type="button" onclick="closePlayingScreen()" aria-label="Kapat">×</button>
+    </div>
+
+    <div class="status-screen-grid" id="playingScreenGrid"></div>
+  </section>
+</div>
 
 <div class="modal-backdrop" id="gameModalBackdrop" onclick="closeGameModal(event)">
   <div class="game-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="event.stopPropagation()">
@@ -2640,6 +3204,51 @@ function renderBarRows(containerId, rows, options = {}) {
       <div class="analytics-value">${options.suffix ? row.value + options.suffix : row.value}</div>
     </div>
   `).join("") : '<div class="analytics-label">Veri yok</div>';
+}
+
+function getAllPlaytimeGames() {
+  return [...GAMES]
+    .map(game => ({ ...game, playtime: Number(game.playtime || 0) }))
+    .sort((a,b) => b.playtime - a.playtime || String(a.name || "").localeCompare(String(b.name || ""), "tr"));
+}
+
+function renderPlaytimeModalList() {
+  const list = document.getElementById("playtimeFullList");
+  const sub = document.getElementById("playtimeModalSub");
+  if (!list) return;
+
+  const games = getAllPlaytimeGames();
+  const totalHours = games.reduce((sum, game) => sum + game.playtime, 0);
+  const max = Math.max(...games.map(game => game.playtime), 1);
+
+  if (sub) {
+    sub.textContent = games.length + " oyun · toplam " + formatHours(totalHours) + " · en uzun süreye göre sıralı";
+  }
+
+  list.innerHTML = games.length ? games.map(game => {
+    const width = game.playtime > 0 ? (game.playtime / max) * 100 : 0;
+    return `
+      <div class="playtime-list-row">
+        <div class="playtime-list-name">${game.name}</div>
+        <div class="playtime-list-track"><div class="playtime-list-fill" style="width:${width}%"></div></div>
+        <div class="playtime-list-value">${formatHours(game.playtime)}</div>
+      </div>
+    `;
+  }).join("") : '<div class="modal-note">Henüz oynama süresi verisi yok.</div>';
+}
+
+function openPlaytimeModal() {
+  renderPlaytimeModalList();
+  const backdrop = document.getElementById("playtimeModalBackdrop");
+  if (backdrop) backdrop.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closePlaytimeModal(event) {
+  if (event && event.target && event.target.id !== "playtimeModalBackdrop") return;
+  const backdrop = document.getElementById("playtimeModalBackdrop");
+  if (backdrop) backdrop.classList.remove("open");
+  document.body.style.overflow = "";
 }
 
 function updateAnalyticsPanel() {
@@ -2854,7 +3463,7 @@ function openGameModal(id) {
     ${game.status ? `<span>${getStatusLabel(game.status)}</span>` : ""}
     ${game.score ? `<span>Puan ${game.score}</span>` : ""}
     ${game.metacritic ? `<span>MC ${game.metacritic}</span>` : ""}
-    ${game.special ? `<span>◆ Özel seçki</span>` : ""}
+    ${game.special ? `<span>◆ Özel seçim</span>` : ""}
   `;
   note.textContent = game.note || "Bu oyun için henüz not eklenmedi.";
   tags.innerHTML = getGameTags(game).map(tag => `<span class="mini-tag">${tag}</span>`).join("");
@@ -2901,7 +3510,11 @@ function closeGameModal(event) {
 }
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeGameModal();
+  if (event.key === "Escape") {
+    closePlayingScreen();
+    closePlaytimeModal();
+    closeGameModal();
+  }
 });
 
 const STATUS_LABELS = {
@@ -3106,17 +3719,17 @@ function render() {
     if (sort === 'name') return a.name.localeCompare(b.name, 'tr');
     return a.id - b.id;
   });
-  if (filtered.length === 0) grid.innerHTML = '<div class="empty-state"><h2>Sonuç bulunamadı</h2><p>Arama kelimesini veya filtreyi değiştir.</p></div>';
+  if (filtered.length === 0) grid.innerHTML = '<div class="empty-state"><h2>Sonuç bulunamadıç</h2><p>Arama kelimesini veya filtreyi değiştir.</p></div>';
   filtered.forEach((g, index) => {
     const imgUrl = g.image || (g.appId ? 'https://cdn.cloudflare.steamstatic.com/steam/apps/' + g.appId + '/header.jpg' : '');
     const steamUrl = g.steam || (g.appId ? 'https://store.steampowered.com/app/' + g.appId + '/' : '#');
     const specialHtml = g.special ? '<span class="badge hot">◆ özel</span>' : '';
     const statusHtml = g.status ? '<span class="status-badge ' + getStatusClass(g.status) + '">' + getStatusLabel(g.status) + '</span>' : '';
-    const mcHtml = g.metacritic ? '<span class="badge">MC ' + g.metacritic + '</span>' : '';
+    const mcHtml = g.metacritic ? '<span class="badge">Metacritic ' + g.metacritic + '</span>' : '';
     const playtimeHtml = g.playtime ? '<span class="playtime-pill">⏱ ' + formatHours(g.playtime) + '</span>' : '';
     const scoreHtml = g.score ? '<div class="score-row"><small>Benim puanım</small><span class="score-pill">' + g.score + '</span></div>' : '';
     const noteHtml = g.note ? '<p class="note">' + g.note + '</p>' : '';
-    const genreHtml = ''; // Kart altındaki tür etiketi gizlendi
+    const genreHtml = '';
     const tagHtml = getGameTags(g).slice(0,3).map(tag => '<span class="mini-tag">' + tag + '</span>').join('');
     const ytBtn = g.youtube ? '<a class="link-btn" href="' + g.youtube + '" target="_blank" onclick="event.stopPropagation()">Video</a>' : '';
     const favBtn = g.favorite ? '<div class="favorite-label" aria-label="Favori"><span>★</span><small>Favori</small></div>' : '';
@@ -3127,7 +3740,7 @@ function render() {
     card.style.cursor = 'pointer';
     card.style.animationDelay = Math.min(index * 0.045, 0.55) + 's';
     const posterHtml = imgUrl ? '<img src="' + imgUrl + '" alt="' + g.name + '" loading="lazy" onerror="this.style.opacity=\'.25\'" />' : '<div style="height:100%;display:grid;place-items:center;color:var(--lime);font-family:JetBrains Mono,monospace;">NO IMAGE</div>';
-    card.innerHTML = '<div class="poster">' + posterHtml + latestBadge + favBtn + '<span class="num">#' + String(g.id).padStart(3,'0') + '</span></div><div class="card-body"><h2 class="name">' + g.name + '</h2><div class="badges">' + statusHtml + specialHtml + mcHtml + '</div>' + scoreHtml + noteHtml + '<div class="tag-list">' + tagHtml + '</div><div class="links"><button class="detail-btn" onclick="event.stopPropagation(); openGameModal(' + g.id + ')">Detay</button><a class="link-btn" href="' + steamUrl + '" target="_blank" onclick="event.stopPropagation()">Steam</a>' + ytBtn + genreHtml + '</div></div>';
+    card.innerHTML = '<div class="poster">' + posterHtml + latestBadge + favBtn + '<span class="num">#' + String(g.id).padStart(3,'0') + '</span></div><div class="card-body"><h2 class="name">' + g.name + '</h2><div class="badges status-row">' + statusHtml + playtimeHtml + '</div><div class="badges meta-row">' + specialHtml + mcHtml + '</div>' + scoreHtml + noteHtml + '<div class="card-footer"><div class="tag-list">' + tagHtml + '</div><div class="links"><button class="detail-btn" onclick="event.stopPropagation(); openGameModal(' + g.id + ')">Detay</button><a class="link-btn" href="' + steamUrl + '" target="_blank" onclick="event.stopPropagation()">Steam</a>' + ytBtn + genreHtml + '</div></div></div>';
     grid.appendChild(card);
   });
   const p = n => String(n).padStart(3,'0');
@@ -3145,7 +3758,7 @@ function render() {
 
 
 
-/* Otomatik oyuncu profili */
+/* Oyuncu profili */
 function getDominantGenre() {
   const tagCounts = new Map();
   GAMES.forEach(game => getGameTags(game).forEach(tag => tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)));
@@ -3368,8 +3981,8 @@ function calculateAchievementData() {
     { id:"favorite-one", icon:"⭐", title:"İlk Favori", desc:"En az 1 favori oyun belirle.", unlocked: favorites >= 1 },
     { id:"favorite-three", icon:"🌟", title:"Favori Seçici", desc:"En az 3 favori oyun belirle.", unlocked: favorites >= 3 },
     { id:"favorite-five", icon:"💫", title:"Favori Rafı", desc:"En az 5 favori oyun belirle.", unlocked: favorites >= 5 },
-    { id:"special-one", icon:"◆", title:"Özel Seçki", desc:"En az 1 oyunu özel seçki yap.", unlocked: specialCount >= 1 },
-    { id:"special-three", icon:"💎", title:"Elmas Koleksiyon", desc:"En az 3 özel seçki olsun.", unlocked: specialCount >= 3 },
+    { id:"special-one", icon:"◆", title:"Özel Seçim", desc:"En az 1 oyunu özel seçim yap.", unlocked: specialCount >= 1 },
+    { id:"special-three", icon:"💎", title:"Elmas Koleksiyon", desc:"En az 3 özel seçim olsun.", unlocked: specialCount >= 3 },
 
     { id:"score-first", icon:"🧮", title:"Puanlama Başladı", desc:"En az 1 oyuna puan ver.", unlocked: withScore >= 1 },
     { id:"all-scores", icon:"📐", title:"Tam Puanlayıcı", desc:"Her oyuna puan ver.", unlocked: hasAllScores },
@@ -3501,25 +4114,26 @@ function updateAchievementButtonCount() {
 const THEME_KEY = "umut_professional_theme_v2";
 
 const PRESET_THEMES = {
-  green:{lime:"#b8ff5c",mint:"#35f59b",green:"#0dd66d",bg:"#06110c",card:"#0f2419cc",bodyStart:"#030805",bodyEnd:"#0c2116",deep:"#06170e",muted:"#9fcfb2",text:"#eafff2"},
-  red:{lime:"#ff4d5e",mint:"#ff8a7a",green:"#ff2d55",bg:"#130609",card:"#2a1117cc",bodyStart:"#080204",bodyEnd:"#260911",deep:"#180509",muted:"#ffc0c7",text:"#fff1f3"},
-  purple:{lime:"#c77dff",mint:"#9d4edd",green:"#7b2cbf",bg:"#10051d",card:"#241238cc",bodyStart:"#07020d",bodyEnd:"#1d0b32",deep:"#12061f",muted:"#d8b7f2",text:"#fbf3ff"},
-  yellow:{lime:"#ffd60a",mint:"#ffea70",green:"#ffb703",bg:"#151104",card:"#2d250bcc",bodyStart:"#080601",bodyEnd:"#2a2105",deep:"#181202",muted:"#ffe9a3",text:"#fff9dc"},
-  cyan:{lime:"#00f5ff",mint:"#6ee7ff",green:"#06b6d4",bg:"#031116",card:"#092630cc",bodyStart:"#01070a",bodyEnd:"#062434",deep:"#021217",muted:"#a5f3fc",text:"#e6fdff"},
-  orange:{lime:"#ff9f1c",mint:"#ffbf69",green:"#ff7b00",bg:"#160b02",card:"#2e1907cc",bodyStart:"#080401",bodyEnd:"#2b1303",deep:"#180b02",muted:"#ffd0a0",text:"#fff3e4"},
-  pink:{lime:"#ff4ecd",mint:"#ff85e1",green:"#e60073",bg:"#160616",card:"#32112ecc",bodyStart:"#080208",bodyEnd:"#2b0927",deep:"#190619",muted:"#ffc1ef",text:"#fff0fb"},
-  blue:{lime:"#3a86ff",mint:"#74a7ff",green:"#1f5eff",bg:"#06101f",card:"#0e2340cc",bodyStart:"#020711",bodyEnd:"#0a1e3a",deep:"#071326",muted:"#b8d4ff",text:"#eef6ff"},
-  indigo:{lime:"#5c7cfa",mint:"#91a7ff",green:"#364fc7",bg:"#080b1f",card:"#151a3dcc",bodyStart:"#03040f",bodyEnd:"#10163a",deep:"#090d25",muted:"#c8d2ff",text:"#f0f3ff"},
-  teal:{lime:"#2ec4b6",mint:"#6ee7dd",green:"#1098ad",bg:"#031312",card:"#0b2a28cc",bodyStart:"#010807",bodyEnd:"#062826",deep:"#041615",muted:"#a7f3ec",text:"#ecfffd"},
-  gold:{lime:"#ffd166",mint:"#ffe29a",green:"#ffb703",bg:"#151004",card:"#2b220bcc",bodyStart:"#070501",bodyEnd:"#2a1e06",deep:"#171103",muted:"#ffe4ad",text:"#fff7e6"},
-  lime:{lime:"#aaff00",mint:"#ccff66",green:"#70e000",bg:"#0a1302",card:"#1b2a08cc",bodyStart:"#040801",bodyEnd:"#142606",deep:"#0b1702",muted:"#d7ffa3",text:"#f5ffe6"},
-  rose:{lime:"#ff6b6b",mint:"#ff9a9a",green:"#ff3b3b",bg:"#150606",card:"#2d1111cc",bodyStart:"#080202",bodyEnd:"#280a0a",deep:"#180606",muted:"#ffc4c4",text:"#fff1f1"}
+  green:{lime:"#b8ff5c",mint:"#35f59b",green:"#0dd66d"},
+  red:{lime:"#ff4d5e",mint:"#ff8a7a",green:"#ff2d55"},
+  purple:{lime:"#c77dff",mint:"#9d4edd",green:"#7b2cbf"},
+  yellow:{lime:"#ffd60a",mint:"#ffea70",green:"#ffb703"},
+  cyan:{lime:"#00f5ff",mint:"#6ee7ff",green:"#06b6d4"},
+  orange:{lime:"#ff9f1c",mint:"#ffbf69",green:"#ff7b00"},
+  pink:{lime:"#ff4ecd",mint:"#ff85e1",green:"#e60073"},
+  blue:{lime:"#3a86ff",mint:"#74a7ff",green:"#1f5eff"},
+  indigo:{lime:"#5c7cfa",mint:"#91a7ff",green:"#364fc7"},
+  teal:{lime:"#2ec4b6",mint:"#6ee7dd",green:"#1098ad"},
+  gold:{lime:"#ffd166",mint:"#ffe29a",green:"#ffb703"},
+  lime:{lime:"#aaff00",mint:"#ccff66",green:"#70e000"},
+  rose:{lime:"#ff6b6b",mint:"#ff9a9a",green:"#ff3b3b"}
 };
 
 function hexToRgb(hex) {
-  const clean = String(hex || "#b8ff5c").replace("#", "");
+  const clean = String(hex || "#b8ff5c").replace("#", "").trim();
   const full = clean.length === 3 ? clean.split("").map(c => c + c).join("") : clean;
   const num = parseInt(full, 16);
+  if (Number.isNaN(num)) return { r:184, g:255, b:92 };
   return {
     r: (num >> 16) & 255,
     g: (num >> 8) & 255,
@@ -3527,46 +4141,105 @@ function hexToRgb(hex) {
   };
 }
 
-function shadeColor(hex, percent) {
+function rgbToHex(r, g, b) {
+  return "#" + [r, g, b]
+    .map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function rgbString(hex, alpha = 1) {
   const { r, g, b } = hexToRgb(hex);
-  const t = percent < 0 ? 0 : 255;
-  const p = Math.abs(percent) / 100;
-  const nr = Math.round((t - r) * p + r);
-  const ng = Math.round((t - g) * p + g);
-  const nb = Math.round((t - b) * p + b);
-  return "#" + [nr, ng, nb].map(v => v.toString(16).padStart(2, "0")).join("");
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function getLuminance(hex) {
+  const { r, g, b } = hexToRgb(hex);
+  const channel = value => {
+    const normalized = value / 255;
+    return normalized <= 0.03928 ? normalized / 12.92 : Math.pow((normalized + 0.055) / 1.055, 2.4);
+  };
+  return (0.2126 * channel(r)) + (0.7152 * channel(g)) + (0.0722 * channel(b));
+}
+
+function getReadableTextColor(backgroundHex) {
+  return getLuminance(backgroundHex) > 0.52 ? "#06110c" : "#f7fff9";
+}
+
+function mixColor(hexA, hexB, amount) {
+  const a = hexToRgb(hexA);
+  const b = hexToRgb(hexB);
+  const p = Math.max(0, Math.min(1, amount));
+  return rgbToHex(
+    a.r + (b.r - a.r) * p,
+    a.g + (b.g - a.g) * p,
+    a.b + (b.b - a.b) * p
+  );
+}
+
+function shadeColor(hex, percent) {
+  return mixColor(hex, percent < 0 ? "#000000" : "#ffffff", Math.abs(percent) / 100);
+}
+
+function buildAdaptiveTheme(theme) {
+  const lime = theme.lime || "#b8ff5c";
+  const mint = theme.mint || shadeColor(lime, 24);
+  const green = theme.green || shadeColor(lime, -18);
+  const accentIsLight = getLuminance(lime) > 0.48;
+
+  return {
+    lime,
+    mint,
+    green,
+    onAccent: getReadableTextColor(lime),
+    text: accentIsLight ? "#eafff2" : "#f7fff9",
+    muted: accentIsLight ? mixColor(lime, "#eafff2", 0.48) : mixColor(lime, "#ffffff", 0.62),
+    bg: mixColor(green, "#020504", 0.82),
+    deep: mixColor(green, "#010302", 0.9),
+    bodyStart: mixColor(green, "#020403", 0.92),
+    bodyEnd: mixColor(mint, "#020504", 0.82),
+    card: rgbString(mixColor(green, "#07110b", 0.72), 0.82),
+    inputBg: rgbString(mixColor(green, "#020504", 0.84), 0.72),
+    tagInner: rgbString(mixColor(green, "#06110c", 0.8), 0.94),
+    buttonSoft: accentIsLight ? "rgba(255,255,255,.065)" : "rgba(255,255,255,.09)",
+    hoverBorder: rgbString(lime, accentIsLight ? .72 : .82),
+    hoverShadow: rgbString(lime, accentIsLight ? .28 : .36),
+    hoverOverlayA: rgbString(lime, accentIsLight ? .28 : .34),
+    hoverOverlayB: rgbString(mint, accentIsLight ? .20 : .28),
+    posterHoverFilter: accentIsLight ? "saturate(1.22) contrast(1.08) brightness(1.04)" : "saturate(1.35) contrast(1.12) brightness(1.08)"
+  };
 }
 
 function setThemeVariables(theme) {
   const root = document.documentElement;
-  const accent = hexToRgb(theme.lime);
-  const mint = hexToRgb(theme.mint);
+  const adaptive = buildAdaptiveTheme(theme);
 
-  root.style.setProperty("--lime", theme.lime);
-  root.style.setProperty("--mint", theme.mint);
-  root.style.setProperty("--green", theme.green);
-
-  /* Tema değişince artık tüm sayfa arka planı da uyumlu değişir. */
-  root.style.setProperty("--bg", theme.bg || shadeColor(theme.lime, -86));
-  root.style.setProperty("--card", theme.card || 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .13)');
-  root.style.setProperty("--body-start", theme.bodyStart || shadeColor(theme.lime, -94));
-  root.style.setProperty("--body-end", theme.bodyEnd || shadeColor(theme.lime, -82));
-  root.style.setProperty("--deep", theme.deep || shadeColor(theme.lime, -88));
-  root.style.setProperty("--muted", theme.muted || shadeColor(theme.lime, 30));
-  root.style.setProperty("--text", theme.text || "#f4fff8");
-
-  root.style.setProperty("--line", 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .28)');
-  root.style.setProperty("--glow-a", 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .24)');
-  root.style.setProperty("--glow-b", 'rgba(' + mint.r + ', ' + mint.g + ', ' + mint.b + ', .20)');
-  root.style.setProperty("--grid-line", 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .06)');
-  root.style.setProperty("--hero-stroke", 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .16)');
-  root.style.setProperty("--shadow", '0 24px 70px rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .12), 0 24px 70px rgba(0,0,0,.38)');
-
-  /* Oyun kartlarının fareyle üstüne gelme efekti de seçili temaya uyarlanır. */
-  root.style.setProperty("--card-hover-line", 'rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .72)');
-  root.style.setProperty("--card-hover-shadow", '0 30px 90px rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .24), 0 18px 55px rgba(0,0,0,.40)');
-  root.style.setProperty("--card-hover-gradient", 'linear-gradient(135deg, rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .34), transparent 36%, rgba(' + mint.r + ', ' + mint.g + ', ' + mint.b + ', .24))');
-  root.style.setProperty("--poster-hover-filter", 'saturate(1.30) contrast(1.10) brightness(1.07) drop-shadow(0 0 18px rgba(' + accent.r + ', ' + accent.g + ', ' + accent.b + ', .18))');
+  root.style.setProperty("--lime", adaptive.lime);
+  root.style.setProperty("--mint", adaptive.mint);
+  root.style.setProperty("--green", adaptive.green);
+  root.style.setProperty("--text", adaptive.text);
+  root.style.setProperty("--muted", adaptive.muted);
+  root.style.setProperty("--surface-text", adaptive.text);
+  root.style.setProperty("--surface-muted", adaptive.muted);
+  root.style.setProperty("--on-accent", adaptive.onAccent);
+  root.style.setProperty("--deep", adaptive.deep);
+  root.style.setProperty("--bg", adaptive.bg);
+  root.style.setProperty("--hue-bg", adaptive.bg);
+  root.style.setProperty("--body-start", adaptive.bodyStart);
+  root.style.setProperty("--body-end", adaptive.bodyEnd);
+  root.style.setProperty("--card", adaptive.card);
+  root.style.setProperty("--input-bg", adaptive.inputBg);
+  root.style.setProperty("--tag-inner", adaptive.tagInner);
+  root.style.setProperty("--button-soft", adaptive.buttonSoft);
+  root.style.setProperty("--line", rgbString(adaptive.lime, .28));
+  root.style.setProperty("--glow-a", rgbString(adaptive.lime, .22));
+  root.style.setProperty("--glow-b", rgbString(adaptive.mint, .18));
+  root.style.setProperty("--grid-line", rgbString(adaptive.lime, .055));
+  root.style.setProperty("--hero-stroke", rgbString(adaptive.lime, .14));
+  root.style.setProperty("--hover-border", adaptive.hoverBorder);
+  root.style.setProperty("--hover-shadow", adaptive.hoverShadow);
+  root.style.setProperty("--hover-overlay-a", adaptive.hoverOverlayA);
+  root.style.setProperty("--hover-overlay-b", adaptive.hoverOverlayB);
+  root.style.setProperty("--poster-hover-filter", adaptive.posterHoverFilter);
 }
 
 function updateThemeButtons(activeName) {
@@ -3590,18 +4263,10 @@ function setPresetTheme(name) {
 
 function setCustomTheme(color) {
   const lime = color || "#b8ff5c";
-  const rgb = hexToRgb(lime);
   const theme = {
     lime,
     mint: shadeColor(lime, 24),
-    green: shadeColor(lime, -18),
-    bg: shadeColor(lime, -88),
-    card: 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', .13)',
-    bodyStart: shadeColor(lime, -96),
-    bodyEnd: shadeColor(lime, -82),
-    deep: shadeColor(lime, -90),
-    muted: shadeColor(lime, 34),
-    text: "#f8fffb"
+    green: shadeColor(lime, -18)
   };
   setThemeVariables(theme);
   updateThemeButtons("");
@@ -3630,10 +4295,154 @@ function initProfessionalTheme() {
   setPresetTheme(saved && saved.name ? saved.name : "green");
 }
 
+
+/* Oynanıyor ekranı */
+function getPlayingGames() {
+  return GAMES.filter(game => game.status === "oynanıyor");
+}
+
+function renderPlayingScreen() {
+  const grid = document.getElementById("playingScreenGrid");
+  const sub = document.getElementById("playingScreenSub");
+  if (!grid) return;
+
+  const games = getPlayingGames();
+
+  if (sub) {
+    sub.textContent = games.length
+      ? games.length + " oyun şu anda oynanıyor olarak işaretli."
+      : "Şu anda oynanıyor tagında oyun yok.";
+  }
+
+  if (!games.length) {
+    grid.innerHTML = '<div class="empty-state"><h2>Oynanıyor oyun yok</h2><p>games-data.js içinde bir oyuna status: "oynanıyor" ekle.</p></div>';
+    return;
+  }
+
+  grid.innerHTML = games.map(game => {
+    const img = getImageUrl(game);
+    const tags = getGameTags(game).slice(0, 3).map(tag => `<span>${tag}</span>`).join("");
+    return `
+      <article class="playing-screen-card" onclick="openGameModal(${game.id})">
+        ${img ? `<img src="${img}" alt="${game.name}" loading="lazy">` : ""}
+        <div class="playing-screen-body">
+          <h3>${game.name}</h3>
+          <div class="playing-screen-meta">
+            <span>🎮 Oynanıyor</span>
+            ${game.score ? `<span>Puan ${game.score}</span>` : ""}
+            ${game.playtime ? `<span>⏱ ${formatHours(game.playtime)}</span>` : ""}
+            ${tags}
+          </div>
+          ${game.note ? `<p class="playing-screen-note">${game.note}</p>` : ""}
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function openPlayingScreen() {
+  renderPlayingScreen();
+  const backdrop = document.getElementById("playingScreenBackdrop");
+  if (backdrop) backdrop.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closePlayingScreen() {
+  const backdrop = document.getElementById("playingScreenBackdrop");
+  if (backdrop) backdrop.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closePlayingScreen();
+});
+
+
 initProfessionalTheme();
 initBackgroundMusic();
 
 render();
+
+/* Oynanıyor ekranı */
+function getPlayingGames() {
+  return GAMES.filter(game => game.status === "oynanıyor");
+}
+
+function renderPlayingScreen() {
+  const grid = document.getElementById("playingScreenGrid");
+  const sub = document.getElementById("playingScreenSub");
+  if (!grid) return;
+
+  const games = getPlayingGames();
+
+  if (sub) {
+    sub.textContent = games.length
+      ? games.length + " oyun şu anda oynanıyor olarak işaretli."
+      : "Şu anda oynanıyor tagında oyun yok.";
+  }
+
+  if (!games.length) {
+    grid.innerHTML = '<div class="empty-state"><h2>Oynanıyor oyun yok</h2><p>games-data.js içinde bir oyuna status: "oynanıyor" ekle.</p></div>';
+    return;
+  }
+
+  grid.innerHTML = games.map(game => {
+    const img = getImageUrl(game);
+    const tags = getGameTags(game).slice(0, 3).map(tag => `<span>${tag}</span>`).join("");
+    return `
+      <article class="playing-screen-card" onclick="openGameFromPlayingScreen(${game.id})">
+        ${img ? `<img src="${img}" alt="${game.name}" loading="lazy">` : ""}
+        <div class="playing-screen-body">
+          <h3>${game.name}</h3>
+          <div class="playing-screen-meta">
+            <span>🎮 Oynanıyor</span>
+            ${game.score ? `<span>Puan ${game.score}</span>` : ""}
+            ${game.playtime ? `<span>⏱ ${formatHours(game.playtime)}</span>` : ""}
+            ${tags}
+          </div>
+          ${game.note ? `<p class="playing-screen-note">${game.note}</p>` : ""}
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function openPlayingScreen() {
+  renderPlayingScreen();
+  const backdrop = document.getElementById("playingScreenBackdrop");
+  if (backdrop) backdrop.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closePlayingScreen(event) {
+  if (event && event.target && event.target.id !== "playingScreenBackdrop") return;
+
+  const backdrop = document.getElementById("playingScreenBackdrop");
+  if (backdrop) backdrop.classList.remove("open");
+
+  const gameModal = document.getElementById("gameModalBackdrop");
+  const playtimeModal = document.getElementById("playtimeModalBackdrop");
+  const achievementModal = document.getElementById("achievementModalBackdrop");
+
+  const anotherModalOpen =
+    (gameModal && gameModal.classList.contains("open")) ||
+    (playtimeModal && playtimeModal.classList.contains("open")) ||
+    (achievementModal && achievementModal.classList.contains("open"));
+
+  if (!anotherModalOpen) document.body.style.overflow = "";
+}
+
+function openGameFromPlayingScreen(id) {
+  const backdrop = document.getElementById("playingScreenBackdrop");
+  if (backdrop) backdrop.classList.remove("open");
+
+  document.body.style.overflow = "";
+
+  requestAnimationFrame(() => {
+    openGameModal(id);
+  });
+}
+
 </script>
 </body>
 </html>
