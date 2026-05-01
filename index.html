@@ -3107,6 +3107,43 @@ button:hover,.detail-btn:hover,.random-game-btn:hover,.quick-filter-btn:hover,.b
 .hero-main::before,.hero-main:hover::before{-webkit-text-stroke-color:rgba(116,215,255,.26) !important;text-shadow:0 0 38px rgba(116,215,255,.12) !important;filter:none !important;opacity:.20 !important;}.hero-main:hover::before{-webkit-text-stroke-color:rgba(120,242,197,.42) !important;opacity:.30 !important;}
 .favorite-label{background:linear-gradient(135deg, rgba(116,215,255,.20), rgba(255,122,200,.18)) !important;border-color:rgba(255,122,200,.44) !important;box-shadow:0 0 24px rgba(255,122,200,.14) !important;}.favorite-label span{color:var(--amber) !important;text-shadow:0 0 12px rgba(255,209,102,.18) !important;}
 hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--muted-2) !important;}.theme-panel-hidden,.pro-theme-group,.custom-color-wrap,.reset-theme-btn,.theme-controls,.theme-toggle{display:none !important;}*{opacity:1;}
+
+
+/* GELISTIRILMIS ETIKET ALANI - coklu satir, daha fazla filtre */
+.quick-filters{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  gap:10px !important;
+  margin:0 0 22px !important;
+  align-items:center !important;
+}
+.quick-filter-btn{
+  min-height:36px !important;
+  padding:0 13px !important;
+  white-space:nowrap !important;
+}
+.quick-filter-btn[data-filter-type="status"]{
+  border-color:rgba(120,242,197,.42) !important;
+}
+.quick-filter-btn[data-filter-type="score"]{
+  border-color:rgba(255,209,102,.48) !important;
+}
+.quick-filter-btn[data-filter-type="tag"]{
+  border-color:rgba(179,140,255,.40) !important;
+}
+@media (max-width:700px){
+  .quick-filters{
+    flex-wrap:nowrap !important;
+    overflow-x:auto !important;
+    padding-bottom:8px !important;
+    scroll-snap-type:x proximity;
+  }
+  .quick-filter-btn{
+    flex:0 0 auto !important;
+    scroll-snap-align:start;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3487,6 +3524,21 @@ function setQuickFilter(filter) {
   render();
 }
 
+function matchesQuickFilter(game) {
+  const filter = activeQuickFilter || "all";
+  const tags = getGameTags(game).map(t => normalizeText(t));
+
+  if (filter === "all") return true;
+  if (filter === "favorites") return isFavorite(game.id);
+  if (filter === "high") return parseFloat(game.score || 0) >= 9;
+  if (filter === "mc75") return parseInt(game.metacritic || 0) >= 75;
+  if (filter === "special") return Boolean(game.special);
+  if (filter.startsWith("status:")) return game.status === filter.slice(7);
+  if (filter.startsWith("tag:")) return tags.includes(normalizeText(filter.slice(4)));
+
+  return true;
+}
+
 
 function formatHours(hours) {
   const n = Number(hours || 0);
@@ -3611,32 +3663,61 @@ function updateAnalyticsPanel() {
   renderBarRows("scoreChart", Object.entries(scoreBuckets).map(([label, value]) => ({ label, value })));
 }
 
+function escapeQuickFilterValue(value) {
+  return String(value || "").replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+}
+function getQuickFilterType(value) {
+  if (value === "favorites") return "favorite";
+  if (["high", "mc75", "special"].includes(value)) return "score";
+  if (String(value).startsWith("status:")) return "status";
+  if (String(value).startsWith("tag:")) return "tag";
+  return "all";
+}
+
 function renderQuickFilters() {
   const el = document.getElementById("quickFilters");
   if (!el) return;
 
-  const tagCounts = new Map();
+  const preferredTags = [
+    "Macera", "Açık Dünya", "Aksiyon", "Aksiyon-Macera", "RPG", "Strateji",
+    "Simülasyon", "Yarış", "Spor", "Korku", "Hayatta Kalma", "Bulmaca",
+    "Platform", "Roguelike", "Soulslike", "Metroidvania", "Kartlı", "Hack and Slash",
+    "Dövüş", "Gizlilik", "Dedektif", "Hikaye", "Seçim Odaklı", "Sinema",
+    "Kartoon Grafik", "Piksel Grafik", "Anime", "Sci-Fi", "Fantastik", "Tarih",
+    "Savaş", "Uzay", "Zombi", "Süper Kahraman", "Post-Apokaliptik", "Cyberpunk",
+    "FPS", "TPS", "PvP", "PvE", "Co-op", "Çevrimiçi", "Tek Oyunculu",
+    "Indie", "AAA", "Erken Erişim", "VR"
+  ];
+
+  const existingTags = new Map();
   GAMES.forEach(game => {
-    getGameTags(game).forEach(tag => {
-      tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
-    });
+    getGameTags(game).forEach(tag => existingTags.set(normalizeText(tag), tag));
   });
 
-  const topTags = [...tagCounts.entries()]
-    .sort((a,b) => b[1] - a[1])
-    .slice(0, 6)
-    .map(([tag]) => tag);
+  const visiblePreferredTags = preferredTags.filter(tag => existingTags.has(normalizeText(tag)));
+  const extraTags = [...existingTags.values()]
+    .filter(tag => !preferredTags.some(preferred => normalizeText(preferred) === normalizeText(tag)))
+    .sort((a,b) => a.localeCompare(b, "tr"));
 
   const buttons = [
     { label:"Tümü", value:"all" },
     { label:"⭐ Favoriler", value:"favorites" },
     { label:"🔥 9+ Puan", value:"high" },
-    ...topTags.map(tag => ({ label:tag, value:"tag:" + tag }))
+    { label:"🏆 MC 75+", value:"mc75" },
+    { label:"◆ Özel", value:"special" },
+    { label:"✅ Bitirildi", value:"status:bitti" },
+    { label:"🎮 Oynanıyor", value:"status:oynanıyor" },
+    { label:"⏸️ Bırakıldı", value:"status:bırakıldı" },
+    { label:"📅 Planlandı", value:"status:planlandı" },
+    ...visiblePreferredTags.map(tag => ({ label:tag, value:"tag:" + tag })),
+    ...extraTags.map(tag => ({ label:tag, value:"tag:" + tag }))
   ];
 
   el.innerHTML = buttons.map(btn => `
     <button class="quick-filter-btn ${activeQuickFilter === btn.value ? "active" : ""}"
-            onclick="setQuickFilter('${String(btn.value).replace(/'/g, "\'")}')">
+            data-filter-type="${getQuickFilterType(btn.value)}"
+            type="button"
+            onclick="setQuickFilter('${escapeQuickFilterValue(btn.value)}')">
       ${btn.label}
     </button>
   `).join("");
@@ -3975,9 +4056,7 @@ function getVisibleGamesForRandom() {
     const haystack = normalizeText(g.name + ' ' + g.genre + ' ' + g.note + ' ' + g.score + ' ' + g.metacritic + ' ' + (g.playtime || ''));
     const tags = getGameTags(g).map(t => normalizeText(t));
     if (q && !haystack.includes(q)) return false;
-    if (activeQuickFilter === 'favorites' && !isFavorite(g.id)) return false;
-    if (activeQuickFilter === 'high' && parseFloat(g.score || 0) < 9) return false;
-    if (activeQuickFilter.startsWith('tag:') && !tags.includes(normalizeText(activeQuickFilter.slice(4)))) return false;
+    if (!matchesQuickFilter(g)) return false;
     if (['bitti','oynanıyor','bırakıldı','planlandı'].includes(status) && g.status !== status) return false;
     if (status === 'special' && !g.special) return false;
     if (status === 'high' && parseFloat(g.score || 0) < 9) return false;
@@ -4006,9 +4085,7 @@ function render() {
     const haystack = normalizeText(g.name + ' ' + g.genre + ' ' + g.note + ' ' + g.score + ' ' + g.metacritic + ' ' + (g.playtime || ''));
     const tags = getGameTags(g).map(t => normalizeText(t));
     if (q && !haystack.includes(q)) return false;
-    if (activeQuickFilter === 'favorites' && !isFavorite(g.id)) return false;
-    if (activeQuickFilter === 'high' && parseFloat(g.score || 0) < 9) return false;
-    if (activeQuickFilter.startsWith('tag:') && !tags.includes(normalizeText(activeQuickFilter.slice(4)))) return false;
+    if (!matchesQuickFilter(g)) return false;
     if (['bitti','oynanıyor','bırakıldı','planlandı'].includes(status) && g.status !== status) return false;
     if (status === 'special' && !g.special) return false;
     if (status === 'high' && parseFloat(g.score || 0) < 9) return false;
@@ -4021,7 +4098,7 @@ function render() {
     if (sort === 'name') return a.name.localeCompare(b.name, 'tr');
     return a.id - b.id;
   });
-  if (filtered.length === 0) grid.innerHTML = '<div class="empty-state"><h2>Sonuç bulunamadıç</h2><p>Arama kelimesini veya filtreyi değiştir.</p></div>';
+  if (filtered.length === 0) grid.innerHTML = '<div class="empty-state"><h2>Sonuç bulunamadı</h2><p>Arama kelimesini veya filtreyi değiştir.</p></div>';
   filtered.forEach((g, index) => {
     const imgUrl = g.image || (g.appId ? 'https://cdn.cloudflare.steamstatic.com/steam/apps/' + g.appId + '/header.jpg' : '');
     const steamUrl = g.steam || (g.appId ? 'https://store.steampowered.com/app/' + g.appId + '/' : '#');
