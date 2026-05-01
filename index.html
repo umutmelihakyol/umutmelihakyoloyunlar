@@ -9,10 +9,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
 * { box-sizing:border-box; margin:0; padding:0; }
 
-/* Scrollbar kaldırıldı */
+/* Scrollbar */
 html {
   scrollbar-width: none;       /* Firefox */
-  -ms-overflow-style: none;    /* Eski Edge / IE */
+  -ms-overflow-style: none;    /* Edge */
 }
 
 html::-webkit-scrollbar,
@@ -74,7 +74,7 @@ html, body, body::before, body::after, .hero-main, .hero-side, .toolbar, .card, 
     filter .45s ease;
 }
 
-/* Tek tema: mat siyah */
+/* mat siyah */
 body.theme-green,
 body.theme-red,
 body.theme-purple,
@@ -105,7 +105,7 @@ html { scroll-behavior:smooth; }
 body { min-height:100vh; font-family:'Space Grotesk', system-ui, sans-serif; color:var(--text); background:radial-gradient(circle at 20% -10%, var(--glow-a), transparent 32rem),radial-gradient(circle at 92% 10%, var(--glow-b), transparent 28rem),linear-gradient(135deg,var(--body-start) 0%,var(--bg) 45%,var(--body-end) 100%); overflow-x:hidden; }
 body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:-2; background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 85%); }
 body::after { content:""; position:fixed; inset:-30%; pointer-events:none; z-index:-1; background:conic-gradient(from 90deg,transparent,var(--glow-b),transparent,var(--glow-a),transparent); animation:none; transform:none; }
-/* Hareketli arka plan kaldirildi: sabit arka plan */
+/* sabit arka plan */
 .shell {
   width:100%;
   padding:0 24px;
@@ -492,7 +492,7 @@ body
 body
 
 
-/* Hero sağ panel: öne çıkan oyun alanı */
+/* öne çıkan oyun alanı */
 .hero-spotlight {
   display:flex;
   flex-direction:column;
@@ -766,7 +766,7 @@ footer span { color:var(--lime); }
 }
 
 
-/* Favori sistemi + detay modal + gelişmiş filtre */
+/* Favori sistemi + gelişmiş filtre */
 .quick-filters {
   display:flex;
   flex-wrap:wrap;
@@ -1000,7 +1000,7 @@ body
 }
 
 
-/* Gelişmiş detay modalı + akıllı öneriler */
+/* Gelişmiş detay + akıllı öneriler */
 .modal-section-title {
   font-family:'JetBrains Mono',monospace;
   font-size:.72rem;
