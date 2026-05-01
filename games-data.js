@@ -61,7 +61,7 @@ const GAMES = [
 
 { id: 30, name: "STAR WARS Battlefront", appId: 1237980, special: false, favorite: false, status: "bitti", genre: "Aksiyon, FPS, Multiplayer", score: "", metacritic: "75", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1237980/STAR_WARS_Battlefront/", youtube: "https://www.youtube.com/watch?v=R4Zp7DHxdKM" },
 
-{ id: 31, name: "Clair Obscur: Expedition 33", appId: 1903340, special: false, favorite: false, status: "bitti", genre: "RPG, Turn-Based, Macera", score: "10", metacritic: "92", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1903340/Clair_Obscur_Expedition_33/", youtube: "https://www.youtube.com/watch?v=oecZmlLXqXk" },
+{ id: 31, name: "Clair Obscur: Expedition 33", appId: 1903340, special: false, favorite: true, status: "bitti", genre: "RPG, Sıra Tabanlı, Macera", score: "10", metacritic: "92", playtime: 100, note: "", steam: "https://store.steampowered.com/app/1903340/Clair_Obscur_Expedition_33/", youtube: "https://www.youtube.com/watch?v=oecZmlLXqXk" },
 
 { id: 32, name: "Death Stranding Director's Cut", appId: 1850570, special: false, favorite: false, status: "bitti", genre: "Aksiyon-Macera, Açık Dünya, Yürüme Simülatörü", score: "", metacritic: "85", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1850570/DEATH_STRANDING_DIRECTORS_CUT/", youtube: "https://www.youtube.com/watch?v=mleMv5r9xkI" },
 
