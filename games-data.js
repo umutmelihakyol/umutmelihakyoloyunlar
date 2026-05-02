@@ -201,7 +201,7 @@ const GAMES = [
 
 { id: 100, name: "007 First Light", appId: 3768760, image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3768760/86d898447e0e475e3f8a9cc1ef660a80032472d7/header_alt_assets_1.jpg", special: false, favorite: false, status: "planlandı", genre: "Aksiyon-Macera, Gizlilik", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/3768760/007_First_Light/", youtube: "https://youtu.be/vwmq_k5Kto0" },
 
-
+{ id: 101, name: "Forza Horizon 6", appId: 2483190, special: false, favorite: false, status: "planlandı", genre: "Yarış, Açık Dünya, Sürüş", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2483190/Forza_Horizon_6/", youtube: "" },
 
 
 
@@ -303,7 +303,7 @@ const DEFAULT_NOTE_TEXTS = {
   98: "Warframe, hızlı oynanışı, parkur mekaniği ve farklı Warframe seçenekleriyle sürekli hareket halinde olduğun, görev tabanlı ilerleyen bir aksiyon oyunu. Loot sistemi ve build çeşitliliği oyunu uzun süre oynanabilir kılıyor.",
   99: "Neverness to Everness, şehir temalı açık dünyası, anime tarzı görselleri ve karakter odaklı yapısıyla dikkat çeken bir aksiyon RPG. Keşif, görevler ve karakter etkileşimleriyle daha rahat ama sürükleyici bir deneyim sunuyor.",
   100: "007 First Light, James Bond’un daha genç dönemine odaklanan, gizlilik, aksiyon ve casusluk temalarını bir araya getiren hikaye odaklı bir macera oyunu. Sinematik anlatımı ve görev çeşitliliğiyle dikkat çekiyor.",
-
+101: "Forza Horizon 6, geniş açık dünya haritası, farklı araç seçenekleri ve akıcı sürüş hissiyle öne çıkan bir yarış oyunu. Serbest dolaşım, etkinlikler ve online içeriklerle uzun süre keyifli vakit geçirebileceğin bir deneyim sunuyor."
 
 };
 
