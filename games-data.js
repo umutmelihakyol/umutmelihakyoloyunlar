@@ -199,7 +199,7 @@ const GAMES = [
 
 { id: 99, name: "Neverness to Everness", appId: "", image: "https://ntevmg.perfectworld.com/webops/nte/EN.jpg", special: false, favorite: false, status: "oynanıyor", genre: "Aksiyon-RPG, Açık Dünya, Anime", score: "7", metacritic: "", playtime: 2, note: "", steam: "https://ntevmg.perfectworld.com/webops/nte/EN.jpg", youtube: "https://youtu.be/Rwb4SjpjR2A" },
 
-{ id: 100, name: "007 First Light", appId: 3768760, special: false, favorite: false, status: "planlandı", genre: "Aksiyon-Macera, Gizlilik", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/3768760/007_First_Light/", youtube: "https://youtu.be/vwmq_k5Kto0" },
+{ id: 100, name: "007 First Light", appId: 3768760, image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3768760/86d898447e0e475e3f8a9cc1ef660a80032472d7/header_alt_assets_1.jpg", special: false, favorite: false, status: "planlandı", genre: "Aksiyon-Macera, Gizlilik", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/3768760/007_First_Light/", youtube: "https://youtu.be/vwmq_k5Kto0" },
 
 
 
