@@ -218,6 +218,7 @@ const GAMES = [
 */
 
 const DEFAULT_NOTE_TEXTS = {
+   1: "Kingdom Come: Deliverance, Orta Çağ’da geçen, gerçekçiliğe odaklanan bir açık dünya RPG. Hikayesi, zorlayıcı dövüş sistemi ve detaylı simülasyon yapısıyla daha yavaş ama oldukça sürükleyici bir deneyim sunuyor."
   15: "A Plague Tale: Requiem, Amicia ve Hugo’nun karanlık ve acımasız bir dünyada hayatta kalmaya çalıştığı, hikayesiyle öne çıkan sinematik bir aksiyon-macera oyunu. Gizlilik ve duygusal anlatım baya güçlü.",
   16: "Red Dead Redemption 2, Vahşi Batı’nın son dönemlerini inanılmaz detaylı bir açık dünyada yaşatan, karakterleri ve hikayesiyle oyuncuyu içine çeken bir aksiyon-macera oyunu.",
   17: "Call of Duty: Modern Warfare II, modern savaş temasını hızlı oynanış ve sinematik görevlerle birleştiren, aksiyonun hiç düşmediği bir FPS deneyimi.",
