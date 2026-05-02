@@ -3415,8 +3415,6 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
    priority değerleri: "high", "medium", "low" */
 const BACKLOG_ITEMS = [ 
   
-  { id: 18, priority: "low", note: "Sıradaki Süper Kahraman Oyunu", started: false },
-  { id: 97, priority: "high", note: "Sıradaki Süper Kahraman Oyunu", started: false }
   
 ];
   
@@ -3436,8 +3434,8 @@ function getAutoBacklogItem(game){
   if(!isPlannedBacklogGame(game)) return null;
   return {
     id: Number(game.id),
-    priority: "medium",
-    note: "Planlandı tagından otomatik eklendi.",
+    priority: "",
+    note: "",
     started: false,
     auto: true
   };
@@ -3479,8 +3477,8 @@ function renderBacklogPanel(){
   setTextSafe("backlogButtonCount", String(active.length));
   document.querySelectorAll("[data-backlog-filter]").forEach(btn=>btn.classList.toggle("active",btn.dataset.backlogFilter===activeBacklogFilter));
   if(!filtered.length){
-    next.innerHTML='<div><small>Backlog boş</small><b>Henüz sıradaki oyun yok</b><span>games-data.js içinde bir oyuna status: &quot;planlandı&quot; yazınca burada otomatik görünür.</span></div>';
-    list.innerHTML='<div class="empty-state"><h2>Backlog boş</h2><p>games-data.js içinde status: &quot;planlandı&quot; olan oyunlar burada otomatik görünür.</p></div>';
+    next.innerHTML='<div><small>Backlog boş</small><b>Henüz sırada oynanacak oyun yok</b><span></span></div>';
+    list.innerHTML='<div class="empty-state"><h2>Backlog boş</h2><p>"planlandı" etiketinde olan oyunlar burada görünür.</p></div>';
     return;
   }
   const rec=filtered[0]; const recImg=getBacklogImg(rec);
