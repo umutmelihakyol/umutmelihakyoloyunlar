@@ -39,13 +39,13 @@ const GAMES = [
 
 	{ id: 19, name: "Crysis 3", appId: 1282690, special: false, favorite: false, status: "bitti", genre: "FPS, Sci-Fi", score: "8", metacritic: "76", playtime: 16, note: "", steam: "https://store.steampowered.com/app/1282690/Crysis_3_Remastered/", youtube: "https://www.youtube.com/watch?v=JXrE0wG3h2U" },
 
-	{ id: 20, name: "Detroit: Become Human", appId: 1222140, special: false, favorite: true, status: "bitti", genre: "Interactive Drama, Sci-Fi", score: "9.5", metacritic: "78", playtime: 60, note: "", steam: "https://store.steampowered.com/app/1222140/Detroit_Become_Human/", youtube: "https://www.youtube.com/watch?v=8a-EObAhYrg" },
+	{ id: 20, name: "Detroit: Become Human", appId: 1222140, special: false, favorite: true, status: "bitti", genre: "İnteraktif Drama, Sci-Fi", score: "9.5", metacritic: "78", playtime: 60, note: "", steam: "https://store.steampowered.com/app/1222140/Detroit_Become_Human/", youtube: "https://www.youtube.com/watch?v=8a-EObAhYrg" },
 
 	{ id: 21, name: "Starfield", appId: 1716740, special: false, favorite: false, status: "bitti", genre: "RPG, Açık Dünya, Sci-Fi", score: "6", metacritic: "83", playtime: 65, note: "", steam: "https://store.steampowered.com/app/1716740/Starfield/", youtube: "https://www.youtube.com/watch?v=kfYEiTdsyas" },
 
 	{ id: 22, name: "Split Fiction", appId: 2001120, special: false, favorite: false, status: "bitti", genre: "Macera", score: "9", metacritic: "", playtime: 15, note: "", steam: "https://store.steampowered.com/app/2001120/Split_Fiction/", youtube: "" },
 
-	{ id: 23, name: "Tom Clancy's The Division 2", appId: 2221490, special: false, favorite: false, status: "oynanıyor", genre: "Aksiyon RPG, Looter Shooter, TPS", score: "7.5", metacritic: "82", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2221490/Tom_Clancys_The_Division_2/", youtube: "https://www.youtube.com/watch?v=njfj6KwEAfg" },
+	{ id: 23, name: "Tom Clancy's The Division 2", appId: 2221490, special: false, favorite: false, status: "oynanıyor", genre: "Aksiyon-RPG, Looter Shooter, TPS", score: "7.5", metacritic: "82", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2221490/Tom_Clancys_The_Division_2/", youtube: "https://www.youtube.com/watch?v=njfj6KwEAfg" },
 
 	{ id: 24, name: "Assassin's Creed Shadows", appId: 3159330, special: false, favorite: false, status: "bitti", genre: "Aksiyon-Macera, Açık Dünya, RPG", score: "6.5", metacritic: "81", playtime: 0, note: "", steam: "https://store.steampowered.com/app/3159330/Assassins_Creed_Shadows/", youtube: "https://www.youtube.com/watch?v=HInwdVFWvVs" },
 
@@ -55,7 +55,7 @@ const GAMES = [
 
 { id: 27, name: "Devil May Cry 5", appId: 601150, special: false, favorite: false, status: "bitti", genre: "Aksiyon, Hack and Slash", score: "8", metacritic: "88", playtime: 0, note: "", steam: "https://store.steampowered.com/app/601150/Devil_May_Cry_5/", youtube: "https://www.youtube.com/watch?v=smK3M2RvGtw" },
 
-{ id: 28, name: "Dying Light 2 Stay Human: Reloaded Edition", appId: 534380, special: false, favorite: false, status: "bitti", genre: "Aksiyon RPG, Açık Dünya, Zombi, Parkour", score: "7", metacritic: "76", playtime: 0, note: "", steam: "https://store.steampowered.com/app/534380/Dying_Light_2_Stay_Human_Reloaded_Edition/", youtube: "https://www.youtube.com/watch?v=njAOpATG46E" },
+{ id: 28, name: "Dying Light 2 Stay Human: Reloaded Edition", appId: 534380, special: false, favorite: false, status: "bitti", genre: "Aksiyon-RPG, Açık Dünya, Zombi, Parkur", score: "7", metacritic: "76", playtime: 0, note: "", steam: "https://store.steampowered.com/app/534380/Dying_Light_2_Stay_Human_Reloaded_Edition/", youtube: "https://www.youtube.com/watch?v=njAOpATG46E" },
 
 { id: 29, name: "Days Gone", appId: 1259420, special: false, favorite: false, status: "bitti", genre: "Aksiyon-Macera, Açık Dünya, Zombi", score: "6.5", metacritic: "76", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1259420/Days_Gone/", youtube: "https://www.youtube.com/watch?v=gl1Pw97whJg" },
 
@@ -69,13 +69,13 @@ const GAMES = [
 
 { id: 34, name: "The Alters", appId: 1601570, special: false, favorite: false, status: "bitti", genre: "Hayatta Kalma, Sci-Fi, Macera", score: "7.8", metacritic: "84", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1601570/The_Alters/", youtube: "https://www.youtube.com/watch?v=8nBcelrikvA" },
 
-{ id: 35, name: "NieR: Automata", appId: 524220, special: true, favorite: true, status: "bitti", genre: "Aksiyon RPG, Hack and Slash, Zengin Hikaye", score: "10", metacritic: "88", playtime: 0, note: "", steam: "https://store.steampowered.com/app/524220/NieRAutomata/", youtube: "https://www.youtube.com/watch?v=i3Ue2mDV-eU" },
+{ id: 35, name: "NieR: Automata", appId: 524220, special: true, favorite: true, status: "bitti", genre: "Aksiyon-RPG, Hack and Slash, Zengin Hikaye", score: "10", metacritic: "88", playtime: 0, note: "", steam: "https://store.steampowered.com/app/524220/NieRAutomata/", youtube: "https://www.youtube.com/watch?v=i3Ue2mDV-eU" },
 
 { id: 36, name: "Warhammer 40,000: Space Marine 2", appId: 2183900, special: false, favorite: false, status: "bitti", genre: "Aksiyon, TPS, Sci-Fi", score: "7.6", metacritic: "82", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2183900/Warhammer_40000_Space_Marine_2/", youtube: "https://www.youtube.com/watch?v=Y3WmCYCC8dc" },
 
-{ id: 37, name: "Cast n Chill", appId: 3483740, special: false, favorite: false, status: "bitti", genre: "Gündelik, Simülasyon, Fishing", score: "6", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/3483740/Cast_n_Chill/", youtube: "" },
+{ id: 37, name: "Cast n Chill", appId: 3483740, special: false, favorite: false, status: "bitti", genre: "Gündelik, Simülasyon, Balıkçılık", score: "6", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/3483740/Cast_n_Chill/", youtube: "" },
 
-{ id: 38, name: "No Man's Sky", appId: 275850, special: false, favorite: false, status: "bitti", genre: "Açık Dünya, Hayatta Kalma, Space, Keşif", score: "7.8", metacritic: "71", playtime: 0, note: "", steam: "https://store.steampowered.com/app/275850/No_Mans_Sky/", youtube: "https://www.youtube.com/watch?v=nLtmEjqzg7M" },
+{ id: 38, name: "No Man's Sky", appId: 275850, special: false, favorite: false, status: "bitti", genre: "Açık Dünya, Hayatta Kalma, Uzay, Keşif", score: "7.8", metacritic: "71", playtime: 0, note: "", steam: "https://store.steampowered.com/app/275850/No_Mans_Sky/", youtube: "https://www.youtube.com/watch?v=nLtmEjqzg7M" },
 
 { id: 39, name: "Planet of Lana", appId: 1608230, special: false, favorite: false, status: "bitti", genre: "Macera, Bulmaca, Platform", score: "8", metacritic: "80", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1608230/Planet_of_Lana/", youtube: "https://www.youtube.com/watch?v=4J_zO5IXXyw" },
 
@@ -89,7 +89,7 @@ const GAMES = [
 
 { id: 44, name: "Cronos: The New Dawn", appId: 2101960, special: false, favorite: false, status: "bitti", genre: "Hayatta Kalma Korku, Aksiyon-Macera, Sci-Fi", score: "7.2", metacritic: "77", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2101960/Cronos_The_New_Dawn/", youtube: "https://www.youtube.com/watch?v=Yw1kriO2MJw" },
 
-{ id: 45, name: "Pacific Drive", appId: 1458140, special: false, favorite: false, status: "bitti", genre: "Hayatta Kalma, Driving, Macera", score: "8", metacritic: "79", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1458140/Pacific_Drive/", youtube: "https://www.youtube.com/watch?v=sfGnxh0PNL8" },
+{ id: 45, name: "Pacific Drive", appId: 1458140, special: false, favorite: false, status: "bitti", genre: "Hayatta Kalma, Sürüş, Macera", score: "8", metacritic: "79", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1458140/Pacific_Drive/", youtube: "https://www.youtube.com/watch?v=sfGnxh0PNL8" },
 
 { id: 46, name: "Silent Hill f", appId: 2947440, image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2947440/7e5d923ac622bd1775ebc9b5d4b5b0a24bf5ed40/header.jpg", special: false, favorite: false, status: "bitti", genre: "Psikolojik Korku, Hayatta Kalma Korku", score: "7.6", metacritic: "86", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2947440/SILENT_HILL_f/", youtube: "https://www.youtube.com/watch?v=0NMoPvqaz10" },
 
@@ -107,7 +107,7 @@ const GAMES = [
 
 { id: 53, name: "Dealer Life 2", appId: 1343670, special: false, favorite: false, status: "bitti", genre: "Simülasyon, Yönetim, Gündelik", score: "6.8", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1343670/Dealer_Life_2/", youtube: "https://www.youtube.com/watch?v=V1Iec7pWgBQ" },
 
-{ id: 54, name: "Dome Keeper", appId: 1637320, special: false, favorite: false, status: "bitti", genre: "Roguelike, Mining, Tower Defense", score: "7.5", metacritic: "82", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1637320/Dome_Keeper/", youtube: "https://www.youtube.com/watch?v=V1Iec7pWgBQ" },
+{ id: 54, name: "Dome Keeper", appId: 1637320, special: false, favorite: false, status: "bitti", genre: "Roguelike, Maden, Kule Savunması", score: "7.5", metacritic: "82", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1637320/Dome_Keeper/", youtube: "https://www.youtube.com/watch?v=V1Iec7pWgBQ" },
 
 { id: 55, name: "Sodaman", appId: "", special: false, favorite: false, status: "bitti", genre: "Aksiyon, Bağımsız", score: "6", metacritic: "", playtime: 0, note: "", steam: "", youtube: "" },
 
@@ -117,19 +117,19 @@ const GAMES = [
 
 { id: 58, name: "WanderStop", appId: 1299460, special: false, favorite: false, status: "bitti", genre: "Macera, Simülasyon, Zengin Hikaye", score: "5", metacritic: "79", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1299460/Wanderstop/", youtube: "https://www.youtube.com/watch?v=E0S6yYJf2rM" },
 
-{ id: 59, name: "The Walking Dead Season 1", appId: 207610, special: false, favorite: false, status: "bitti", genre: "Macera, Interactive Drama, Zengin Hikaye", score: "8", metacritic: "89", playtime: 0, note: "", steam: "https://store.steampowered.com/app/207610/The_Walking_Dead/", youtube: "https://www.youtube.com/watch?v=N40uY51s5Z0" },
+{ id: 59, name: "The Walking Dead Season 1", appId: 207610, special: false, favorite: false, status: "bitti", genre: "Macera, İnteraktif Drama, Zengin Hikaye", score: "8", metacritic: "89", playtime: 0, note: "", steam: "https://store.steampowered.com/app/207610/The_Walking_Dead/", youtube: "https://www.youtube.com/watch?v=N40uY51s5Z0" },
 
-{ id: 60, name: "The Walking Dead Season 2", appId: 261030, special: false, favorite: false, status: "bitti", genre: "Macera, Interactive Drama, Zengin Hikaye", score: "8", metacritic: "80", playtime: 0, note: "", steam: "https://store.steampowered.com/app/261030/The_Walking_Dead_Season_Two/", youtube: "https://www.youtube.com/watch?v=ilEB4KTTOIo" },
+{ id: 60, name: "The Walking Dead Season 2", appId: 261030, special: false, favorite: false, status: "bitti", genre: "Macera, İnteraktif Drama, Zengin Hikaye", score: "8", metacritic: "80", playtime: 0, note: "", steam: "https://store.steampowered.com/app/261030/The_Walking_Dead_Season_Two/", youtube: "https://www.youtube.com/watch?v=ilEB4KTTOIo" },
 
-{ id: 61, name: "The Walking Dead: 400 Days", appId: 207620, special: false, favorite: false, status: "bitti", genre: "Macera, Interactive Drama, Zengin Hikaye", score: "7", metacritic: "78", playtime: 0, note: "", steam: "https://store.steampowered.com/app/207620/The_Walking_Dead_400_Days/", youtube: "https://www.youtube.com/watch?v=7kDNkD3s7fQ" },
+{ id: 61, name: "The Walking Dead: 400 Days", appId: 207620, special: false, favorite: false, status: "bitti", genre: "Macera, İnteraktif Drama, Zengin Hikaye", score: "7", metacritic: "78", playtime: 0, note: "", steam: "https://store.steampowered.com/app/207620/The_Walking_Dead_400_Days/", youtube: "https://www.youtube.com/watch?v=7kDNkD3s7fQ" },
 
 { id: 62, name: "Astro Bot", appId: "", special: false, favorite: false, status: "bitti", genre: "Platform, Aksiyon-Macera", score: "8.6", metacritic: "94", playtime: 0, note: "", steam: "", youtube: "https://www.youtube.com/watch?v=wHMNQzLG_Jg" },
 
 { id: 63, name: "Biped", appId: 1071870, special: false, favorite: false, status: "bitti", genre: "Co-op, Bulmaca, Macera", score: "6", metacritic: "74", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1071870/Biped/", youtube: "https://www.youtube.com/watch?v=ffzX6kZc0GE" },
 
-{ id: 64, name: "Airborne Kingdom", appId: 982290, special: false, favorite: false, status: "bitti", genre: "City Builder, Strateji, Yönetim", score: "5", metacritic: "77", playtime: 0, note: "", steam: "https://store.steampowered.com/app/982290/Airborne_Kingdom/", youtube: "https://www.youtube.com/watch?v=ZKZz0Y4RIvY" },
+{ id: 64, name: "Airborne Kingdom", appId: 982290, special: false, favorite: false, status: "bitti", genre: "Şehir İnşaası, Strateji, Yönetim", score: "5", metacritic: "77", playtime: 0, note: "", steam: "https://store.steampowered.com/app/982290/Airborne_Kingdom/", youtube: "https://www.youtube.com/watch?v=ZKZz0Y4RIvY" },
 
-{ id: 65, name: "Road 96", appId: 1466640, special: false, favorite: false, status: "bitti", genre: "Macera, Zengin Hikaye, Choices Matter", score: "8.8", metacritic: "78", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1466640/Road_96/", youtube: "https://www.youtube.com/watch?v=W5Zf6k7p7bE" },
+{ id: 65, name: "Road 96", appId: 1466640, special: false, favorite: false, status: "bitti", genre: "Macera, Zengin Hikaye, Seçimli", score: "8.8", metacritic: "78", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1466640/Road_96/", youtube: "https://www.youtube.com/watch?v=W5Zf6k7p7bE" },
 
 { id: 66, name: "Neon White", appId: 1533420, special: false, favorite: false, status: "bitti", genre: "FPS, Platform, Aksiyon", score: "5", metacritic: "90", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1533420/Neon_White/", youtube: "https://www.youtube.com/watch?v=DD4zflZEBuA" },
 
@@ -141,7 +141,7 @@ const GAMES = [
 
 { id: 70, name: "Senua’s Saga: Hellblade II", appId: 2461850, special: false, favorite: false, status: "bitti", genre: "Aksiyon-Macera, Psikolojik, Sinematik", score: "7", metacritic: "81", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2461850/Senuas_Saga_Hellblade_II/", youtube: "https://www.youtube.com/watch?v=3VYGOkMnGCE" },
 
-{ id: 71, name: "Endling: Extinction is Forever", appId: 898890, special: false, favorite: false, status: "bitti", genre: "Macera, Hayatta Kalma, Atmospheric", score: "4.5", metacritic: "82", playtime: 0, note: "", steam: "https://store.steampowered.com/app/898890/Endling__Extinction_is_Forever/", youtube: "https://www.youtube.com/watch?v=0DXpA6b3YtM" },
+{ id: 71, name: "Endling: Extinction is Forever", appId: 898890, special: false, favorite: false, status: "bitti", genre: "Macera, Hayatta Kalma, Atmosferik", score: "4.5", metacritic: "82", playtime: 0, note: "", steam: "https://store.steampowered.com/app/898890/Endling__Extinction_is_Forever/", youtube: "https://www.youtube.com/watch?v=0DXpA6b3YtM" },
 
 { id: 72, name: "The Final Station", appId: 435530, special: false, favorite: false, status: "bitti", genre: "Aksiyon, Macera, Hayatta Kalma", score: "6.5", metacritic: "76", playtime: 0, note: "", steam: "https://store.steampowered.com/app/435530/The_Final_Station/", youtube: "https://www.youtube.com/watch?v=oRzm_KZgvCY" },
 
@@ -153,7 +153,7 @@ const GAMES = [
 
 { id: 76, name: "Eriksholm: The Stolen Dream", appId: "", special: false, favorite: false, status: "bitti", genre: "Gizlilik, Macera", score: "6.8", metacritic: "", playtime: 0, note: "", steam: "", youtube: "" },
 
-{ id: 77, name: "Superliminal", appId: 1049410, special: false, favorite: false, status: "bitti", genre: "Bulmaca, First-Person", score: "4", metacritic: "75", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1049410/Superliminal/", youtube: "https://www.youtube.com/watch?v=_SX8XMwMw6Y" },
+{ id: 77, name: "Superliminal", appId: 1049410, special: false, favorite: false, status: "bitti", genre: "Bulmaca, FPS", score: "4", metacritic: "75", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1049410/Superliminal/", youtube: "https://www.youtube.com/watch?v=_SX8XMwMw6Y" },
 
 { id: 78, name: "Routine", appId: "", special: false, favorite: false, status: "bitti", genre: "Sci-Fi, Korku", score: "4.5", metacritic: "", playtime: 0, note: "", steam: "", youtube: "https://www.youtube.com/watch?v=LaZqV0o7EW4" },
 
@@ -163,11 +163,11 @@ const GAMES = [
 
 { id: 81, name: "The Outer Worlds", appId: 578650, special: false, favorite: false, status: "bitti", genre: "RPG, Sci-Fi, Açık Dünya", score: "7.5", metacritic: "82", playtime: 0, note: "", steam: "https://store.steampowered.com/app/578650/The_Outer_Worlds/", youtube: "https://www.youtube.com/watch?v=MGLTgt0EEqc" },
 
-{ id: 82, name: "Tiny Bookshop", appId: 2133760, special: false, favorite: false, status: "bitti", genre: "Simülasyon, Cozy, Bağımsız", score: "5", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2133760/Tiny_Bookshop/", youtube: "https://www.youtube.com/watch?v=3Vg9GJ7c7xE" },
+{ id: 82, name: "Tiny Bookshop", appId: 2133760, special: false, favorite: false, status: "bitti", genre: "Simülasyon, Rahatlatıcı, Bağımsız", score: "5", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2133760/Tiny_Bookshop/", youtube: "https://www.youtube.com/watch?v=3Vg9GJ7c7xE" },
 
 { id: 83, name: "A Long Way To The Here", appId: "", special: false, favorite: false, status: "bitti", genre: "Macera, Bağımsız", score: "9.5", metacritic: "", playtime: 0, note: "", steam: "", youtube: "" },
 
-{ id: 84, name: "Mandragora: Whispers of the Witch Tree", appId: 1721060, special: false, favorite: false, status: "bitti", genre: "Aksiyon RPG, Soulslike, Metroidvania", score: "4.5", metacritic: "78", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1721060/Mandragora/", youtube: "https://www.youtube.com/watch?v=K0V8F0pQk3I" },
+{ id: 84, name: "Mandragora: Whispers of the Witch Tree", appId: 1721060, special: false, favorite: false, status: "bitti", genre: "Aksiyon-RPG, Soulslike, Metroidvania", score: "4.5", metacritic: "78", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1721060/Mandragora/", youtube: "https://www.youtube.com/watch?v=K0V8F0pQk3I" },
 
 { id: 85, name: "Dispatch", appId: "", special: false, favorite: false, status: "bitti", genre: "Simülasyon, Strateji", score: "9", metacritic: "", playtime: 0, note: "", steam: "", youtube: "" },
 
@@ -177,15 +177,15 @@ const GAMES = [
 
 { id: 88, name: "Little Nightmares III", appId: 1392860, special: false, favorite: false, status: "bitti", genre: "Bulmaca, Korku, Macera", score: "3", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1392860/Little_Nightmares_III/", youtube: "https://www.youtube.com/watch?v=G7u0gk5n3nE" },
 
-{ id: 89, name: "Horizon Forbidden West Complete Edition", appId: 2420110, special: false, favorite: false, status: "bitti", genre: "Aksiyon RPG, Açık Dünya", score: "6", metacritic: "88", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2420110/Horizon_Forbidden_West_Complete_Edition/", youtube: "https://www.youtube.com/watch?v=Lq594XmpPBg" },
+{ id: 89, name: "Horizon Forbidden West Complete Edition", appId: 2420110, special: false, favorite: false, status: "bitti", genre: "Aksiyon-RPG, Açık Dünya", score: "6", metacritic: "88", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2420110/Horizon_Forbidden_West_Complete_Edition/", youtube: "https://www.youtube.com/watch?v=Lq594XmpPBg" },
 
-{ id: 90, name: "The Dark Pictures Anthology: Little Hope", appId: 1194630, special: false, favorite: false, status: "bitti", genre: "Korku, Interactive Drama", score: "8", metacritic: "73", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1194630/The_Dark_Pictures_Anthology_Little_Hope/", youtube: "https://www.youtube.com/watch?v=J0tFzWg1bQw" },
+{ id: 90, name: "The Dark Pictures Anthology: Little Hope", appId: 1194630, special: false, favorite: false, status: "bitti", genre: "Korku, İnteraktif Drama", score: "8", metacritic: "73", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1194630/The_Dark_Pictures_Anthology_Little_Hope/", youtube: "https://www.youtube.com/watch?v=J0tFzWg1bQw" },
 
-{ id: 91, name: "The Dark Pictures Anthology: Man of Medan", appId: 939850, special: false, favorite: false, status: "bitti", genre: "Korku, Interactive Drama", score: "8", metacritic: "72", playtime: 0, note: "", steam: "https://store.steampowered.com/app/939850/The_Dark_Pictures_Anthology_Man_of_Medan/", youtube: "https://www.youtube.com/watch?v=1WZ0tKJ9Z9E" },
+{ id: 91, name: "The Dark Pictures Anthology: Man of Medan", appId: 939850, special: false, favorite: false, status: "bitti", genre: "Korku, İnteraktif Drama", score: "8", metacritic: "72", playtime: 0, note: "", steam: "https://store.steampowered.com/app/939850/The_Dark_Pictures_Anthology_Man_of_Medan/", youtube: "https://www.youtube.com/watch?v=1WZ0tKJ9Z9E" },
 
 { id: 92, name: "Hell is Us", appId: 1475810, special: false, favorite: false, status: "bitti", genre: "Aksiyon-Macera, Soulslike", score: "6", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1475810/Hell_is_Us/", youtube: "https://www.youtube.com/watch?v=G2zYF1G6qgQ" },
 
-{ id: 93, name: "Viewfinder", appId: 1382070, special: false, favorite: false, status: "bitti", genre: "Bulmaca, First-Person", score: "8", metacritic: "81", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1382070/Viewfinder/", youtube: "https://www.youtube.com/watch?v=crteKROYkHM" },
+{ id: 93, name: "Viewfinder", appId: 1382070, special: false, favorite: false, status: "bitti", genre: "Bulmaca, FPS", score: "8", metacritic: "81", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1382070/Viewfinder/", youtube: "https://www.youtube.com/watch?v=crteKROYkHM" },
 
 { id: 94, name: "Arma 3", appId: 107410, special: true, favorite: true, status: "bitti", genre: "Askeri Simülasyon, FPS, Açık Dünya", score: "8.3", metacritic: "74", playtime: 9850, note: "", steam: "https://store.steampowered.com/app/107410/Arma_3/", youtube: "https://www.youtube.com/watch?v=M1uM9c1aH0k" },
 
@@ -197,7 +197,7 @@ const GAMES = [
 
 { id: 98, name: "Warframe", appId: 230410, special: false, favorite: false, status: "oynanıyor", genre: "Aksiyon, Looter Shooter, MMO, Sci-Fi", score: "9", metacritic: "64", playtime: 1100, note: "", steam: "https://store.steampowered.com/app/230410/Warframe/", youtube: "https://www.youtube.com/watch?v=MsbL8lFHrZI" },
 
-{ id: 99, name: "Neverness to Everness", appId: "", image: "https://ntevmg.perfectworld.com/webops/nte/EN.jpg", special: false, favorite: false, status: "oynanıyor", genre: "Aksiyon RPG, Açık Dünya, Anime", score: "7", metacritic: "", playtime: 2, note: "", steam: "https://ntevmg.perfectworld.com/webops/nte/EN.jpg", youtube: "https://youtu.be/Rwb4SjpjR2A" },
+{ id: 99, name: "Neverness to Everness", appId: "", image: "https://ntevmg.perfectworld.com/webops/nte/EN.jpg", special: false, favorite: false, status: "oynanıyor", genre: "Aksiyon-RPG, Açık Dünya, Anime", score: "7", metacritic: "", playtime: 2, note: "", steam: "https://ntevmg.perfectworld.com/webops/nte/EN.jpg", youtube: "https://youtu.be/Rwb4SjpjR2A" },
 
 
 
