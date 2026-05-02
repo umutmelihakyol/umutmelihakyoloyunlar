@@ -201,7 +201,7 @@ const GAMES = [
 
 { id: 100, name: "007 First Light", appId: 3768760, image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3768760/86d898447e0e475e3f8a9cc1ef660a80032472d7/header_alt_assets_1.jpg", special: false, favorite: false, status: "planlandı", genre: "Aksiyon-Macera, Gizlilik", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/3768760/007_First_Light/", youtube: "https://youtu.be/vwmq_k5Kto0" },
 
-{ id: 101, name: "Forza Horizon 6", appId: 2483190, special: false, favorite: false, status: "planlandı", genre: "Yarış, Açık Dünya, Sürüş", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2483190/Forza_Horizon_6/", youtube: "" },
+{ id: 101, name: "Forza Horizon 6", appId: 2483190, image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2483190/27abb1584a118d50d0e3950fd48d557c51981db7/header.jpg", special: false, favorite: false, status: "planlandı", genre: "Yarış, Açık Dünya, Sürüş", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2483190/Forza_Horizon_6/", youtube: "" },
 
 
 
