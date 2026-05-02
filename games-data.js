@@ -203,7 +203,7 @@ const GAMES = [
 
 { id: 101, name: "Forza Horizon 6", appId: 2483190, image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2483190/27abb1584a118d50d0e3950fd48d557c51981db7/header.jpg", special: false, favorite: false, status: "planlandı", genre: "Yarış, Açık Dünya, Sürüş", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2483190/Forza_Horizon_6/", youtube: "" },
 
-
+{ id: 102, name: "Aphelion", appId: 1966410, special: false, favorite: false, status: "planlandı", genre: "Sci-Fi, Macera", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1966410", youtube: "" },
 
 
 
@@ -304,7 +304,8 @@ const DEFAULT_NOTE_TEXTS = {
   98: "Warframe, hızlı oynanışı, parkur mekaniği ve farklı Warframe seçenekleriyle sürekli hareket halinde olduğun, görev tabanlı ilerleyen bir aksiyon oyunu. Loot sistemi ve build çeşitliliği oyunu uzun süre oynanabilir kılıyor.",
   99: "Neverness to Everness, şehir temalı açık dünyası, anime tarzı görselleri ve karakter odaklı yapısıyla dikkat çeken bir aksiyon RPG. Keşif, görevler ve karakter etkileşimleriyle daha rahat ama sürükleyici bir deneyim sunuyor.",
   100: "007 First Light, James Bond’un daha genç dönemine odaklanan, gizlilik, aksiyon ve casusluk temalarını bir araya getiren hikaye odaklı bir macera oyunu. Sinematik anlatımı ve görev çeşitliliğiyle dikkat çekiyor.",
-101: "Forza Horizon 6, geniş açık dünya haritası, farklı araç seçenekleri ve akıcı sürüş hissiyle öne çıkan bir yarış oyunu. Serbest dolaşım, etkinlikler ve online içeriklerle uzun süre keyifli vakit geçirebileceğin bir deneyim sunuyor."
+101: "Forza Horizon 6, geniş açık dünya haritası, farklı araç seçenekleri ve akıcı sürüş hissiyle öne çıkan bir yarış oyunu. Serbest dolaşım, etkinlikler ve online içeriklerle uzun süre keyifli vakit geçirebileceğin bir deneyim sunuyor.",
+	102: "Aphelion, atmosferi ve hikaye odaklı ilerleyişiyle öne çıkan, keşif ve gizem üzerine kurulu bir bilim kurgu macera deneyimi sunuyor. Daha sakin ilerleyip dünyasını yavaş yavaş açan bir yapısı var."
 
 };
 
