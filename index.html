@@ -3192,6 +3192,18 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
   background:#0b122b !important;
 }
 
+
+
+/* Toolbar sadeleştirme: sadece arama + rastgele oyun + oyun sayısı */
+.toolbar.compact-toolbar{
+  grid-template-columns:1fr auto auto !important;
+}
+.toolbar.compact-toolbar .field{
+  grid-column:auto !important;
+}
+@media (max-width:760px){
+  .toolbar.compact-toolbar{grid-template-columns:1fr !important;}
+}
 </style>
 </head>
 <body>
@@ -3240,11 +3252,11 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
 
 <section class="achievement-launcher backlog-launcher-row">
   <button class="achievement-open-btn" type="button" onclick="openAchievementModal()">
-    🏆 Site Başarımlarını Gör
+    🏆 Başarımları Gör
     <span id="achievementButtonCount">0/0</span>
   </button>
   <button class="backlog-open-btn" type="button" onclick="openBacklogModal()">
-    🎒 Backlog Gör (Oynanacak Oyunlar)
+    🎒 Backlog Gör
     <span id="backlogButtonCount">0</span>
   </button>
 </section>
@@ -3300,16 +3312,7 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
   </div>
 </section>
 <section class="quick-filters" id="quickFilters"></section>
-<section class="toolbar"><div class="field"><input id="searchInput" type="search" placeholder="Oyun, tür, not veya puan ara..." oninput="render()" /></div><select id="statusFilter" onchange="render()">
-  <option value="all">Tüm oyunlar</option>
-  <option value="bitti">✅ Bitirildi</option>
-  <option value="oynanıyor">🎮 Oynanıyor</option>
-  <option value="bırakıldı">⏸️ Bırakıldı</option>
-  <option value="planlandı">📅 Planlandı</option>
-  <option value="special">Özel seçimler</option>
-  <option value="high">9+ puan</option>
-  <option value="mc75">Metacritic 75+</option>
-</select><select id="sortFilter" onchange="render()"><option value="default">Liste sırası</option><option value="score">Puana göre</option><option value="mc">Metacritic</option><option value="name">İsme göre</option></select><button class="random-game-btn" type="button" onclick="openRandomGame()">🎲 Rastgele oyun</button><div class="count" id="countBadge">000 / 000 oyun</div></section>
+<section class="toolbar compact-toolbar"><div class="field"><input id="searchInput" type="search" placeholder="Oyun, tür, not veya puan ara..." oninput="render()" /></div><button class="random-game-btn" type="button" onclick="openRandomGame()">🎲 Rastgele oyun</button><div class="count" id="countBadge">000 / 000 oyun</div></section>
 <section class="grid" id="grid"></section><footer><span>@umutmelihakyol</span> · oyun arşivi · <span id="totalCount">0</span> kayıt</footer>
 
 
@@ -3337,7 +3340,7 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
       <div>
         <div class="status-screen-kicker">🎮 Oynanıyor</div>
         <h2>Şu An Oynanan Oyunlar</h2>
-        <p id="playingScreenSub">Oynanıyor etiketindeki oyunlar burada listelenir.</p>
+        <p id="playingScreenSub">Oynanıyor tagındaki oyunlar burada listelenir.</p>
       </div>
       <button class="status-screen-close" type="button" onclick="closePlayingScreen()" aria-label="Kapat">×</button>
     </div>
@@ -3411,7 +3414,10 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
    Örnek: { id: 12, priority: "high", note: "Sıradaki RPG", started: false }
    priority değerleri: "high", "medium", "low" */
 const BACKLOG_ITEMS = [ 
-    
+  
+  { id: 18, priority: "low", note: "Sıradaki Süper Kahraman Oyunu", started: false },
+  { id: 97, priority: "high", note: "Sıradaki Süper Kahraman Oyunu", started: false }
+  
 ];
   
 let activeBacklogFilter = "all";
@@ -3430,8 +3436,8 @@ function getAutoBacklogItem(game){
   if(!isPlannedBacklogGame(game)) return null;
   return {
     id: Number(game.id),
-    priority: "",
-    note: "",
+    priority: "medium",
+    note: "Planlandı tagından otomatik eklendi.",
     started: false,
     auto: true
   };
@@ -3473,8 +3479,8 @@ function renderBacklogPanel(){
   setTextSafe("backlogButtonCount", String(active.length));
   document.querySelectorAll("[data-backlog-filter]").forEach(btn=>btn.classList.toggle("active",btn.dataset.backlogFilter===activeBacklogFilter));
   if(!filtered.length){
-    next.innerHTML='<div><small>Backlog boş</small><b>Henüz sırada oynanacak oyun yok</b><span> </span></div>';
-    list.innerHTML='<div class="empty-state"><h2>Backlog boş</h2><p>"planlandı" etiketinde oyun yok. Oynanacak oyun olduğunda burada görünür</p></div>';
+    next.innerHTML='<div><small>Backlog boş</small><b>Henüz sıradaki oyun yok</b><span>games-data.js içinde bir oyuna status: &quot;planlandı&quot; yazınca burada otomatik görünür.</span></div>';
+    list.innerHTML='<div class="empty-state"><h2>Backlog boş</h2><p>games-data.js içinde status: &quot;planlandı&quot; olan oyunlar burada otomatik görünür.</p></div>';
     return;
   }
   const rec=filtered[0]; const recImg=getBacklogImg(rec);
@@ -4149,8 +4155,8 @@ function openRandomGame() {
 
 function render() {
   const q = normalizeText(document.getElementById('searchInput').value);
-  const status = document.getElementById('statusFilter').value;
-  const sort = document.getElementById('sortFilter').value;
+  const status = document.getElementById('statusFilter')?.value || 'all';
+  const sort = document.getElementById('sortFilter')?.value || 'default';
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
   let filtered = GAMES.filter(g => {
