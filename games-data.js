@@ -45,7 +45,7 @@ const GAMES = [
 
 	{ id: 22, name: "Split Fiction", appId: 2001120, special: false, favorite: false, status: "bitti", genre: "Macera", score: "9.0", metacritic: "", playtime: 15, note: "", steam: "https://store.steampowered.com/app/2001120/Split_Fiction/", youtube: "" },
 
-	{ id: 23, name: "Tom Clancy's The Division 2", appId: 2221490, special: false, favorite: false, status: "oynanıyor", genre: "Aksiyon-RPG, Looter Shooter, TPS", score: "7.5", metacritic: "82", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2221490/Tom_Clancys_The_Division_2/", youtube: "https://www.youtube.com/watch?v=njfj6KwEAfg" },
+	{ id: 23, name: "Tom Clancy's The Division 2", appId: 2221490, special: false, favorite: false, status: "oynanıyor", genre: "Aksiyon-RPG, Looter Shooter, TPS", score: "8.5", metacritic: "82", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2221490/Tom_Clancys_The_Division_2/", youtube: "https://www.youtube.com/watch?v=njfj6KwEAfg" },
 
 	{ id: 24, name: "Assassin's Creed Shadows", appId: 3159330, special: false, favorite: false, status: "bitti", genre: "Aksiyon-Macera, Açık Dünya, RPG", score: "6.5", metacritic: "81", playtime: 0, note: "", steam: "https://store.steampowered.com/app/3159330/Assassins_Creed_Shadows/", youtube: "https://www.youtube.com/watch?v=HInwdVFWvVs" },
 
