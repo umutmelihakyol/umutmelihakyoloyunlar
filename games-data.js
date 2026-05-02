@@ -199,7 +199,7 @@ const GAMES = [
 
 { id: 99, name: "Neverness to Everness", appId: "", image: "https://ntevmg.perfectworld.com/webops/nte/EN.jpg", special: false, favorite: false, status: "oynanıyor", genre: "Aksiyon-RPG, Açık Dünya, Anime", score: "7", metacritic: "", playtime: 2, note: "", steam: "https://ntevmg.perfectworld.com/webops/nte/EN.jpg", youtube: "https://youtu.be/Rwb4SjpjR2A" },
 
-
+{ id: 100, name: "007 First Light", appId: 3768760, special: false, favorite: false, status: "planlandı", genre: "Aksiyon-Macera, Gizlilik", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/3768760/007_First_Light/", youtube: "https://youtu.be/vwmq_k5Kto0" },
 
 
 
@@ -301,7 +301,10 @@ const DEFAULT_NOTE_TEXTS = {
   96: "Sea of Thieves, korsanlık, keşif ve arkadaşlarla eğlenceli maceralar yaşatan bir multiplayer deneyimi.",
   97: "Marvel’s Spider-Man Remastered, Peter Parker’ın hikayesini akıcı oynanış ve aksiyonla sunan başarılı bir süper kahraman oyunu.",
   98: "Warframe, hızlı oynanışı, parkur mekaniği ve farklı Warframe seçenekleriyle sürekli hareket halinde olduğun, görev tabanlı ilerleyen bir aksiyon oyunu. Loot sistemi ve build çeşitliliği oyunu uzun süre oynanabilir kılıyor.",
-  99: "Neverness to Everness, şehir temalı açık dünyası, anime tarzı görselleri ve karakter odaklı yapısıyla dikkat çeken bir aksiyon RPG. Keşif, görevler ve karakter etkileşimleriyle daha rahat ama sürükleyici bir deneyim sunuyor."
+  99: "Neverness to Everness, şehir temalı açık dünyası, anime tarzı görselleri ve karakter odaklı yapısıyla dikkat çeken bir aksiyon RPG. Keşif, görevler ve karakter etkileşimleriyle daha rahat ama sürükleyici bir deneyim sunuyor.",
+  100: "007 First Light, James Bond’un daha genç dönemine odaklanan, gizlilik, aksiyon ve casusluk temalarını bir araya getiren hikaye odaklı bir macera oyunu. Sinematik anlatımı ve görev çeşitliliğiyle dikkat çekiyor.",
+
+
 };
 
 
