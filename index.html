@@ -2440,7 +2440,7 @@ body
 
 
 
-/* Tum oynama sureleri modal butonu */
+/* Tum oynama sureleri */
 .analytics-card.playtime-card {
   position:relative;
   min-height:350px;
@@ -3026,14 +3026,8 @@ body
   .backlog-list{grid-template-columns:1fr;}
 }
 
-
 /* =========================================================
-
-/* =========================================================
-   TEK VE CALISAN FINAL TEMA
-   - Arka plan artik gercekten degisir.
-   - Siyah zemin korunur ama duz siyah-beyaz degil.
-   - Eski tema override'lari temizlendi; bu blok en sonda kalir.
+   TEK  TEMA
    ========================================================= */
 :root{
   --bg:#050712 !important;
@@ -3109,7 +3103,7 @@ button:hover,.detail-btn:hover,.random-game-btn:hover,.quick-filter-btn:hover,.b
 hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--muted-2) !important;}.theme-panel-hidden,.pro-theme-group,.custom-color-wrap,.reset-theme-btn,.theme-controls,.theme-toggle{display:none !important;}*{opacity:1;}
 
 
-/* GELISTIRILMIS ETIKET ALANI - coklu satir, daha fazla filtre */
+/* GELISTIRILMIS ETIKET ALANI */
 .quick-filters{
   display:flex !important;
   flex-wrap:wrap !important;
@@ -3142,6 +3136,60 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
     flex:0 0 auto !important;
     scroll-snap-align:start;
   }
+}
+
+
+
+/* =========================================================
+   ARAMA RENK DUZELTMESI
+   ========================================================= */
+.toolbar{
+  background:linear-gradient(145deg, rgba(20,29,67,.88), rgba(7,12,29,.94)) !important;
+  border-color:rgba(116,215,255,.30) !important;
+}
+.field input,
+.toolbar select{
+  height:48px !important;
+  background:linear-gradient(145deg, rgba(8,14,34,.98), rgba(13,20,48,.96)) !important;
+  color:#e8ecff !important;
+  border:1px solid rgba(116,215,255,.42) !important;
+  box-shadow:inset 0 1px 0 rgba(232,236,255,.05), 0 0 0 1px rgba(116,215,255,.06) !important;
+}
+.field input::placeholder{
+  color:#aebbe0 !important;
+  opacity:1 !important;
+}
+.field input:hover,
+.toolbar select:hover{
+  border-color:rgba(120,242,197,.62) !important;
+  box-shadow:0 0 0 3px rgba(120,242,197,.08), inset 0 1px 0 rgba(232,236,255,.05) !important;
+}
+.field input:focus,
+.toolbar select:focus{
+  background:linear-gradient(145deg, rgba(10,17,42,.99), rgba(16,24,58,.98)) !important;
+  color:#ffffff !important;
+  border-color:#78f2c5 !important;
+  box-shadow:0 0 0 4px rgba(120,242,197,.13), 0 0 28px rgba(116,215,255,.14) !important;
+}
+.toolbar select{
+  color-scheme:dark !important;
+  appearance:auto !important;
+  -webkit-appearance:menulist !important;
+  accent-color:#78f2c5 !important;
+}
+.toolbar select option,
+.toolbar select optgroup{
+  background:#0b122b !important;
+  color:#e8ecff !important;
+}
+.toolbar select option:hover,
+.toolbar select option:checked{
+  background:#1f335f !important;
+  color:#ffffff !important;
+}
+.toolbar select option:disabled{
+  color:#7380a8 !important;
+  background:#0b122b !important;
 }
 
 </style>
@@ -3359,18 +3407,16 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
 /* favorite:true yazarsan ziyaretçiler oyunu favori olarak görür. favorite:false yazarsan favori değil görünür. */
 /* GAMES listesi games-data.js dosyasından gelir. */
 
-/* Backlog sistemi - siteden değil koddan eklenir.
-   Kullanım: Aşağıdaki BACKLOG_ITEMS dizisine GAMES içindeki oyun id'sini yaz.
+/* Backlog sistemi
    Örnek: { id: 12, priority: "high", note: "Sıradaki RPG", started: false }
    priority değerleri: "high", "medium", "low" */
-const BACKLOG_ITEMS = [
-  // { id: 1, priority: "high", note: "İlk fırsatta başla", started: false },
-  // { id: 2, priority: "medium", note: "İndirimde bak", started: false }
+const BACKLOG_ITEMS = [ 
   
   { id: 18, priority: "low", note: "Sıradaki Süper Kahraman Oyunu", started: false },
   { id: 97, priority: "high", note: "Sıradaki Süper Kahraman Oyunu", started: false }
   
 ];
+  
 let activeBacklogFilter = "all";
 function setTextSafe(id, value){ const el=document.getElementById(id); if(el) el.textContent=value; }
 function getBacklogItem(id){ return BACKLOG_ITEMS.find(item=>Number(item.id)===Number(id)) || null; }
@@ -4205,9 +4251,7 @@ function updatePlayerProfile() {
   if (tagWrap) tagWrap.innerHTML = tags.map(tag => `<span class="personality-tag">${tag}</span>`).join("");
 }
 
-/* Dosya ile çalışan arka plan müziği
-   Kullanım: music.mp3 dosyasını bu HTML dosyasıyla aynı klasöre koy.
-   Farklı dosya adı kullanacaksan yukarıdaki <source src="music.mp3"> kısmını değiştir. */
+/* arka plan müziği */
 const MUSIC_KEY = "umut_bg_music_enabled_v1";
 let musicEnabled = localStorage.getItem(MUSIC_KEY) === "on";
 
@@ -4222,7 +4266,7 @@ function startBackgroundMusic() {
   const playPromise = audio.play();
   if (playPromise && typeof playPromise.catch === "function") {
     playPromise.catch(() => {
-      // Tarayıcı otomatik oynatmayı engellerse kullanıcı Müzik butonuna tekrar basınca başlar.
+
     });
   }
 }
@@ -4460,12 +4504,6 @@ function renderAchievements() {
     </div>
   `;
 }
-
-
-
-
-
-
 
 
 
