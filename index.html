@@ -3419,15 +3419,44 @@ const BACKLOG_ITEMS = [
   
 let activeBacklogFilter = "all";
 function setTextSafe(id, value){ const el=document.getElementById(id); if(el) el.textContent=value; }
-function getBacklogItem(id){ return BACKLOG_ITEMS.find(item=>Number(item.id)===Number(id)) || null; }
 function getBacklogSourceGames(){ return typeof getSelectedGames==="function" ? getSelectedGames() : (typeof GAMES!=="undefined" ? GAMES : []); }
+
+/* Otomatik Backlog:
+   games-data.js içinde status: "planlandı" olan her oyun otomatik Backlog'a eklenir.
+   BACKLOG_ITEMS artık zorunlu liste değildir; sadece özel öncelik/not/başlandı bilgisi vermek için kullanılır.
+   Örnek override: { id: 97, priority: "high", note: "Önce bunu oyna", started: false }
+*/
+function normalizeBacklogStatus(value){ return String(value || "").trim().toLocaleLowerCase("tr-TR"); }
+function isPlannedBacklogGame(game){ return normalizeBacklogStatus(game?.status) === "planlandı" || normalizeBacklogStatus(game?.status) === "planlandi"; }
+function getManualBacklogItem(id){ return BACKLOG_ITEMS.find(item=>Number(item.id)===Number(id)) || null; }
+function getAutoBacklogItem(game){
+  if(!isPlannedBacklogGame(game)) return null;
+  return {
+    id: Number(game.id),
+    priority: "medium",
+    note: "Planlandı tagından otomatik eklendi.",
+    started: false,
+    auto: true
+  };
+}
+function getBacklogItem(id){
+  const game = getBacklogSourceGames().find(g=>Number(g.id)===Number(id));
+  const autoItem = game ? getAutoBacklogItem(game) : null;
+  const manualItem = getManualBacklogItem(id);
+  if(!autoItem && !manualItem) return null;
+  return Object.assign({}, autoItem || {}, manualItem || {}, { id:Number(id) });
+}
 function getBacklogPriority(g){ return getBacklogItem(g.id)?.priority || "medium"; }
 function getBacklogNote(g){ return getBacklogItem(g.id)?.note || ""; }
-function getBacklogBaseGames(){ const ids=new Set(BACKLOG_ITEMS.map(item=>Number(item.id))); return getBacklogSourceGames().filter(g=>ids.has(Number(g.id))); }
+function getBacklogBaseGames(){
+  const manualIds = new Set(BACKLOG_ITEMS.map(item=>Number(item.id)));
+  return getBacklogSourceGames().filter(g=>isPlannedBacklogGame(g) || manualIds.has(Number(g.id)));
+}
 function getBacklogGames(includeStarted=false){
-  const weight={high:0,medium:1,low:2};
+  const weight={high:0,medium:1,low:2,started:3};
   return getBacklogBaseGames()
     .filter(g=>includeStarted || !getBacklogItem(g.id)?.started)
+    .filter(g=>activeBacklogFilter === "all" || getBacklogPriority(g) === activeBacklogFilter)
     .sort((a,b)=>{ const p=(weight[getBacklogPriority(a)]??1)-(weight[getBacklogPriority(b)]??1); if(p!==0)return p; return Number(b.metacritic||b.score||0)-Number(a.metacritic||a.score||0); });
 }
 function getBacklogPriorityLabel(p){ if(p==="high")return "Yüksek"; if(p==="low")return "Düşük"; return "Orta"; }
@@ -3447,8 +3476,8 @@ function renderBacklogPanel(){
   setTextSafe("backlogButtonCount", String(active.length));
   document.querySelectorAll("[data-backlog-filter]").forEach(btn=>btn.classList.toggle("active",btn.dataset.backlogFilter===activeBacklogFilter));
   if(!filtered.length){
-    next.innerHTML='<div><small>Backlog boş</small><b>Henüz sıradaki oyun yok</b><span>Koddan eklemek için HTML dosyasında BACKLOG_ITEMS dizisini düzenle.</span></div>';
-    list.innerHTML='<div class="empty-state"><h2>Backlog boş</h2><p>BACKLOG_ITEMS içine oyun ID\'si eklediğinde burada görünecek.</p></div>';
+    next.innerHTML='<div><small>Backlog boş</small><b>Henüz sıradaki oyun yok</b><span>games-data.js içinde bir oyuna status: &quot;planlandı&quot; yazınca burada otomatik görünür.</span></div>';
+    list.innerHTML='<div class="empty-state"><h2>Backlog boş</h2><p>games-data.js içinde status: &quot;planlandı&quot; olan oyunlar burada otomatik görünür.</p></div>';
     return;
   }
   const rec=filtered[0]; const recImg=getBacklogImg(rec);
