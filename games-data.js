@@ -203,7 +203,7 @@ const GAMES = [
 
 { id: 101, name: "Forza Horizon 6", appId: 2483190, image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2483190/27abb1584a118d50d0e3950fd48d557c51981db7/header.jpg", special: false, favorite: false, status: "planlandı", genre: "Yarış, Açık Dünya, Sürüş", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2483190/Forza_Horizon_6/", youtube: "" },
 
-{ id: 102, name: "Aphelion", appId: 1966410, special: false, favorite: false, status: "planlandı", genre: "Sci-Fi, Macera", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1966410", youtube: "" },
+{ id: 102, name: "Aphelion", appId: 1966410, image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1966410/9c9058d6e3baa986ca5d3ac94a2d55c6c47f692e/header.jpg", special: false, favorite: false, status: "planlandı", genre: "Sci-Fi, Macera", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1966410", youtube: "" },
 
 
 
