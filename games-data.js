@@ -195,7 +195,7 @@ const GAMES = [
 
 { id: 97, name: "Marvel's Spider-Man Remastered", appId: 1817070, special: false, favorite: false, status: "bitti", genre: "Aksiyon-Macera, Açık Dünya, Süper Kahraman", score: "8.7", metacritic: "87", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1817070/Marvels_SpiderMan_Remastered/", youtube: "https://youtu.be/mrT5q5xXb7Y" },
 
-{ id: 98, name: "Warframe", appId: 230410, special: false, favorite: false, status: "planlandı", genre: "Aksiyon, Looter Shooter, MMO, Sci-Fi", score: "9", metacritic: "64", playtime: 1100, note: "", steam: "https://store.steampowered.com/app/230410/Warframe/", youtube: "https://www.youtube.com/watch?v=MsbL8lFHrZI" },
+{ id: 98, name: "Warframe", appId: 230410, special: false, favorite: false, status: "oynanıyor", genre: "Aksiyon, Looter Shooter, MMO, Sci-Fi", score: "9", metacritic: "64", playtime: 1100, note: "", steam: "https://store.steampowered.com/app/230410/Warframe/", youtube: "https://www.youtube.com/watch?v=MsbL8lFHrZI" },
 
 { id: 99, name: "Neverness to Everness", appId: "", image: "https://ntevmg.perfectworld.com/webops/nte/EN.jpg", special: false, favorite: false, status: "oynanıyor", genre: "Aksiyon-RPG, Açık Dünya, Anime", score: "7", metacritic: "", playtime: 2, note: "", steam: "https://ntevmg.perfectworld.com/webops/nte/EN.jpg", youtube: "https://youtu.be/Rwb4SjpjR2A" },
 
