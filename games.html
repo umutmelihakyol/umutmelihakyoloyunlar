@@ -1623,7 +1623,7 @@ body
 }
 
 
-/* Backlog modal sistemi - koddan eklenir */
+/* Backlog modal sistemi */
 .backlog-launcher-row{
   margin:0 0 22px;
   display:flex;
@@ -1911,7 +1911,7 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
     <section class="backlog-board" id="backlogPanel">
       <div class="backlog-board-head">
         <div class="backlog-board-title">
-          <small>Koddan yönetilen liste</small>
+          <small>Backlog Sistemi</small>
           <h2 id="backlogModalTitle">Backlog</h2>
         </div>
         <div class="backlog-stats">
@@ -1971,13 +1971,12 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
 <script>
 /* GAMES listesi games-data.js dosyasından gelir. */
 
-/* Backlog sistemi - siteden değil koddan eklenir.
-   Kullanım: Aşağıdaki BACKLOG_ITEMS dizisine GAMES içindeki oyun id'sini yaz.
+/* Backlog sistemi
    Örnek: { id: 12, priority: "high", note: "Sıradaki RPG", started: false }
    priority değerleri: "high", "medium", "low" */
 const BACKLOG_ITEMS = [
-  // { id: 1, priority: "high", note: "İlk fırsatta başla", started: false },
-  // { id: 2, priority: "medium", note: "İndirimde bak", started: false }
+  { id: 18, priority: "low", note: "Sıradaki Süper Kahraman Oyunu", started: false },
+  { id: 97, priority: "high", note: "Sıradaki Süper Kahraman Oyunu", started: false }
 ];
 let activeBacklogFilter = "all";
 function setTextSafe(id, value){ const el=document.getElementById(id); if(el) el.textContent=value; }
