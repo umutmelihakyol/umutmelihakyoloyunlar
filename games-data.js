@@ -83,7 +83,7 @@ const GAMES = [
 
 { id: 41, name: "Mafia: The Old Country", appId: 1941540, special: false, favorite: false, status: "bitti", genre: "Aksiyon-Macera, Suç, Zengin Hikaye", score: "6.5", metacritic: "76", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1941540/Mafia_The_Old_Country/", youtube: "https://www.youtube.com/watch?v=KI-sFV32SmM" },
 
-{ id: 42, name: "DREDGE", appId: 1562430, special: false, favorite: false, status: "bitti", genre: "Macera, Fishing, Korku", score: "7.8", metacritic: "80", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1562430/DREDGE/", youtube: "https://www.youtube.com/watch?v=ZtTfROTgYKA" },
+{ id: 42, name: "DREDGE", appId: 1562430, special: false, favorite: false, status: "bitti", genre: "Macera, Balıkçılık, Korku", score: "7.8", metacritic: "80", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1562430/DREDGE/", youtube: "https://www.youtube.com/watch?v=ZtTfROTgYKA" },
 
 { id: 43, name: "Dying Light: The Beast", appId: 3008130, special: false, favorite: false, status: "bitti", genre: "Aksiyon, Açık Dünya, Zombi, Hayatta Kalma Korku", score: "7", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/3008130/Dying_Light_The_Beast/", youtube: "" },
 
