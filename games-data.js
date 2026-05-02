@@ -173,7 +173,7 @@ const GAMES = [
 
 { id: 86, name: "Ghost of Yotei", appId: "", image: "https://image.api.playstation.com/vulcan/ap/rnd/202504/2116/8e338bd036dd9b25b61134e58c16aeac323a86d5945cc3bf.jpg", special: false, favorite: false, status: "bitti", genre: "Aksiyon-Macera, Açık Dünya", score: "6.0", metacritic: "", playtime: 30, note: "", steam: "https://www.playstation.com/tr-tr/games/ghost-of-yotei/", youtube: "" },
 
-{ id: 87, name: "Battlefield 6", appId: 2807960, special: false, favorite: false, status: "bitti", genre: "FPS, Aksiyon", score: "8.2", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2807960", youtube: "" },
+{ id: 87, name: "Battlefield 6", appId: 2807960, image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2807960/c12d12ce3c7d217398d3fcad77427bfc9d57c570/header.jpg", special: false, favorite: false, status: "bitti", genre: "FPS, Aksiyon", score: "8.2", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/2807960", youtube: "" },
 
 { id: 88, name: "Little Nightmares III", appId: 1392860, special: false, favorite: false, status: "bitti", genre: "Bulmaca, Korku, Macera", score: "3", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1392860/Little_Nightmares_III/", youtube: "https://www.youtube.com/watch?v=G7u0gk5n3nE" },
 
