@@ -3240,11 +3240,11 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
 
 <section class="achievement-launcher backlog-launcher-row">
   <button class="achievement-open-btn" type="button" onclick="openAchievementModal()">
-    🏆 Başarımları Gör
+    🏆 Site Başarımlarını Gör
     <span id="achievementButtonCount">0/0</span>
   </button>
   <button class="backlog-open-btn" type="button" onclick="openBacklogModal()">
-    🎒 Backlog Gör
+    🎒 Backlog Gör ( Sıradaki Oynanacak Oyun)
     <span id="backlogButtonCount">0</span>
   </button>
 </section>
@@ -3337,7 +3337,7 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
       <div>
         <div class="status-screen-kicker">🎮 Oynanıyor</div>
         <h2>Şu An Oynanan Oyunlar</h2>
-        <p id="playingScreenSub">Oynanıyor tagındaki oyunlar burada listelenir.</p>
+        <p id="playingScreenSub">Oynanıyor etiketindeki oyunlar burada listelenir.</p>
       </div>
       <button class="status-screen-close" type="button" onclick="closePlayingScreen()" aria-label="Kapat">×</button>
     </div>
@@ -3411,10 +3411,7 @@ hr,.divider{border-color:rgba(116,215,255,.42) !important;}footer{color:var(--mu
    Örnek: { id: 12, priority: "high", note: "Sıradaki RPG", started: false }
    priority değerleri: "high", "medium", "low" */
 const BACKLOG_ITEMS = [ 
-  
-  { id: 18, priority: "low", note: "Sıradaki Süper Kahraman Oyunu", started: false },
-  { id: 97, priority: "high", note: "Sıradaki Süper Kahraman Oyunu", started: false }
-  
+    
 ];
   
 let activeBacklogFilter = "all";
@@ -3433,8 +3430,8 @@ function getAutoBacklogItem(game){
   if(!isPlannedBacklogGame(game)) return null;
   return {
     id: Number(game.id),
-    priority: "medium",
-    note: "Planlandı tagından otomatik eklendi.",
+    priority: "",
+    note: "",
     started: false,
     auto: true
   };
