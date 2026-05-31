@@ -205,6 +205,8 @@ const GAMES = [
 
 { id: 102, name: "Aphelion", appId: 1966410, image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1966410/9c9058d6e3baa986ca5d3ac94a2d55c6c47f692e/header.jpg", special: false, favorite: false, status: "planlandı", genre: "Sci-Fi, Macera", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1966410", youtube: "" },
 
+{ id: 103, name: "007 First Light", appId: 3768760, special: true, favorite: true, status: "bitti", genre: "Aksiyon, Macera", score: "8.5", metacritic: "", playtime: 16, note: "", steam: "https://store.steampowered.com/app/3768760", youtube: "" },
+
 
 
 
@@ -305,7 +307,8 @@ const DEFAULT_NOTE_TEXTS = {
   99: "Neverness to Everness, şehir temalı açık dünyası, anime tarzı görselleri ve karakter odaklı yapısıyla dikkat çeken bir aksiyon RPG. Keşif, görevler ve karakter etkileşimleriyle daha rahat ama sürükleyici bir deneyim sunuyor.",
   100: "007 First Light, James Bond’un daha genç dönemine odaklanan, gizlilik, aksiyon ve casusluk temalarını bir araya getiren hikaye odaklı bir macera oyunu. Sinematik anlatımı ve görev çeşitliliğiyle dikkat çekiyor.",
 101: "Forza Horizon 6, geniş açık dünya haritası, farklı araç seçenekleri ve akıcı sürüş hissiyle öne çıkan bir yarış oyunu. Serbest dolaşım, etkinlikler ve online içeriklerle uzun süre keyifli vakit geçirebileceğin bir deneyim sunuyor.",
-	102: "Aphelion, atmosferi ve hikaye odaklı ilerleyişiyle öne çıkan, keşif ve gizem üzerine kurulu bir bilim kurgu macera deneyimi sunuyor. Daha sakin ilerleyip dünyasını yavaş yavaş açan bir yapısı var."
+	102: "Aphelion, atmosferi ve hikaye odaklı ilerleyişiyle öne çıkan, keşif ve gizem üzerine kurulu bir bilim kurgu macera deneyimi sunuyor. Daha sakin ilerleyip dünyasını yavaş yavaş açan bir yapısı var.",
+	103: "Kod adını kazan. 007 First Light, IO Interactive tarafından geliştirilmiş heyecan dolu bir casusluk aksiyon-macera oyunudur. MI6 eğitim programına yeni katılmış genç James Bond’un hünerlerine ve bazen de pervasızlıklarına tanıklık ederek dünyanın en meşhur ajanının başlangıç hikâyesinin parçası ol.",
 
 };
 
