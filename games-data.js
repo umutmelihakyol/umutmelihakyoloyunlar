@@ -205,7 +205,7 @@ const GAMES = [
 
 { id: 102, name: "Aphelion", appId: 1966410, image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1966410/9c9058d6e3baa986ca5d3ac94a2d55c6c47f692e/header.jpg", special: false, favorite: false, status: "planlandı", genre: "Sci-Fi, Macera", score: "", metacritic: "", playtime: 0, note: "", steam: "https://store.steampowered.com/app/1966410", youtube: "" },
 
-{ id: 103, name: "007 First Light", appId: 3768760, special: true, favorite: true, status: "bitti", genre: "Aksiyon, Macera", score: "8.5", metacritic: "", playtime: 16, note: "", steam: "https://store.steampowered.com/app/3768760", youtube: "" },
+{ id: 103, name: "007 First Light", image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3768760/dbe86ebd2edb4c77d113e9e2feefeb90189fabc9/header.jpg", appId: 3768760, special: true, favorite: true, status: "bitti", genre: "Aksiyon, Macera", score: "8.5", metacritic: "", playtime: 16, note: "", steam: "https://store.steampowered.com/app/3768760", youtube: "" },
 
 
 
